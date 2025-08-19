@@ -1,4 +1,4 @@
-package com.jmcolegroup.PlanComparison;
+package com.jmcolegroup.plancomparison;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

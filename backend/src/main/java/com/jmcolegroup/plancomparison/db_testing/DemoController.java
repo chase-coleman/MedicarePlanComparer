@@ -1,4 +1,5 @@
-package com.jmcolegroup.PlanComparison;
+package com.jmcolegroup.plancomparison;
+
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
