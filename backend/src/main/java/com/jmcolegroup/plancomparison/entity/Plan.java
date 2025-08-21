@@ -106,6 +106,13 @@ public class Plan {
   private int getOtcCredit() { return otcCredit; }
   private void setOtcCredit(int otcCredit) { this.otcCredit = otcCredit; }
 
+  @Column(nullable = true, unique = false)
+  private String otcRenewal;
+
+  // OTC Renewal period
+  private String getOtcRenewal() { return otcRenewal; }
+  private void setOtcRenewal(String otcRenewal) { this.otcRenewal = otcRenewal; }
+
   @ManyToMany
   @JoinTable(
     name = "counties_plan",
