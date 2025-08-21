@@ -60,11 +60,17 @@ public class Plan {
   private void setErVisit(int erVisit) { this.erVisit = erVisit; }
 
   @Column(nullable = false, unique = false)
-  private int hospitalVisit;
+  private int hospitalStay;
 
   // hospital visit getter/setter
-  private int getHospitalVisit() { return hospitalVisit; }
-  private void setHospitalVisit(int hospitalVisit) { this.hospitalVisit = hospitalVisit; }
+  private int getHospitalStay() { return hospitalStay; }
+  private void setHospitalStay(int hospitalStay) { this.hospitalStay = hospitalStay; }
+
+  @Column(nullable = false, unique = true)
+  private int hospitalStayLength;
+
+  private int getHospitalStayLength() { return hospitalStayLength; }
+  private void setHospitalStayLength(int hospitalStayLength) { this.hospitalStayLength = hospitalStayLength; }
 
   @Column(nullable = false, unique = false)
   private int surgery;
