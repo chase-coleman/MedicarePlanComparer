@@ -118,6 +118,13 @@ public class Plan {
   private String getOtcRenewal() { return otcRenewal; }
   private void setOtcRenewal(String otcRenewal) { this.otcRenewal = otcRenewal; }
 
+  // Giveback option
+  private BigDecimal givebackAmount;
+
+  // giveback getter/setters
+  private BigDecimal getGivebackAmount() { return givebackAmount; }
+  private void setGivebackAmount(BigDecimal givebackAmount) { this.givebackAmount = givebackAmount; }
+
   @ManyToMany
   @JoinTable(
     name = "counties_plan",
