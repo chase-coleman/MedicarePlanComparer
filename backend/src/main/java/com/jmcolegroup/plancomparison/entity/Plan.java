@@ -1,7 +1,9 @@
 package com.jmcolegroup.plancomparison.entity;
-
+// https://thorben-janssen.com/hibernate-tips-map-bidirectional-many-many-association/
 
 import jakarta.persistence.*;
+import com.jmcolegroup.plancomparison.entity.County;
+
 import java.util.Set;
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -79,6 +81,7 @@ public class Plan {
   private int getSurgery() { return surgery; }
   private void setSurgery(int surgery) { this.surgery = surgery; }
 
+  // radiology copay
   @Column(nullable = false, unique = false)
   private int radiologyCopay;
 
@@ -86,12 +89,14 @@ public class Plan {
   private int getRadiologyCopay() { return radiologyCopay; }
   private void setRadiologyCopay(int radiologyCopay) { this.radiologyCopay = radiologyCopay; }
 
+  // radiology conisurance
   @Column(nullable = false, unique = false)
   private int radiologyCoinsurance;
 
   private int getRadiologyCoinsurance() { return radiologyCoinsurance; }
   private void setRadiologyCoinsurance(int radiologyCoinsurance) { this.radiologyCoinsurance = radiologyCoinsurance; }
 
+  // dental benefits
   @Column(nullable = false, unique = false)
   private int dentalBenefit;
 
@@ -116,8 +121,8 @@ public class Plan {
   @ManyToMany
   @JoinTable(
     name = "counties_plan",
-    joinColumns = @JoinColumn(name = "plan_id"), // the entity that the relationship is being established in
-    inverseJoinColumns = @JoinColumn(name = "county_id")) // the related entity
+    joinColumns = @JoinColumn(name = "plan_id"), // the parent entity in the relationship
+    inverseJoinColumns = @JoinColumn(name = "county_id")) // the child/related entity
     // Type SET is used because this is a ManyToMany relationship, or a collection of related entities
   private Set<County> counties = new HashSet<>();
 
@@ -134,5 +139,15 @@ public class Plan {
   public Company getCompany() { return company; }
   public void setCompany(Company company) { this.company = company; }
 
+  // creates the relationship between a county and plan
+  public void addCounty(County county) {
+    this.counties.add(county);
+    county.getPlans().add(this);
+  }
+  // removes the relationship between a county and plan
+  public void removeCounty(County county) {
+    this.counties.remove(county);
+    county.getPlans().remove(this);
+  }
 
 }

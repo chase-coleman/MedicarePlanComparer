@@ -1,6 +1,9 @@
 package com.jmcolegroup.plancomparison.entity;
 import jakarta.persistence.*;
 import java.util.Set;
+
+import com.jmcolegroup.plancomparison.entity.Plan;
+
 import java.util.HashSet;
 
 @Entity // Tells Spring that this class is a table in the database
@@ -26,4 +29,15 @@ public class County {
   // county name getter/setter
   public String getCountyName() { return countyName; }
   public void setCountyName(String countyName) { this.countyName = countyName; }
+
+  // mirror method that creates the relationship between a county and plan
+  public void addPlan(Plan plan) {
+    this.plans.add(plan);
+    plan.getCounties().add(this);
+  }
+  // mirror method that removes the relationship between a county and plan
+  public void removePlan(Plan plan) {
+    this.plans.remove(plan);
+    plan.getCounties().remove(this);
+  }
 }
