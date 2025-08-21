@@ -80,11 +80,17 @@ public class Plan {
   private void setSurgery(int surgery) { this.surgery = surgery; }
 
   @Column(nullable = false, unique = false)
-  private int radiology;
+  private int radiologyCopay;
 
-  // radiology getter/setter
-  private int getRadiology() { return radiology; }
-  private void setRadiology(int radiology) { this.radiology = radiology; }
+  // radiologyCopay getter/setter
+  private int getRadiologyCopay() { return radiologyCopay; }
+  private void setRadiologyCopay(int radiologyCopay) { this.radiologyCopay = radiologyCopay; }
+
+  @Column(nullable = false, unique = false)
+  private int radiologyCoinsurance;
+
+  private int getRadiologyCoinsurance() { return radiologyCoinsurance; }
+  private void setRadiologyCoinsurance(int radiologyCoinsurance) { this.radiologyCoinsurance = radiologyCoinsurance; }
 
   @Column(nullable = false, unique = false)
   private int dentalBenefit;

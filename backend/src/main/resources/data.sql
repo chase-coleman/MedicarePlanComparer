@@ -13,5 +13,5 @@ INSERT IGNORE INTO county (county_name) VALUES ("Lincoln");
 -- dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, radiology, 
 -- dental_benefit, otc_credit, company_id
 -- ) VALUES (
---   "Core", 0, 5900, "HMO", 0, 
+--   "Core", 0, 5900, "HMO", 0, 125, 425, 4, 525, 20
 -- )
