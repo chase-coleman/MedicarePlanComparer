@@ -1,5 +1,6 @@
 -- Clearing existing Data
 DELETE FROM counties_plan;
+DELETE FROM counties_companies;
 DELETE FROM plan;
 DELETE FROM county;
 DELETE FROM company;
@@ -52,3 +53,11 @@ INSERT INTO county (id, county_name) VALUES (3, "Lincoln");
 INSERT INTO counties_plan (plan_id, county_id) VALUES (1, 3);
 INSERT INTO counties_plan (plan_id, county_id) VALUES (2, 3);
 INSERT INTO counties_plan (plan_id, county_id) VALUES (3, 3);
+
+-- #######################################
+-- ###### COMPANY-COUNTY JOIN TABLE ######
+-- #######################################
+-- Devoted into it's companies
+INSERT INTO counties_companies (company_id, county_id) VALUES (1, 1);
+INSERT INTO counties_companies (company_id, county_id) VALUES (1, 2);
+INSERT INTO counties_companies (company_id, county_id) VALUES (1, 3);

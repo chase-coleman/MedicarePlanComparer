@@ -5,7 +5,7 @@ import com.jmcolegroup.plancomparison.entity.Plan;
 import com.jmcolegroup.plancomparison.entity.County;
 
 import com.plancomparison.repo.CountyRepository;
-import com.plancomparison.repo.PlanRepository;
+import com.jmcolegroup.plancomparison.repo.PlanRepository;
 
 
 @Service
