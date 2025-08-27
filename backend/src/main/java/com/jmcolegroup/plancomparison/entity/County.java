@@ -3,7 +3,7 @@ import jakarta.persistence.*;
 import java.util.Set;
 
 import com.jmcolegroup.plancomparison.entity.Plan;
-
+import com.jmcolegroup.plancomparison.entity.Company;
 import java.util.HashSet;
 
 @Entity // Tells Spring that this class is a table in the database
@@ -21,6 +21,12 @@ public class County {
 
   public Set<Plan> getPlans() { return plans; }
   public void setPlans(Set<Plan> plans) { this.plans = plans;}
+
+  @ManyToMany(mappedBy = "counties")
+  Set<Company> companies = new HashSet<>();
+
+  public Set<Company> getCompanies() { return companies; }
+  public void setCompanies(Set<Company> companies) { this.companies = companies; }
 
   // id getter/setter
   public Long getId() { return id; }
