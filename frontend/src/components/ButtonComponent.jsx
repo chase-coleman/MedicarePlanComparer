@@ -3,10 +3,10 @@ import {
 } from "@heroui/react";
 
 
-const ButtonComponent = ({ text }) => {
+const ButtonComponent = ({ text, onPress, ...props }) => {
   return (
     <>
-      <Button color="primary" variant="ghost">
+      <Button color="primary" variant="ghost" onPress={onPress} {...props}>
         {text}
       </Button>
     </>
