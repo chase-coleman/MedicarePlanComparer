@@ -7,7 +7,8 @@ import com.jmcolegroup.plancomparison.entity.Company;
 import java.util.List;
 
 @RestController
-@RequestMapping("/counties")
+@RequestMapping("/")
+@CrossOrigin(origins = "http://127.0.0.1:5173")
 public class CountyController{
   
   private final CompanyRepository repository;
@@ -17,7 +18,7 @@ public class CountyController{
   }
 
   // PathVariable is used to grab the countyName variable from the request URL
-  @GetMapping("/{countyName}")
+  @GetMapping("{countyName}")
   public List<CompanySummary> all(@PathVariable String countyName) {
     return repository.findDistinctByCounties_CountyNameIgnoreCase(countyName);
   }

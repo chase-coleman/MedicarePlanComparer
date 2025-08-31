@@ -2,7 +2,7 @@ import {
   Button,
 } from "@heroui/react";
 
-
+// onPress/props are forwarded so that the Redux state can be set 
 const ButtonComponent = ({ text, onPress, ...props }) => {
   return (
     <>
