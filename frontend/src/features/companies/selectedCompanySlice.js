@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const selectedCompanySlice = createSlice({
   name: "selectedCompany",
   initialState: {
-    value: null
+    value: ""
   },
   reducers: {
     setSelectedCompany: (state, action) => {

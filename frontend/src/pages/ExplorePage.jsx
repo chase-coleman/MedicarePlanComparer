@@ -8,8 +8,12 @@ import { setCounty } from "../features/county/countySlice";
 import { setErrorMsg } from "../features/errors/errorSlice";
 import { setCompanies } from "../features/companies/companiesSlice";
 import { setSelectedCompany } from "../features/companies/selectedCompanySlice";
+import { setPlans } from "../features/plans/companyPlansSlice";
 
 const API_URL = import.meta.env.VITE_API_ENDPOINT;
+
+// TO DO: When a user selects a different county, make sure to clear their choice of selectedCompany so it doesn't transfer over to the new county if the 
+// company is in multiple counties
 
 const ExplorePage = () => {
   const dispatch = useDispatch(); // redux state updater
@@ -17,10 +21,7 @@ const ExplorePage = () => {
   const errorMsg = useSelector((state) => state.county.value); // error message value
   const companies = useSelector((state) => state.companies.value); // companies in a county value
   const selectedCompany = useSelector((state) => state.selectedCompany.value); // the county the user selects to view their plans
-
-  useEffect(() => {
-    console.log(selectedCompany);
-  }, [selectedCompany]);
+  const companyPlans = useSelector((state) => state.companyPlans.value);
 
   useEffect(() => {
     if (!county) return;
@@ -28,7 +29,6 @@ const ExplorePage = () => {
   }, [county]);
 
   const getCompanies = async () => {
-    console.log("getting companies!");
     try {
       const response = await axios.get(`http://localhost:8080/${county}`);
       dispatch(setCompanies(response.data));
@@ -38,6 +38,25 @@ const ExplorePage = () => {
       dispatch(setErrorMsg(parseAxiosError(error)));
     }
   };
+
+  useEffect(() => {
+    if (!selectedCompany) return;
+    getCompanyPlans()
+  }, [selectedCompany])
+
+  const getCompanyPlans = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/${county}/${selectedCompany}`)
+      dispatch(setPlans(response.data))
+    } catch (error) {
+      dispatch(setErrorMsg(parseAxiosError(error)));
+    }
+  }
+
+  const selectCounty = (countyName) => {
+    dispatch(setSelectedCompany(null)); // clear their previous company selection
+    dispatch(setCounty(countyName));
+  }
 
   return (
     <>
@@ -49,17 +68,17 @@ const ExplorePage = () => {
           <div className="county-buttons-container">
             <ButtonComponent
               text="Linn"
-              onPress={() => dispatch(setCounty("Linn"))}
+              onPress={() => selectCounty("Linn")}
               className={county == `Linn` && `bg-red-500`}
             />
             <ButtonComponent
               text="Tillamook"
-              onPress={() => dispatch(setCounty("Tillamook"))}
+              onPress={() => selectCounty("Tillamook")}
               className={county == `Tillamook` && `bg-red-500`}
             />
             <ButtonComponent
               text="Lincoln"
-              onPress={() => dispatch(setCounty("Lincoln"))}
+              onPress={() => selectCounty("Lincoln")}
               className={county == `Lincoln` && `bg-red-500`}
             />
           </div>
