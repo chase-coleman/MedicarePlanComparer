@@ -7,7 +7,8 @@ import com.jmcolegroup.plancomparison.repo.PlanRepository.PlanSummary;
 
 
 @RestController
-@RequestMapping("/counties/{countyName}")
+@RequestMapping("/{countyName}")
+@CrossOrigin(origins = "http://127.0.0.1:5173")
 public class PlanController {
   private final PlanRepository repository;
 
