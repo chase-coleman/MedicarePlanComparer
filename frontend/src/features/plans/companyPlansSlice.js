@@ -6,7 +6,7 @@ export const companyPlansSlice = createSlice({
     value: []
   }, reducers: {
     setPlans: (state, action) => {
-      state.value = action.payload
+      state.value = action.payload ?? []
     }
   }
 })

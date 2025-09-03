@@ -14,10 +14,27 @@
 
 
 /*************************/
-/* screens < 600px width */
+/* screens < 476px width */
 /*************************/
+.plans-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  padding: 1em;
+}
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width:475px) {
+  .plans-container {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/*********************************/
+/* screens > 475 & < 600px width */
+/*********************************/
+
+@media screen and (min-width: 476px) and (max-width: 600px) {
   .company-images-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -29,6 +46,11 @@
   }
   .county-buttons-container button {
     width: 90px;
+  }
+
+  .plans-container {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr)
   }
 };
 
@@ -49,6 +71,10 @@
   .county-buttons-container button {
     width: 125px;
   }
+  .plans-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /*************************/
@@ -67,6 +93,10 @@
   }
   .county-buttons-container button {
     width: 200px;
+  }
+    .plans-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -110,3 +140,10 @@
   display: flex;
   justify-content: center;
 }
+
+.plan-table-component {
+  display: flex;
+  flex-direction: column;
+}
+
+

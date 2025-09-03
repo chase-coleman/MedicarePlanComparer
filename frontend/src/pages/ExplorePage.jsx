@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import ButtonComponent from "../components/ButtonComponent";
 import { useSelector, useDispatch } from "react-redux";
 import { parseAxiosError } from "../functions/axiosError"; // handles axios error messages
@@ -9,11 +9,11 @@ import { setErrorMsg } from "../features/errors/errorSlice";
 import { setCompanies } from "../features/companies/companiesSlice";
 import { setSelectedCompany } from "../features/companies/selectedCompanySlice";
 import { setPlans } from "../features/plans/companyPlansSlice";
+import { addToPlanComparison, removeFromPlanComparison, clearNotice, setComparedPlans } from "../features/plans/comparedPlansSlice";
+
+import PlanComponent from "../components/PlanComponent";
 
 const API_URL = import.meta.env.VITE_API_ENDPOINT;
-
-// TO DO: When a user selects a different county, make sure to clear their choice of selectedCompany so it doesn't transfer over to the new county if the 
-// company is in multiple counties
 
 const ExplorePage = () => {
   const dispatch = useDispatch(); // redux state updater
@@ -22,6 +22,8 @@ const ExplorePage = () => {
   const companies = useSelector((state) => state.companies.value); // companies in a county value
   const selectedCompany = useSelector((state) => state.selectedCompany.value); // the county the user selects to view their plans
   const companyPlans = useSelector((state) => state.companyPlans.value);
+  const comparisonErrorNotice = useSelector((state) => state.comparedPlans.notice);
+  const comparedPlans = useSelector((state) => state.comparedPlans.value);
 
   useEffect(() => {
     if (!county) return;
@@ -55,8 +57,26 @@ const ExplorePage = () => {
 
   const selectCounty = (countyName) => {
     dispatch(setSelectedCompany(null)); // clear their previous company selection
+    dispatch(setPlans()) // clear the companies plans
     dispatch(setCounty(countyName));
   }
+
+  const addToCompare = (plan) => {
+    dispatch(addToPlanComparison(plan))
+  }
+
+  const removeFromCompare = (plan) => {
+    dispatch(removeFromPlanComparison(plan))
+  }
+
+  useEffect(() => {
+    console.log("compared plans:", comparedPlans)
+  }, [comparedPlans])
+
+  useEffect(() => {
+    if (!comparisonErrorNotice) return;
+    console.log(comparisonErrorNotice)
+  }, [comparisonErrorNotice])
 
   return (
     <>
@@ -101,7 +121,9 @@ const ExplorePage = () => {
           ))}
         </div>
         <div className="plans-container w-[90vw] border-1 border-pink-500">
-          <div></div>
+          {companyPlans && companyPlans.map((plan) => (
+            <PlanComponent key={plan.id} plan={plan} addToCompare={addToCompare} removeFromCompare={removeFromCompare} />
+          ))}
         </div>
         <footer className="disclaimer-footer">
           <span className="text-black">
