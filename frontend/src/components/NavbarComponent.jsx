@@ -10,9 +10,12 @@ import {
 } from "@heroui/react";
 import ButtonComponent from "./ButtonComponent";
 import { Link as RouterLink, NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { openModal, closeModal } from "../features/modal/ShowContactFormSlice";
 
 const NavbarComponent = () => {
   const menuItems = ["Explore plan options", "Home", "Compare Plans"];
+  const dispatch = useDispatch()
 
   return (
     <Navbar
@@ -74,7 +77,7 @@ const NavbarComponent = () => {
       </NavbarContent>
       <NavbarContent justify="end" className="max-w-[35%]">
         <NavbarItem>
-          <ButtonComponent text="Request a call!" />
+          <ButtonComponent text="Request a call!" onPress={() => dispatch(openModal())}/>
         </NavbarItem>
       </NavbarContent>
 

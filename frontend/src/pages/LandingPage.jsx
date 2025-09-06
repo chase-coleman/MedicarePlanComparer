@@ -2,15 +2,18 @@ import React from "react";
 import "../App.css"
 import ButtonComponent from "../components/ButtonComponent";
 import EmployeeCard from "../components/EmployeeCard";
+import { openModal } from "../features/modal/ShowContactFormSlice";
+import { useDispatch } from "react-redux";
 
 const LandingPage = () => {
+  const dispatch = useDispatch();
 
   return (
     <>
     <div className="landing-page-container bg-main w-[100vw] m-1">
     <div className="headline-container w-[90vw] h-25 border-1 border-red-500">
       <h1 className="text-black">Medicare News!</h1>
-      <ButtonComponent text="Request a call!"/>
+      <ButtonComponent text="Request a call!" onPress={() => dispatch(openModal())}/>
     </div>
     <div className="company-images-container block w-[90vw] border-1 border-blue-500">
       <EmployeeCard />

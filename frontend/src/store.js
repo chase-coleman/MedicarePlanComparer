@@ -5,6 +5,7 @@ import companiesReducer from "../src/features/companies/companiesSlice";
 import selectedCompanyReducer from "../src/features/companies/selectedCompanySlice";
 import companyPlansReducer from "../src/features/plans/companyPlansSlice";
 import comparedPlansReducer from "../src/features/plans/comparedPlansSlice"
+import showContactFormReducer from "./features/modal/ShowContactFormSlice";
 
 // creating the Redux store
 export default configureStore({
@@ -15,5 +16,6 @@ export default configureStore({
     selectedCompany: selectedCompanyReducer, // sets/retrieves the selected company 
     companyPlans: companyPlansReducer, // sets/retrieves the plans belongin to a company in a county
     comparedPlans: comparedPlansReducer,
+    showContactForm: showContactFormReducer,
   }
 })
