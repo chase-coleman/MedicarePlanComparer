@@ -146,4 +146,17 @@
   flex-direction: column;
 }
 
+.contact-form-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4em;
+  justify-content: center;
+}
 
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 75%;
+  border-radius: 25px;
+}

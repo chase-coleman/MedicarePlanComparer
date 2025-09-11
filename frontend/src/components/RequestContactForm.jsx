@@ -14,13 +14,12 @@ const RequestContactForm = () => {
 
 
   return (
-    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
+    <div className="contact-form-container w-full">
       <form
-        className="p-4 gap-4"
+        className="contact-form p-4 gap-4 bg-blue-500"
         // NOTE: If any field is invalid, this handler won't run (native validation blocks submit)
         onSubmit={(e) => {
           e.preventDefault();
-          console.log(fName, lName, email, phoneNum);
         }}
       >
         <ButtonComponent text="Close" onPress={() => dispatch(closeModal())}/>
@@ -28,7 +27,6 @@ const RequestContactForm = () => {
           name="firstName"
           label="First Name"
           type="text"
-          color="primary"
           isRequired
           value={fName}
           onChange={(e) => setFname(e.target.value)}
@@ -38,7 +36,6 @@ const RequestContactForm = () => {
           name="lastName"
           label="Last Name"
           type="text"
-          color="primary"
           isRequired
           value={lName}
           onChange={(e) => setLname(e.target.value)}
@@ -46,10 +43,8 @@ const RequestContactForm = () => {
 
         <Input
           name="email"
-          className="max-w-xs text-black"
           label="Email"
           type="email"
-          variant="bordered"
           validationBehavior="native"
           // require a dot after @ and at least 2 chars in the TLD
           pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
@@ -73,8 +68,9 @@ const RequestContactForm = () => {
           inputMode="numeric"
           isRequired
           validationBehavior="native"
-          pattern="[0-9]{10}" // safer than \d
+          pattern="[0-9]{10}"
           maxLength={10}
+          // dynamically show the right error message for validation fails
           errorMessage={({ validationDetails }) =>
             validationDetails.valueMissing
               ? "Please enter your phone number"
