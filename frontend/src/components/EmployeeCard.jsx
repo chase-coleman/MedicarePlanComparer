@@ -1,13 +1,13 @@
 import {Card, CardHeader, CardBody, Image} from "@heroui/react";
 
-const EmployeeCard = () => {
+const EmployeeCard = ({ imgSource }) => {
   return (
     <>
         <Card className="py-4 w-36">
         <Image
           alt="Card background"
           className="object-cover rounded-xl w-24"
-          src="https://heroui.com/images/hero-card-complete.jpeg"
+          src={imgSource}
         />
       <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
         <p className="text-tiny uppercase font-bold">Daily Mix</p>

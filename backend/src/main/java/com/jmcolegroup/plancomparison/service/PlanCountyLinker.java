@@ -1,10 +1,12 @@
+package com.jmcolegroup.plancomparison.service;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jmcolegroup.plancomparison.entity.Plan;
 import com.jmcolegroup.plancomparison.entity.County;
 
-import com.plancomparison.repo.CountyRepository;
+import com.jmcolegroup.plancomparison.repo.CountyRepository;
 import com.jmcolegroup.plancomparison.repo.PlanRepository;
 
 

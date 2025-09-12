@@ -17,6 +17,7 @@ const ComparePage = () => {
 
   return (
     <>
+    <div className="compare-page-container bg-main w-[100vw] m-1">
     {comparedPlans.length > 0 ?
     <div className="plans-container">
       {comparedPlans.map((plan) => (
@@ -25,6 +26,7 @@ const ComparePage = () => {
     </div>
     : <h1 className="text-black">You don't have any plans selected to compare!</h1>
     }
+    </div>
     </>
   )
 }

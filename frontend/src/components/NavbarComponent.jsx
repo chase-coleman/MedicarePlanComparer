@@ -10,9 +10,16 @@ import {
 } from "@heroui/react";
 import ButtonComponent from "./ButtonComponent";
 import { Link as RouterLink, NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { openModal } from "../features/modal/ShowContactFormSlice";
 
 const NavbarComponent = () => {
-  const menuItems = ["Explore plan options", "Home", "Compare Plans"];
+  const menuItems = [
+    { label: "Explore plan options", to: "/explore" },
+    { label: "Home", to: "/" },
+    { label: "Compare Plans", to: "/compare" },
+  ];
+  const dispatch = useDispatch();
 
   return (
     <Navbar
@@ -74,27 +81,28 @@ const NavbarComponent = () => {
       </NavbarContent>
       <NavbarContent justify="end" className="max-w-[35%]">
         <NavbarItem>
-          <ButtonComponent text="Request a call!" />
+          <ButtonComponent
+            text="Request a call!"
+            onPress={() => dispatch(openModal())}
+          />
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarMenu>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              className="w-full"
-              color={
-                index === 2
-                  ? "warning"
-                  : index === menuItems.length - 1
-                  ? "danger"
-                  : "foreground"
+      {/* Mobile Menu */}
+      <NavbarMenu className="bg-white">
+        {menuItems.map((item) => (
+          <NavbarMenuItem key={item.to}>
+            <NavLink
+              to={item.to}
+              onClick={() => setIsMenuOpen(false)}
+              className={({ isActive }) =>
+                isActive
+                  ? "block w-full py-2 text-red-500"
+                  : "block w-full py-2 text-black"
               }
-              href="#"
-              size="lg"
             >
-              {item}
-            </Link>
+              {item.label}
+            </NavLink>
           </NavbarMenuItem>
         ))}
       </NavbarMenu>
