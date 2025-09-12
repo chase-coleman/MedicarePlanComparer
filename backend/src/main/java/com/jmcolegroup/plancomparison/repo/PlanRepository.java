@@ -19,13 +19,17 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
     int getErVisit();
     int getHospitalStay();
     int getHospitalStayLength();
-    int getSurgery();
-    int getRadiologyCopay();
+    int getSurgeryMin();
+    int getSurgeryMax();
+    boolean getSurgeryCopayType();
+    int getRadiologyCopayMin();
+    int getRadiologyCopayMax();
     int getRadiologyCoinsurance();
     int getDentalBenefit();
     int getOtcCredit();
     String getOtcRenewal();
     BigDecimal getGivebackAmount();
+    boolean getRxCoverage();
   }
 
   List <PlanSummary> findDistinctByCompany_CompanyNameIgnoreCaseAndCounties_CountyNameIgnoreCase(String companyName, String countyName);

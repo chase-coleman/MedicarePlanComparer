@@ -75,19 +75,40 @@ public class Plan {
   private void setHospitalStayLength(int hospitalStayLength) { this.hospitalStayLength = hospitalStayLength; }
 
   @Column(nullable = false)
-  private int surgery;
+  private int surgeryMin;
 
   // surger getter/setter
-  private int getSurgery() { return surgery; }
-  private void setSurgery(int surgery) { this.surgery = surgery; }
+  private int getSurgeryMin() { return surgeryMin; }
+  private void setSurgeryMin(int surgeryMin) { this.surgeryMin = surgeryMin; }
+  
+  @Column(nullable = false)
+  private int surgeryMax;
+
+  // surger getter/setter
+  private int getSurgeryMax() { return surgeryMax; }
+  private void setSurgeryMax(int surgeryMax) { this.surgeryMax = surgeryMax; }
+  
+  @Column(nullable = false)
+  private boolean surgeryCopayType; // true = copay, false = coinsurance
+
+    // surger getter/setter
+  private boolean getSurgeryCopayType() { return surgeryCopayType; }
+  private void setSurgeryCopayType(boolean surgeryCopayType) { this.surgeryCopayType = surgeryCopayType; }
 
   // radiology copay
   @Column(nullable = false)
-  private int radiologyCopay;
+  private int radiologyCopayMax;
 
-  // radiologyCopay getter/setter
-  private int getRadiologyCopay() { return radiologyCopay; }
-  private void setRadiologyCopay(int radiologyCopay) { this.radiologyCopay = radiologyCopay; }
+  // radiologyCopayMax getter/setter
+  private int getRadiologyCopayMax() { return radiologyCopayMax; }
+  private void setRadiologyCopayMax(int radiologyCopayMax) { this.radiologyCopayMax = radiologyCopayMax; }
+
+    @Column(nullable = false)
+  private int radiologyCopayMin;
+
+  // radiologyCopayMin getter/setter
+  private int getRadiologyCopayMin() { return radiologyCopayMin; }
+  private void setRadiologyCopayMin(int radiologyCopayMin) { this.radiologyCopayMin = radiologyCopayMin; }
 
   // radiology conisurance
   @Column(nullable = false)
@@ -125,6 +146,12 @@ public class Plan {
   // giveback getter/setters
   private BigDecimal getGivebackAmount() { return givebackAmount; }
   private void setGivebackAmount(BigDecimal givebackAmount) { this.givebackAmount = givebackAmount; }
+
+  @Column(nullable = false)
+  private boolean rxCoverage;
+
+  private boolean getRxCoverage() { return rxCoverage; }
+  private void setRxCoverage(boolean rxCoverage) { this.rxCoverage = rxCoverage; }
 
   @ManyToMany
   @JoinTable(

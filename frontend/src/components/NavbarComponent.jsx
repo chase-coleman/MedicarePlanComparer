@@ -6,7 +6,6 @@ import {
   NavbarMenuItem,
   NavbarContent,
   NavbarItem,
-  Link,
 } from "@heroui/react";
 import ButtonComponent from "./ButtonComponent";
 import { Link as RouterLink, NavLink } from "react-router-dom";
@@ -27,11 +26,11 @@ const NavbarComponent = () => {
       isBordered
       className="bg-main border-b-2 !border-black"
     >
-      <NavbarContent className="sm:hidden text-black" justify="start">
+      <NavbarContent className="sm:hidden text-white" justify="start">
         <NavbarMenuToggle />
       </NavbarContent>
 
-      <NavbarContent className="sm:hidden pr-3 text-black" justify="center">
+      <NavbarContent className="sm:hidden pr-3 text-white" justify="center">
         <NavbarBrand>
           <span>MPRC</span>
         </NavbarBrand>
@@ -48,7 +47,7 @@ const NavbarComponent = () => {
             as={RouterLink}
             to="/explore"
             className={({ isActive }) =>
-              isActive ? `text-red-500` : `text-black`
+              isActive ? `text-[#E63946] font-medium` : `text-white font-medium`
             }
           >
             Explore <br /> Plan Options
@@ -60,7 +59,7 @@ const NavbarComponent = () => {
             as={RouterLink}
             to={"/"}
             className={({ isActive }) =>
-              isActive ? `text-red-500` : `text-black`
+              isActive ? `text-[#E63946] font-medium` : `text-white font-medium`
             }
           >
             Home
@@ -72,7 +71,7 @@ const NavbarComponent = () => {
             as={RouterLink}
             to={"/compare"}
             className={({ isActive }) =>
-              isActive ? `text-red-500` : `text-black`
+              isActive ? `text-[#E63946] font-medium` : `text-white font-medium`
             }
           >
             Compare <br /> Plans
@@ -82,6 +81,7 @@ const NavbarComponent = () => {
       <NavbarContent justify="end" className="max-w-[35%]">
         <NavbarItem>
           <ButtonComponent
+            styling="bg-red border-[#A4161A] text-[#FFFFFF]"
             text="Request a call!"
             onPress={() => dispatch(openModal())}
           />

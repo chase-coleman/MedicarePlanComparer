@@ -25,7 +25,7 @@ const RequestContactForm = () => {
 
     const timer = setTimeout(() => {
       setSubmittedSuccessfully(false);
-      dispatch(closeModal())
+      dispatch(closeModal());
     }, 5000);
 
     return () => clearTimeout(timer);
@@ -59,17 +59,21 @@ const RequestContactForm = () => {
 
   return (
     <div className="contact-form-container w-full">
-      {submittedSuccessfully ? 
-        <div className="submit-success p-4 gap-4 bg-blue-500">
-        <CircleCheckBig color="black" size={64}/>
-        <h1 className="text-black">Request Submitted Successfully. <br /> Someone will be contacting you soon!</h1>
-         </div>
-         : (
+      {submittedSuccessfully ? (
+        <div className="submit-success p-4 gap-10 bg-green-500">
+          <CircleCheckBig color="black" size={64} />
+          <h1 className="text-black text-center">
+            Request Submitted Successfully. <br /> Someone will be contacting
+            you soon!
+          </h1>
+        </div>
+      ) : (
         <form
-          className="contact-form p-4 gap-4 bg-blue-500"
+          className="contact-form p-4 gap-4 bg-[#0070cc]"
           onSubmit={(e) => handleSubmit(e)}
         >
           <ButtonComponent
+            styling="bg-red text-[#FFFFFF]"
             text="Close"
             onPress={() => dispatch(closeModal())}
           />
@@ -80,6 +84,11 @@ const RequestContactForm = () => {
             isRequired
             value={fName}
             onChange={(e) => setFname(e.target.value)}
+            classNames={{
+              errorMessage: "text-[#FFFFFF] text-sm font-medium", // 🔹 change error text color
+              label: "text-[#1E639A]", // optional: label styling
+              inputWrapper: "bg-white", // optional: input bg
+            }}
           />
 
           <Input
@@ -89,6 +98,11 @@ const RequestContactForm = () => {
             isRequired
             value={lName}
             onChange={(e) => setLname(e.target.value)}
+            classNames={{
+              errorMessage: "text-[#FFFFFF] text-sm font-medium", // 🔹 change error text color
+              label: "text-[#1E639A]", // optional: label styling
+              inputWrapper: "bg-white", // optional: input bg
+            }}
           />
 
           <Input
@@ -108,6 +122,11 @@ const RequestContactForm = () => {
             }
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            classNames={{
+              errorMessage: "text-[#FFFFFF] text-sm font-medium", // 🔹 change error text color
+              label: "text-[#1E639A]", // optional: label styling
+              inputWrapper: "bg-white", // optional: input bg
+            }}
           />
 
           <Input
@@ -120,7 +139,6 @@ const RequestContactForm = () => {
             validationBehavior="native"
             pattern="[0-9]{10}"
             maxLength={10}
-            // dynamically show the right error message for validation fails
             errorMessage={({ validationDetails }) =>
               validationDetails.valueMissing
                 ? "Please enter your phone number"
@@ -133,9 +151,21 @@ const RequestContactForm = () => {
               const digits = e.target.value.replace(/\D/g, "");
               setPhoneNum(digits.slice(0, 10));
             }}
+            classNames={{
+              errorMessage: "text-[#FFFFFF] text-sm font-medium", // 🔹 change error text color
+              label: "text-[#1E639A]", // optional: label styling
+              inputWrapper: "bg-white", // optional: input bg
+            }}
           />
           <Textarea
             label="Message"
+            classNames={{
+              inputWrapper:
+                "bg-[#FFFFFF] border-[#FFFFFF] focus-within:border-[#FFFFFF]", // border + focus color
+              input: "text-black placeholder:text-black", // text + placeholder
+              label: "!text-black font-semibold", // label color
+              description: "text-[#FFFFFF]", // counter text
+            }}
             placeholder="Enter anything you'd like us to know!"
             variant="bordered"
             value={msg}
@@ -146,10 +176,22 @@ const RequestContactForm = () => {
               msg.length >= 250 && "You’ve reached the 250 character limit"
             }
           />
-          {submitting ? 
-          <ButtonComponent><Ring size={25} stroke="3" speed="2" color="white"/></ButtonComponent> :
-          <ButtonComponent text="Submit" className="text-black" type="submit" />
-          }
+          {submitting ? (
+            <ButtonComponent styling="bg-red text-[#FFFFFF]">
+              <Ring size={25} stroke="3" speed="2" color="white" />
+            </ButtonComponent>
+          ) : (
+            <ButtonComponent
+              text="Submit"
+              styling="bg-red text-[#FFFFFF]"
+              type="submit"
+            />
+          )}
+          <span className="text-sm text-center">
+            By submitting this form, you agree that a licensed sales agent may
+            contact you by phone, text, or email to discuss Medicare Advantage,
+            Prescription Drug, and Medicare Supplement Insurance plans.
+          </span>
         </form>
       )}
     </div>
