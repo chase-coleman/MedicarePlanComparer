@@ -23,10 +23,31 @@
   padding: 1em;
 }
 
-@media screen and (max-width:475px) {
+.company-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+@media screen and (max-width:476px) {
   .plans-container {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
+  }
+  .company-images-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: .75em;
+  margin-top: 4em;
+}
+.county-buttons-container {
+    gap: 1rem;
+  }
+  .company-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr)
   }
 }
 
@@ -39,7 +60,9 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     justify-items: center;
+    align-items: center;
     gap: .75em;
+    margin-top: 1em;
   }
   .county-buttons-container {
     gap: 1rem;
@@ -51,6 +74,10 @@
   .plans-container {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr)
+  }
+  .company-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr)
   }
 };
 
@@ -64,6 +91,7 @@
     grid-template-columns: repeat(3, 1fr);
     justify-items: center;
     gap: .75em;
+    margin-top: 1em;
   }
     .county-buttons-container {
     gap: 1.5rem;
@@ -106,7 +134,7 @@
 
 /* main background color */
 .bg-main {
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(0, 69, 124);
 }
 
 /* secondary background color */
@@ -114,28 +142,41 @@
   background-color: black;
 }
 
+.bg-red {
+  background-color: #E63946;
+}
+
 .landing-page-container {
   min-height: calc(100vh - 64px);
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 2rem;
   place-items: center;
 }
 
 .explore-page-container {
+  min-height: calc(100vh - 64px);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .compare-page-container {
+  min-height: calc(100vh - 64px);
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.headline-container {
+  display: grid;
+  justify-items: center;
   align-items: center;
 }
 
 .company-text-container {
   padding: 1em;
+  border-radius: 25px;
 }
 
 .disclaimer-footer {

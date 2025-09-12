@@ -3,10 +3,10 @@ import {
 } from "@heroui/react";
 
 // onPress/props are forwarded so that the Redux state can be set 
-const ButtonComponent = ({ text, onPress, children,  ...props }) => {
+const ButtonComponent = ({ text, onPress, children, styling,  ...props }) => {
   return (
     <>
-      <Button color="primary" variant="ghost" onPress={onPress} {...props}>
+      <Button className={styling} variant="light" onPress={onPress} {...props}>
         {children ?? text}
       </Button>
     </>

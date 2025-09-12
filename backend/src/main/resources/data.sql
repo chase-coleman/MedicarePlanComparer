@@ -20,181 +20,187 @@ INSERT INTO company (id, company_name) VALUES (6, "Wellcare");
 -- ###################
 -- Devoted Plans
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  1, "Core", 0, 5900, "HMO", 0, 125, 425, 4, 525, 400, 0, 1000, 82, "monthly", 0, 1
+  1, "Core", 0, 5900, "HMO", 0, 125, 425, 4, 425, 525, true, 100, 400, 0, 1000, 82, "monthly", 0, true, 1
 );
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  2, "Giveback", 0, 7900, "HMO", 0, 110, 375, 5, 475, 300, 0, 250, 0, "None", 137.60, 1
+  2, "Giveback", 0, 7900, "HMO", 0, 110, 375, 5, 385, 475, true, 100, 300, 0, 250, 0, "None", 137.60, true, 1
 );
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  3, "Premium", 15.60, 5900, "HMO", 0, 125, 425, 4, 525, 400, 0, 1500, 75, "monthly", 0, 1
+  3, "Premium", 15.60, 5900, "HMO", 0, 125, 425, 4, 425, 525, true, 100, 400, 0, 1500, 75, "monthly", 0, true, 1
 );
 
 -- UHC Plans
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  4, "Plan 4", 16, 4500, "HMO-POS", 0, 125, 400, 4, 400, 225, 0, 0, 35, "quarterly", 0, 2
+  4, "Plan 4", 16, 4500, "HMO-POS", 0, 125, 400, 4, 350, 400, true, 225, 225, 0, 0, 35, "quarterly", 0, true, 2
 );
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  5, "Plan 3", 46, 3500, "HMO-POS", 0, 140, 395, 5, 395, 230, 0, 1500, 0, "None", 0, 2
+  5, "Plan 3", 46, 3500, "HMO-POS", 0, 140, 395, 5, 345, 395, true, 230, 230, 0, 1500, 0, "None", 0, true, 2
 );
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  6, "Plan 1", 49, 4900, "PPO", 0, 125, 395, 6, 395, 250, 0, 1250, 25, "quarterly", 0, 2
+  6, "Plan 1", 49, 4900, "PPO", 0, 125, 395, 6, 245, 395, true, 250, 250, 0, 1250, 25, "quarterly", 0, true, 2
 );
 -- NO PART D
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  7, "Patriot", 0, 6700, "PPO", 0, 125, 495, 5, 495, 250, 0, 1500, 75, "quarterly", 115, 2
+  7, "Patriot", 0, 6700, "PPO", 0, 125, 495, 5, 495, 495, true, 250, 250, 0, 1500, 75, "quarterly", 115, false, 2
 );
+
 -- Aetna Plans
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  8, "Elite", 0, 5900, "HMO-POS", 0, 120, 395, 5, 300, 225, 0, 1250, 30, "quarterly", 0, 3
+  8, "Elite", 0, 5900, "HMO-POS", 0, 120, 395, 5, 300, 300, true, 0, 225, 0, 1250, 30, "quarterly", 0, true, 3
 );
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  9, "Preferred", 0, 6900, "PPO", 0, 110, 425, 5, 325, 275, 0, 1250, 30, "quarterly", 0, 3
+  9, "Preferred", 0, 6900, "PPO", 0, 110, 425, 5, 325, 325, true, 0, 275, 0, 1250, 30, "quarterly", 0, true, 3
 );
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  10, "Value", 0, 6350, "HMO-POS", 0, 125, 425, 5, 345, 275, 0, 850, 0, "None", 0, 3
+  10, "Value", 0, 6350, "HMO-POS", 0, 125, 425, 5, 345, 345, true, 0, 275, 0, 850, 0, "None", 0, true, 3
 );
 
 -- NO PART D
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  11, "Greater Portland Eagle", 0, 5900, "PPO", 0, 125, 430, 5, 295, 350, 0, 1500, 75, "quarterly", 50, 3
+  11, "Greater Portland Eagle", 0, 5900, "PPO", 0, 125, 430, 5, 295, 295, true, 0, 350, 0, 1500, 75, "quarterly", 50, false, 3
 );
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  12, "Eagle", 0, 5900, "PPO", 0, 125, 430, 5, 295, 350, 0, 1250, 75, "quarterly", 50, 3
+  12, "Eagle", 0, 5900, "PPO", 0, 125, 430, 5, 295, 295, true, 0, 350, 0, 1250, 75, "quarterly", 50, false, 3
 );
+
 -- Humana Plans
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  13, "HumanaChoice", 0, 6750, "PPO", 0, 125, 495, 5, 495, 495, 0, 1500, 75, "quarterly", 0, 4
+  13, "HumanaChoice", 0, 6750, "PPO", 0, 125, 495, 5, 350, 495, true, 270, 495, 0, 1500, 75, "quarterly", 0, true, 4
 );
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  14, "Honor Giveback", 0, 6750, "PPO", 0, 125, 495, 5, 495, 495, 0, 1500, 75, "quarterly", 100, 4
+  14, "Honor Giveback", 0, 6750, "PPO", 0, 125, 495, 5, 350, 495, true, 270, 495, 0, 1500, 75, "quarterly", 100, true, 4
 );
+
 -- Regence Plans
+-- NO RX COVERAGE
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  15, "Valiance", 0, 5500, "HMO", 0, 120, 400, 4, 355, 0, 20, 1000, 50, "quarterly", 50, 5
+  15, "Valiance", 0, 5500, "HMO", 0, 120, 400, 4, 300, 355, true, 0, 0, 20, 1000, 50, "quarterly", 50, false, 5
 );
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  16, "Classic", 75, 5500, "PPO", 0, 120, 400, 4, 355, 0, 20, 1000, 50, "quarterly", 0, 5
+  16, "Classic", 75, 5500, "PPO", 0, 120, 400, 4, 355, 355, true, 0, 0, 20, 1000, 50, "quarterly", 0, true, 5
 );
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  17, "Enhanced", 15, 5000, "PPO", 0, 120, 400, 4, 355, 0, 20, 1000, 50, "quarterly", 0, 5
+  17, "Enhanced", 15, 5000, "PPO", 0, 120, 400, 4, 300, 355, true, 0, 0, 20, 1000, 50, "quarterly", 0, true, 5
+);
+
+
+INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
+) VALUES (
+  18, "Simple Open", 15, 5000, "PPO", 0, 120, 400, 4, 270, 355, true, 0, 0, 20, 1000, 50, "quarterly", 0, true, 6
 );
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  18, "Simple Open", 15, 5000, "PPO", 0, 120, 400, 4, 355, 0, 20, 1000, 50, "quarterly", 0, 6
+  19, "Simple", 15, 5000, "PPO", 0, 120, 400, 4, 270, 355, true, 0, 0, 20, 1000, 50, "quarterly", 0, true, 6
 );
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  19, "Simple", 15, 5000, "PPO", 0, 120, 400, 4, 355, 0, 20, 1000, 50, "quarterly", 0, 6
-);
-INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
-) VALUES (
-  20, "Simple Value", 15, 5000, "PPO", 0, 120, 400, 4, 355, 0, 20, 1000, 50, "quarterly", 0, 6
+  20, "Simple Value", 15, 5000, "PPO", 0, 120, 400, 4, 355, 355, true, 0, 0, 20, 1000, 50, "quarterly", 0, true, 6
 );
 -- NO PART D
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  21, "Giveback Open", 15, 5000, "PPO", 0, 120, 400, 4, 355, 0, 20, 1000, 50, "quarterly", 0, 6
+  21, "Giveback Open", 15, 5000, "PPO", 0, 120, 400, 4, 355, 355, true, 0, 0, 20, 1000, 50, "quarterly", 0, true, 6
 );
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  22, "Patriot Giveback", 15, 5000, "PPO", 0, 120, 400, 4, 355, 0, 20, 1000, 50, "quarterly", 0, 6
+  22, "Patriot Giveback", 15, 5000, "PPO", 0, 120, 400, 4, 300, 355, true, 0, 0, 20, 1000, 50, "quarterly", 0, false, 6
 );
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  23, "Low Premium Open", 10, 5000, "PPO", 0, 120, 400, 4, 355, 0, 20, 1000, 50, "quarterly", 0, 6
+  23, "Low Premium Open", 10, 5000, "PPO", 0, 120, 400, 4, 320, 355, true, 0, 0, 20, 1000, 50, "quarterly", 0, true, 6
 );
 INSERT INTO plan (id, plan_name, monthly_premium, moop, plan_type, 
-dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery, 
-radiology_copay, radiology_coinsurance, dental_benefit, 
-otc_credit, otc_renewal, giveback_amount, company_id
+dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
+radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
+otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  24, "Premium Ultra Open", 15, 5000, "PPO", 0, 120, 400, 4, 355, 0, 20, 1000, 50, "quarterly", 0, 6
+  24, "Premium Ultra Open", 15, 5000, "PPO", 0, 120, 400, 4, 355, 355, true, 0, 0, 20, 1000, 50, "quarterly", 0, true, 6
 );
 -- ######################
 -- ###### COUNTIES ######
