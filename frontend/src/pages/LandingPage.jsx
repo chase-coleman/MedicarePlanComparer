@@ -16,10 +16,10 @@ const LandingPage = () => {
       <ButtonComponent text="Request a call!" onPress={() => dispatch(openModal())}/>
     </div>
     <div className="company-images-container block w-[90vw] border-1 border-blue-500">
-      <EmployeeCard />
-      <EmployeeCard />
-      <EmployeeCard />
-      <EmployeeCard />
+      <EmployeeCard imgSource="../public/garin-main.jpg"/>
+      <EmployeeCard imgSource="../public/john-main.jpg"/>
+      <EmployeeCard imgSource="../public/matt-main.jpg"/>
+      <EmployeeCard imgSource="../public/chase-main.jpg"/>
     </div>
     <div className="company-text-container w-[90vw] border-1 border-pink-500">
       <span className="text-black">
