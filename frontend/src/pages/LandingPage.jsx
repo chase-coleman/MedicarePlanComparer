@@ -16,10 +16,10 @@ const LandingPage = () => {
       <ButtonComponent text="Request a call!" onPress={() => dispatch(openModal())}/>
     </div>
     <div className="company-images-container block w-[90vw] border-1 border-blue-500">
-      <EmployeeCard imgSource="../public/garin-main.jpg"/>
-      <EmployeeCard imgSource="../public/john-main.jpg"/>
-      <EmployeeCard imgSource="../public/matt-main.jpg"/>
-      <EmployeeCard imgSource="../public/chase-main.jpg"/>
+      <EmployeeCard imgSource="../public/john-main.jpg" broker="John Coleman" phone="541-554-8382" email="john@mprc.info" npn="18136647"/>
+      <EmployeeCard imgSource="../public/matt-main.jpg" broker="Matt Buck" phone="541-285-8998" email="matt22buck@gmail.com" npn="21435734"/>
+      <EmployeeCard imgSource="../public/garin-main.jpg" broker="Garin Coleman" phone="541-510-9685" email="garin@mprc.info" npn="21248588"/>
+      <EmployeeCard imgSource="../public/chase-main.jpg" broker="Chase Coleman" phone="541-554-9621" email="chase@mprc.info" npn="20318912"/>
     </div>
     <div className="company-text-container w-[90vw] border-1 border-pink-500">
       <span className="text-black">
