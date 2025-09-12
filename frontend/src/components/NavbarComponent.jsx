@@ -11,7 +11,7 @@ import {
 import ButtonComponent from "./ButtonComponent";
 import { Link as RouterLink, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { openModal, closeModal } from "../features/modal/ShowContactFormSlice";
+import { openModal } from "../features/modal/ShowContactFormSlice";
 
 const NavbarComponent = () => {
   const menuItems = ["Explore plan options", "Home", "Compare Plans"];

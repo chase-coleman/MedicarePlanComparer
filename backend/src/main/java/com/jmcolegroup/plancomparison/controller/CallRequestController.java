@@ -5,13 +5,12 @@ import com.jmcolegroup.plancomparison.service.MailService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 
 @RestController
 @RequestMapping("/api/request-call")
+@CrossOrigin(origins = {"http://127.0.0.1:5173", "http://localhost:5173"})
 public class CallRequestController {
   private final MailService mailService;
 
