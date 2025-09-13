@@ -1,7 +1,18 @@
 import {Card, CardHeader, CardBody, CardFooter, Divider} from "@heroui/react";
 import ButtonComponent from "./ButtonComponent";
+import { useDispatch } from "react-redux";
+import { openRsvpModal } from "../features/modal/showRsvpForm";
+import { setMeetingToRsvp } from "../features/meetings/MeetingToRsvpSlice";
 
 const MeetingComponent = ({ venue, address, month, day, startTime }) => {
+  const dispatch = useDispatch()
+
+  const handleClick = () => {
+    dispatch(setMeetingToRsvp({ month: month, day: day, venue: venue }))
+    dispatch(openRsvpModal())
+  }
+
+
   return (
     <>
       <Card className="max-w-[600px] bg-main">
@@ -17,7 +28,7 @@ const MeetingComponent = ({ venue, address, month, day, startTime }) => {
         </CardBody>
         <Divider className="bg-white"/>
         <CardFooter className="flex justify-center">
-          <ButtonComponent text="RSVP" styling="bg-red text-white w-1/3" />
+          <ButtonComponent text="RSVP" styling="bg-red text-white w-1/3" onPress={() => handleClick()}/>
         </CardFooter>
       </Card>
     </>

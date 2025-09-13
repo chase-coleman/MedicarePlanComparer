@@ -17,7 +17,7 @@ const NavbarComponent = () => {
     { label: "Explore plan options", to: "/explore" },
     { label: "Home", to: "/" },
     { label: "Compare Plans", to: "/compare" },
-    { label: "Find A Meeting", to: "/find-us" },
+    { label: "Find A Meeting", to: "/find-meeting" },
   ];
   const dispatch = useDispatch();
 
@@ -46,7 +46,7 @@ const NavbarComponent = () => {
           <NavLink
             color="foreground"
             as={RouterLink}
-            to="/find-us"
+            to="/find-meeting"
             className={({ isActive }) =>
               isActive ? `text-[#E63946] font-medium` : `text-white font-medium`
             }

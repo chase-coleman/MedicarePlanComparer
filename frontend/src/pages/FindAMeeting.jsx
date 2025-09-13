@@ -9,6 +9,7 @@ import {
   Divider,
   Link,
   Image,
+  Modal,
 } from "@heroui/react";
 import MeetingComponent from "../components/MeetingComponent";
 import {
@@ -17,9 +18,11 @@ import {
   sweethomeMeetings,
   tillamookMeetings,
 } from "../data/meetings";
+import RsvpForm from "../components/RsvpForm";
 
 const FindAMeetingPage = () => {
   const [county, setCounty] = useState("");
+
 
   return (
     <>
@@ -70,6 +73,7 @@ const FindAMeetingPage = () => {
             <>
               {newportMeetings.map((meeting) => (
                 <MeetingComponent
+                key={meeting.day}
                   venue={meeting.venueName}
                   address={meeting.address}
                   month={meeting.month}
@@ -82,6 +86,7 @@ const FindAMeetingPage = () => {
             <>
               {tillamookMeetings.map((meeting) => (
                 <MeetingComponent
+                  key={meeting.day}
                   venue={meeting.venueName}
                   address={meeting.address}
                   month={meeting.month}
@@ -94,9 +99,11 @@ const FindAMeetingPage = () => {
             <>
               <div className="lebanon-sweethome-meeting-container w-[95vw]">
                 <div className="l-sh-cols">
+                  <span className="text-black text-[1.5em] font-semibold">Lebanon Meetings:</span>
                 {lebanonMeetings.map((meeting) => (
                   <MeetingComponent
-                    venue={meeting.venueName}
+                  key={meeting.day}
+                  venue={meeting.venueName}
                     address={meeting.address}
                     month={meeting.month}
                     day={meeting.day}
@@ -105,8 +112,10 @@ const FindAMeetingPage = () => {
                 ))}
                 </div>
                 <div className="l-sh-cols">
+                  <span className="text-black text-[1.5em] font-semibold">Sweethome Meetings:</span>
                 {sweethomeMeetings.map((meeting) => (
                   <MeetingComponent
+                    key={meeting.day}
                     venue={meeting.venueName}
                     address={meeting.address}
                     month={meeting.month}

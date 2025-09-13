@@ -23,7 +23,7 @@ const router = createBrowserRouter([
         element: <ComparePage />
       },
       {
-        path:"/find-us",
+        path:"/find-meeting",
         element: <FindAMeetingPage />
       }
     ],
