@@ -3,6 +3,7 @@ import App from "./App";
 import LandingPage from "./pages/LandingPage";
 import ExplorePage from "./pages/ExplorePage";
 import ComparePage from "./pages/ComparePage"
+import FindAMeetingPage from "./pages/FindAMeeting";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path:"/compare",
         element: <ComparePage />
+      },
+      {
+        path:"/find-meeting",
+        element: <FindAMeetingPage />
       }
     ],
   },

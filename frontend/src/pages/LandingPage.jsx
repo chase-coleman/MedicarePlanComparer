@@ -4,14 +4,15 @@ import ButtonComponent from "../components/ButtonComponent";
 import EmployeeCard from "../components/EmployeeCard";
 import { openModal } from "../features/modal/ShowContactFormSlice";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
 
   return (
     <>
-      <div className="landing-page-container w-[100vw] mt-2 m-2">
-        <div className="headline-container border-red-500 w-[90vw] h-25 gap-4">
+      <div className="landing-page-container w-[100vw] mt-2">
+        <div className="headline-container w-[90vw] gap-4">
           <span className="text-black font-bold text-xl">
             Explore Medicare Plans in Your Area Today — Find the Coverage That
             Fits You, Even if Your Insurance Company is Leaving Your County.
@@ -21,6 +22,7 @@ const LandingPage = () => {
             text="Request a call!"
             onPress={() => dispatch(openModal())}
           />
+          <Link as={Link} to="/find-meeting" className="text-black font-semibold text-[1em]">Find a Medicare Meeting <span className="text-blue-500 underline">near you!</span></Link>
         </div>
         <div className="company-images-container block w-[90vw]">
           <EmployeeCard
