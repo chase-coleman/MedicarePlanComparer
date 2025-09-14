@@ -23,6 +23,12 @@ const LandingPage = () => {
             onPress={() => dispatch(openModal())}
           />
           <Link as={Link} to="/find-meeting" className="text-black font-semibold text-[1em]">Find a Medicare Meeting <span className="text-blue-500 underline">near you!</span></Link>
+          <div className="flex flex-col">
+          <span className="text-black font-semibold underline">Find us during the Annual Enrollment Period</span>
+          <span className="text-black font-semibold">Tillamook Office: Monday - Saturday</span>
+          <span className="text-black font-semibold">Newport Walmart Kiosk: Monday - Thursday</span>
+          <span className="text-black font-semibold">Lebanon Walmart Kiosk: Monday - Friday</span>
+        </div>
         </div>
         <div className="company-images-container block w-[90vw]">
           <EmployeeCard
