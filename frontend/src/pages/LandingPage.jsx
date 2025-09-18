@@ -25,36 +25,35 @@ const LandingPage = () => {
           <Link as={Link} to="/find-meeting" className="text-black font-semibold text-[1em]">Find a Medicare Meeting <span className="text-blue-500 underline">near you!</span></Link>
           <div className="flex flex-col">
           <span className="text-black font-semibold underline">Find us during the Annual Enrollment Period</span>
-          <span className="text-black font-semibold">Tillamook Office: Monday - Saturday</span>
-            <span classname="text-black font-semibold">2018 Henson Plaza, Hwy 101</span>
+          <span className="text-black font-semibold">Tillamook Office (2018 Henson Plaza, Hwy 101): Monday - Saturday</span>
           <span className="text-black font-semibold">Newport Walmart Kiosk: Monday - Thursday</span>
           <span className="text-black font-semibold">Lebanon Walmart Kiosk: Monday - Friday</span>
         </div>
         </div>
         <div className="company-images-container block w-[90vw]">
           <EmployeeCard
-            imgSource="../public/john-main.jpg"
+            imgSource="/john-main.jpg"
             broker="John Coleman"
             phone="541-554-8382"
             email="john@mprc.info"
             npn="18136647"
           />
           <EmployeeCard
-            imgSource="../public/matt-main.jpg"
+            imgSource="/matt-main.jpg"
             broker="Matt Buck"
             phone="541-285-8998"
             email="matt22buck@gmail.com"
             npn="21435734"
           />
           <EmployeeCard
-            imgSource="../public/garin-main.jpg"
+            imgSource="/garin-main.jpg"
             broker="Garin Coleman"
             phone="541-510-9685"
             email="garin@mprc.info"
             npn="21248588"
           />
           <EmployeeCard
-            imgSource="../public/chase-main.jpg"
+            imgSource="/chase-main.jpg"
             broker="Chase Coleman"
             phone="541-554-9621"
             email="chase@mprc.info"
