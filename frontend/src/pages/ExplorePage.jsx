@@ -17,6 +17,8 @@ import {
 } from "../features/plans/comparedPlansSlice";
 
 import PlanComponent from "../components/PlanComponent";
+import { useState } from "react";
+import { Alert } from "@heroui/react";
 
 const API_URL = import.meta.env.VITE_API_ENDPOINT;
 
@@ -31,6 +33,7 @@ const ExplorePage = () => {
     (state) => state.comparedPlans.notice
   );
   const comparedPlans = useSelector((state) => state.comparedPlans.value);
+  const [isOctoberYet, setIsOctoberYet] = useState(false);
 
   useEffect(() => {
     if (!county) return;
@@ -39,7 +42,7 @@ const ExplorePage = () => {
 
   const getCompanies = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/${county}`);
+      const response = await axios.get(`${API_URL}${county}`);
       dispatch(setCompanies(response.data));
     } catch (error) {
       // set the errorMsg state to the axios error
@@ -56,7 +59,7 @@ const ExplorePage = () => {
   const getCompanyPlans = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/${county}/${selectedCompany}`
+        `${API_URL}${county}/${selectedCompany}`
       );
       dispatch(setPlans(response.data));
     } catch (error) {
@@ -78,100 +81,104 @@ const ExplorePage = () => {
     dispatch(removeFromPlanComparison(plan));
   };
 
-  useEffect(() => {
-    console.log("compared plans:", comparedPlans);
-  }, [comparedPlans]);
-
-  useEffect(() => {
-    if (!comparisonErrorNotice) return;
-    console.log(comparisonErrorNotice);
-  }, [comparisonErrorNotice]);
 
   return (
     <>
-      <div className="explore-page-container w-[100vw] m-1">
-        <div className="county-container w-[90vw] h-25 ">
-          <div>
-            <span className="text-black font-semibold text-[1.5em]">
-              Select your county:
-            </span>
-          </div>
-          <div className="county-buttons-container">
-            <ButtonComponent
-              text="Linn"
-              onPress={() => selectCounty("Linn")}
-              className={
-                county == `Linn`
-                  ? `bg-red-500 text-[FFFFFF] font-semibold`
-                  : "bg-main text-[FFFFFF] font-semibold"
-              }
-            />
-            <ButtonComponent
-              text="Tillamook"
-              onPress={() => selectCounty("Tillamook")}
-              className={
-                county == `Tillamook`
-                  ? `bg-red-500 text-[FFFFFF] font-semibold`
-                  : "bg-main text-[FFFFFF] font-semibold"
-              }
-            />
-            <ButtonComponent
-              text="Lincoln"
-              onPress={() => selectCounty("Lincoln")}
-              className={
-                county == `Lincoln`
-                  ? `bg-red-500 text-[FFFFFF] font-semibold`
-                  : "bg-main text-[FFFFFF] font-semibold"
-              }
-            />
-          </div>
-        </div>
-        <div className="company-container block w-[90vw]">
-          <div>
-            {county && (
+      {isOctoberYet ? (
+        <div className="explore-page-container w-[100vw] m-1">
+          <div className="county-container w-[90vw] h-25 ">
+            <div>
               <span className="text-black font-semibold text-[1.5em]">
-                Select a company to view their plans in {county} county:
+                Select your county:
               </span>
-            )}
-          </div>
-          <div className="company-buttons gap-3 p-2">
-            {" "}
-            {/* 🔹 gap handles spacing */}
-            {companies.map((company) => (
+            </div>
+            <div className="county-buttons-container">
               <ButtonComponent
-                key={company.id}
-                text={company.companyName}
-                onPress={() =>
-                  dispatch(setSelectedCompany(company.companyName))
-                }
+                text="Linn"
+                onPress={() => selectCounty("Linn")}
                 className={
-                  selectedCompany == company.companyName
-                    ? `bg-red-500 text-white font-semibold`
-                    : `bg-main text-white font-semibold`
+                  county == `Linn`
+                    ? `bg-red-500 text-[FFFFFF] font-semibold`
+                    : "bg-main text-[FFFFFF] font-semibold"
                 }
               />
-            ))}
+              <ButtonComponent
+                text="Tillamook"
+                onPress={() => selectCounty("Tillamook")}
+                className={
+                  county == `Tillamook`
+                    ? `bg-red-500 text-[FFFFFF] font-semibold`
+                    : "bg-main text-[FFFFFF] font-semibold"
+                }
+              />
+              <ButtonComponent
+                text="Lincoln"
+                onPress={() => selectCounty("Lincoln")}
+                className={
+                  county == `Lincoln`
+                    ? `bg-red-500 text-[FFFFFF] font-semibold`
+                    : "bg-main text-[FFFFFF] font-semibold"
+                }
+              />
+            </div>
+          </div>
+          <div className="company-container block w-[90vw]">
+            <div>
+              {county && (
+                <span className="text-black font-semibold text-[1.5em]">
+                  Select a company to view their plans in {county} county:
+                </span>
+              )}
+            </div>
+            <div className="company-buttons gap-3 p-2">
+              {" "}
+              {/* 🔹 gap handles spacing */}
+              {companies.map((company) => (
+                <ButtonComponent
+                  key={company.id}
+                  text={company.companyName}
+                  onPress={() =>
+                    dispatch(setSelectedCompany(company.companyName))
+                  }
+                  className={
+                    selectedCompany == company.companyName
+                      ? `bg-red-500 text-white font-semibold`
+                      : `bg-main text-white font-semibold`
+                  }
+                />
+              ))}
+            </div>
+          </div>
+          {companyPlans.length > 0 && (
+            <span className="text-black font-semibold text-sm">
+              The plans displayed are{" "}
+              <span className="italic text-[#E63946]">highlights</span>, not the
+              full benefits. <br /> If you'd like to learn more about them,
+              please click the "Request a Call" button!{" "}
+            </span>
+          )}
+          <div className="plans-container w-[90vw]">
+            {companyPlans &&
+              companyPlans.map((plan) => (
+                <PlanComponent
+                  key={plan.id}
+                  plan={plan}
+                  addToCompare={addToCompare}
+                  removeFromCompare={removeFromCompare}
+                />
+              ))}
           </div>
         </div>
-        {companyPlans.length > 0 && (
-          <span className="text-black font-semibold text-sm">
-            The plans displayed are <span className="italic text-[#E63946]">highlights</span>, not the full benefits. <br /> If
-            you'd like to learn more about them, please click the "Request a
-            Call" button!{" "}
-          </span>
-        )}
-        <div className="plans-container w-[90vw]">
-          {companyPlans &&
-            companyPlans.map((plan) => (
-              <PlanComponent
-                key={plan.id}
-                plan={plan}
-                addToCompare={addToCompare}
-                removeFromCompare={removeFromCompare}
-              />
-            ))}
+      ) : (
+        <div className="explore-page-container w-[100vw] m-1 mt-5">
+          <div className="w-4/5 h-12">
+            <Alert
+              color="warning"
+              title="This page will show 2026 Plan Information starting on October 1, 2025 in accordance with CMS Rules and Regulations."
+            />
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
