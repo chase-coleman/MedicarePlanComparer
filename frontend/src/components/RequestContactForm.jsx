@@ -10,6 +10,8 @@ import { Ring } from "ldrs/react";
 import "ldrs/react/Ring.css";
 import { CircleCheckBig } from "lucide-react";
 
+const API_URL = import.meta.env.VITE_API_ENDPOINT;
+
 const RequestContactForm = () => {
   const [fName, setFname] = useState("");
   const [lName, setLname] = useState("");
@@ -42,7 +44,7 @@ const RequestContactForm = () => {
     };
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/request-call",
+        `${API_URL}/api/request-call`,
         contactInfo
       );
       if (response.status === 202) {
