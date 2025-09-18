@@ -15,15 +15,15 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
       {
-        path: "/explore",
+        path: "explore",
         element: <ExplorePage />,
       },
       {
-        path:"/compare",
+        path:"compare",
         element: <ComparePage />
       },
       {
-        path:"/find-meeting",
+        path:"find-meeting",
         element: <FindAMeetingPage />
       }
     ],
