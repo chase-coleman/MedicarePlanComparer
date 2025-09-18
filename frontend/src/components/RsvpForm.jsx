@@ -9,6 +9,7 @@ import { Ring } from "ldrs/react";
 import { CircleCheckBig } from "lucide-react";
 import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_ENDPOINT;
 
 const RsvpForm = () => {
   const [fName, setFname] = useState("");
@@ -44,7 +45,7 @@ const RsvpForm = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/request-call",
+        `${API_URL}/api/request-call`,
         rsvpInfo
       );
       if (response.status === 202) {
