@@ -1,4 +1,4 @@
-package com.jmcolegroup.PlanComparison;
+package com.jmcolegroup.plancomparison;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

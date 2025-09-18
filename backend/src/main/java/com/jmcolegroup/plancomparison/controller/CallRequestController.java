@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/request-call")
-@CrossOrigin(origins = {"http://127.0.0.1:5173", "http://localhost:5173"})
 public class CallRequestController {
   private final MailService mailService;
 
