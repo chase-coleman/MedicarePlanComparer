@@ -26,6 +26,7 @@ const LandingPage = () => {
           <div className="flex flex-col">
           <span className="text-black font-semibold underline">Find us during the Annual Enrollment Period</span>
           <span className="text-black font-semibold">Tillamook Office: Monday - Saturday</span>
+            <span classname="text-black font-semibold">2018 Henson Plaza, Hwy 101</span>
           <span className="text-black font-semibold">Newport Walmart Kiosk: Monday - Thursday</span>
           <span className="text-black font-semibold">Lebanon Walmart Kiosk: Monday - Friday</span>
         </div>
