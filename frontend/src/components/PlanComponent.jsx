@@ -35,6 +35,19 @@ const PlanComponent = ({ plan, addToCompare, removeFromCompare }) => {
             <TableColumn>{plan.planName}</TableColumn>
           </TableHeader>
           <TableBody>
+            <TableRow key="disclaimer">
+              <TableCell
+                colSpan={2}
+                className="text-xs text-red-500 italic whitespace-normal bold"
+              >
+                {plan.planType === "C-SNP" && (
+                  <span>
+                    This plan is only for individuals with certain qualifying
+                    chronic conditions.
+                  </span>
+                )}
+              </TableCell>
+            </TableRow>
             <TableRow key="monthly">
               <TableCell>Monthly Premium</TableCell>
               <TableCell>${plan.monthlyPremium}</TableCell>
@@ -151,24 +164,11 @@ const PlanComponent = ({ plan, addToCompare, removeFromCompare }) => {
             <TableRow key="disclaimer">
               <TableCell
                 colSpan={2}
-                className="text-xs text-red-500 italic whitespace-normal bold"
+                className="text-xs text-gray-500 italic whitespace-normal bold"
               >
                 All copays/coinsurance amounts shown are in-network. PPO plans
                 that offer out-of-network coverage may have higher coverage
                 costs for those services.
-              </TableCell>
-            </TableRow>
-            <TableRow key="disclaimer">
-              <TableCell
-                colSpan={2}
-                className="text-xs text-red-500 italic whitespace-normal bold"
-              >
-                {plan.planType === "C-SNP" && (
-                  <span>
-                    This plan is only for individuals with certain qualifying
-                    chronic conditions.
-                  </span>
-                )}
               </TableCell>
             </TableRow>
           </TableBody>
