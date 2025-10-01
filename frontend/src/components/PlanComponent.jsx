@@ -45,11 +45,11 @@ const PlanComponent = ({ plan, addToCompare, removeFromCompare }) => {
             </TableRow>
             <TableRow key="rx">
               <TableCell>Drug Coverage</TableCell>
-              {plan.rxCoverage ?
-              <TableCell>Included</TableCell>
-              :
-              <TableCell>Not Included</TableCell>
-              }
+              {plan.rxCoverage ? (
+                <TableCell>Included</TableCell>
+              ) : (
+                <TableCell>Not Included</TableCell>
+              )}
             </TableRow>
             <TableRow key="plan_type">
               <TableCell>Plan Type</TableCell>
@@ -72,7 +72,9 @@ const PlanComponent = ({ plan, addToCompare, removeFromCompare }) => {
             </TableRow>
             <TableRow key="surgery">
               <TableCell>Hospital Surgery</TableCell>
-              {plan.surgeryMin === plan.surgeryMax ? (
+              {!plan.surgeryCopayType ? (
+                <TableCell>20%</TableCell>
+              ) : plan.surgeryMin === plan.surgeryMax ? (
                 <TableCell>${plan.surgeryMin}</TableCell>
               ) : (
                 <TableCell>
@@ -139,6 +141,15 @@ const PlanComponent = ({ plan, addToCompare, removeFromCompare }) => {
                 {selectedCompany} is a Medicare Advantage plan with a Medicare
                 contract. Enrollment in {selectedCompany} depends on contract
                 renewal.
+              </TableCell>
+            </TableRow>
+            <TableRow key="disclaimer">
+              <TableCell
+                colSpan={2}
+                className="text-xs text-gray-500 italic whitespace-normal"
+              >
+                {plan.planType === "C-SNP" &&
+                <span>This plan is only for individuals with certain qualifying chronic conditions.</span>}
               </TableCell>
             </TableRow>
           </TableBody>

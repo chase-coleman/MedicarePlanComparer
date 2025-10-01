@@ -33,7 +33,7 @@ function App() {
         {county === "Linn" ? (
           <span className="text-gray-500 text-[.75em]">
             We do not offer every plan available in your area. In Linn County,
-            we represent 7 organization which offer 30 products in the county.
+            we represent 5 organizations which offer 21 products in the county.
             Please contact Medicare.gov, 1-800-MEDICARE, or your local State
             Health Insurance Assistance Program (SHIP) to get information on all
             of your options.
