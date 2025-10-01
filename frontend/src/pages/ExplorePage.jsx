@@ -33,7 +33,7 @@ const ExplorePage = () => {
     (state) => state.comparedPlans.notice
   );
   const comparedPlans = useSelector((state) => state.comparedPlans.value);
-  const [isOctoberYet, setIsOctoberYet] = useState(false);
+  const [isOctoberYet, setIsOctoberYet] = useState(true);
 
   useEffect(() => {
     if (!county) return;
@@ -80,7 +80,6 @@ const ExplorePage = () => {
   const removeFromCompare = (plan) => {
     dispatch(removeFromPlanComparison(plan));
   };
-
 
   return (
     <>

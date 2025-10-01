@@ -19,7 +19,7 @@ public class Plan {
   private Long getId() { return id; }
   private void setId(Long id) { this.id = id; }
 
-  @Column(nullable = false, unique = true)
+  @Column(nullable = false, unique = false)
   private String planName;
 
   // Plan Name getter/setter
