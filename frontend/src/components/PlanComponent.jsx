@@ -84,15 +84,20 @@ const PlanComponent = ({ plan, addToCompare, removeFromCompare }) => {
             </TableRow>
             <TableRow key="radiology">
               <TableCell>
-                {plan.radiologyCopay > 0
-                  ? "Radiology Copay"
-                  : "Radiology Coinsurance"}
+                {plan.radiologyCoinsurance > 0
+                  ? "Radiology Coinsurance"
+                  : "Radiology Copay"}
               </TableCell>
               <TableCell>
-                $
-                {plan.radiologyCopay > 0
-                  ? plan.radiologyCopay
-                  : plan.radiologyCoinsurance}
+                {plan.radiologyCoinsurance > 0 ? (
+                  <>${plan.radiologyCoinsurance}</>
+                ) : plan.radiologyCopayMin === plan.radiologyCopayMax ? (
+                  <>${plan.radiologyCopayMin}</>
+                ) : (
+                  <>
+                    ${plan.radiologyCopayMin} - ${plan.radiologyCopayMax}
+                  </>
+                )}
               </TableCell>
             </TableRow>
             <TableRow key="dental">
@@ -146,10 +151,24 @@ const PlanComponent = ({ plan, addToCompare, removeFromCompare }) => {
             <TableRow key="disclaimer">
               <TableCell
                 colSpan={2}
-                className="text-xs text-gray-500 italic whitespace-normal"
+                className="text-xs text-red-500 italic whitespace-normal bold"
               >
-                {plan.planType === "C-SNP" &&
-                <span>This plan is only for individuals with certain qualifying chronic conditions.</span>}
+                All copays/coinsurance amounts shown are in-network. PPO plans
+                that offer out-of-network coverage may have higher coverage
+                costs for those services.
+              </TableCell>
+            </TableRow>
+            <TableRow key="disclaimer">
+              <TableCell
+                colSpan={2}
+                className="text-xs text-red-500 italic whitespace-normal bold"
+              >
+                {plan.planType === "C-SNP" && (
+                  <span>
+                    This plan is only for individuals with certain qualifying
+                    chronic conditions.
+                  </span>
+                )}
               </TableCell>
             </TableRow>
           </TableBody>
