@@ -48,6 +48,15 @@ const PlanComponent = ({ plan, addToCompare, removeFromCompare }) => {
                 )}
               </TableCell>
             </TableRow>
+            <TableRow key="food-home-card">
+              <TableCell
+                colSpan={2}
+                className="text-xs text-red-500 italic whitespace-normal bold"
+              >
+                {selectedCompany == "Devoted" &&
+                  "Ask use about Devoted's Food&Home card that can pay for groceries, rent, or your utility bill!"}
+              </TableCell>
+            </TableRow>
             <TableRow key="monthly">
               <TableCell>Monthly Premium</TableCell>
               <TableCell>${plan.monthlyPremium}</TableCell>
