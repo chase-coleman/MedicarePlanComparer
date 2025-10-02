@@ -55,7 +55,7 @@ const LandingPage = () => {
           <EmployeeCard
             imgSource="/chase-main.jpg"
             broker="Chase Coleman"
-            phone="541-554-9621"
+            phone="541-554-5916"
             email="chase@mprc.info"
             npn="20318912"
           />
