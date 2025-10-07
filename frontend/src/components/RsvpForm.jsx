@@ -45,7 +45,7 @@ const RsvpForm = () => {
     }
     try {
       const response = await axios.post(
-        `${API_URL}/api/request-call`,
+        `${API_URL}api/request-call`,
         rsvpInfo
       );
       if (response.status === 202) {
