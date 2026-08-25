@@ -4,45 +4,64 @@
 /*  DESIGN TOKENS  */
 /*******************/
 :root {
-  /* Brand — pine */
-  --brand: #1b4d45;
-  --brand-dark: #143a34;
-  --brand-soft: #2c6a60;
-  --brand-tint: #e8efed;
+  /* Brand — luminous mint (pine, evolved for a dark UI) */
+  --brand: #2dd4a7;
+  --brand-dark: #1fa882;
+  --brand-soft: #5fe3c0;
+  --brand-tint: rgba(45, 212, 167, 0.12);
+  --brand-line: rgba(45, 212, 167, 0.32);
 
-  /* Accent — copper */
-  --accent: #a85f2e;
-  --accent-dark: #8a4c23;
-  --accent-tint: #f7efe7;
+  /* Accent — amber (copper, evolved) */
+  --accent: #f59e5b;
+  --accent-dark: #d97f3a;
+  --accent-tint: rgba(245, 158, 91, 0.12);
 
-  /* Neutrals — warm */
-  --page-bg: #f7f6f3;
-  --surface: #ffffff;
-  --surface-muted: #faf9f6;
-  --border: #e7e3dc;
-  --border-strong: #d6d1c7;
-  --text: #1f2a28;
-  --text-muted: #5a6360;
-  --text-subtle: #6e685f;
+  /* Depth — near-black with a cool cast */
+  --bg: #080c10;
+  --surface: #0f161c;
+  --surface-muted: #131c24;
+  --surface-raised: #18232c;
 
-  /* Shape + elevation */
-  --radius-sm: 6px;
-  --radius: 10px;
-  --radius-lg: 14px;
-  --shadow-sm: 0 1px 2px rgba(31, 42, 40, 0.05), 0 1px 3px rgba(31, 42, 40, 0.06);
-  --shadow-md: 0 2px 4px rgba(31, 42, 40, 0.05), 0 8px 20px rgba(31, 42, 40, 0.08);
-  --shadow-lg: 0 16px 40px rgba(31, 42, 40, 0.22);
+  /* Hairlines read as light-on-dark, not as gray fills */
+  --border: rgba(255, 255, 255, 0.07);
+  --border-strong: rgba(255, 255, 255, 0.14);
+
+  --text: #e6edf3;
+  --text-muted: #9ba9b4;
+  --text-subtle: #6e7f8d;
+
+  /* Ink for use ON a brand/accent fill */
+  --on-brand: #04120d;
+  --on-accent: #1a0f05;
+
+  /* Type */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono",
+    Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Shape */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
+
+  /* Elevation: dark UIs need glow + depth, not gray drop shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45), 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.7);
+  --glow-brand: 0 0 0 1px var(--brand-line), 0 8px 32px rgba(45, 212, 167, 0.18);
+  --glow-accent: 0 0 0 1px rgba(245, 158, 91, 0.32),
+    0 8px 32px rgba(245, 158, 91, 0.18);
 
   /* Layout */
   --nav-height: 64px;
   --content-max: 1140px;
 
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-sans);
   line-height: 1.55;
   font-weight: 400;
 
-  color-scheme: light;
+  color-scheme: dark;
   color: var(--text);
 
   font-synthesis: none;
@@ -53,6 +72,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  background-color: var(--bg);
 }
 
 body {
@@ -60,13 +80,95 @@ body {
   width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
-  background-color: var(--page-bg);
+  background-color: var(--bg);
   color: var(--text);
 }
 
-/* Consistent, visible focus ring for keyboard users */
+/* Ambient depth: a fixed dot-grid plus two soft color washes.
+   Fixed + pointer-events:none so it never intercepts clicks or scrolls. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.035) 1px,
+    transparent 1px
+  );
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 100% 60% at 50% 0%, #000 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 100% 60% at 50% 0%, #000 40%, transparent 100%);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 50% 40% at 15% 0%,
+      rgba(45, 212, 167, 0.10),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 45% 35% at 88% 8%,
+      rgba(245, 158, 91, 0.07),
+      transparent 70%
+    );
+}
+
+/* Keep real content above the ambient layers */
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+/* Focus ring reads as a mint halo */
 :focus-visible {
-  outline: 2px solid var(--brand-soft);
+  outline: 2px solid var(--brand);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
+}
+
+::selection {
+  background-color: rgba(45, 212, 167, 0.28);
+  color: #ffffff;
+}
+
+/* Dark, slim scrollbars so the chrome matches the UI */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.16);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.26);
+  background-clip: content-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

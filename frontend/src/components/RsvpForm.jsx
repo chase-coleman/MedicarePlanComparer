@@ -199,13 +199,13 @@ const RsvpForm = () => {
               }
             />
             {submitting ? (
-              <ButtonComponent styling="bg-accent text-white h-11 w-full">
-                <Ring size={25} stroke="3" speed="2" color="white" />
+              <ButtonComponent styling="bg-accent h-11 w-full">
+                <Ring size={25} stroke="3" speed="2" color="#1a0f05" />
               </ButtonComponent>
             ) : (
               <ButtonComponent
                 text="Submit"
-                styling="bg-accent text-white h-11 w-full"
+                styling="bg-accent h-11 w-full"
                 type="submit"
               />
             )}

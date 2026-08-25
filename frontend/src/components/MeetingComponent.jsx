@@ -31,7 +31,7 @@ const MeetingComponent = ({ venue, address, month, day, startTime }) => {
         <CardFooter className="flex justify-start px-5 py-3">
           <ButtonComponent
             text="RSVP"
-            styling="bg-accent text-white px-6"
+            styling="bg-accent px-6"
             onPress={() => handleClick()}
           />
         </CardFooter>

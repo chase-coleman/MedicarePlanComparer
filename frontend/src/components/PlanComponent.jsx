@@ -143,14 +143,14 @@ const PlanComponent = ({ plan, addToCompare, removeFromCompare }) => {
         <div className="plan-card-actions">
           {comparedPlans.some((comparedPlan) => comparedPlan.id == plan.id) ? (
             <ButtonComponent
-              styling="h-9 bg-accent text-white"
+              styling="h-9 bg-accent"
               text={"Remove from compare"}
               onPress={() => removeFromCompare(plan)}
             />
           ) : (
             <ButtonComponent
               text={"Add to compare"}
-              styling="h-9 bg-brand text-white"
+              styling="h-9 bg-brand"
               onPress={() => addToCompare(plan)}
             />
           )}

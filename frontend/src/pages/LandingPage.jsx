@@ -22,7 +22,7 @@ const LandingPage = () => {
             leaving your county.
           </p>
           <ButtonComponent
-            styling="bg-accent text-white px-6 h-11 text-base"
+            styling="bg-accent px-6 h-11 text-base"
             text="Request a call"
             onPress={() => dispatch(openModal())}
           />

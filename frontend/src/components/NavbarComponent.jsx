@@ -112,7 +112,7 @@ const NavbarComponent = () => {
       <NavbarContent justify="end" className="max-w-[35%]">
         <NavbarItem>
           <ButtonComponent
-            styling="bg-accent text-white"
+            styling="bg-accent"
             text="Request a call"
             onPress={() => dispatch(openModal())}
           />
@@ -120,7 +120,7 @@ const NavbarComponent = () => {
       </NavbarContent>
 
       {/* Mobile menu */}
-      <NavbarMenu className="bg-white">
+      <NavbarMenu className="nav-menu-sheet">
         {menuItems.map((item) => (
           <NavbarMenuItem key={item.to}>
             <NavLink
