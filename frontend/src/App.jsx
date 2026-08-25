@@ -2,16 +2,20 @@ import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import "./App.css";
 import NavbarComponent from "./components/NavbarComponent";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Modal from "./components/Modal";
 import RequestContactForm from "./components/RequestContactForm";
 import RsvpForm from "./components/RsvpForm";
+import ComparisonNoticeModal from "./components/ComparisonNoticeModal";
+import { clearNotice } from "./features/plans/comparedPlansSlice";
 
 function App() {
   const showContactForm = useSelector((state) => state.showContactForm.value);
   const county = useSelector((state) => state.county.value); // selected county value
   const showRsvpForm = useSelector((state) => state.showRsvpForm.value);
   const meeting = useSelector((state) => state.meetingRsvp.value);
+  const comparisonNotice = useSelector((state) => state.comparedPlans.notice);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -78,6 +82,11 @@ function App() {
       {showRsvpForm && (
         <Modal>
           <RsvpForm />
+        </Modal>
+      )}
+      {comparisonNotice && (
+        <Modal onBackdropClick={() => dispatch(clearNotice())}>
+          <ComparisonNoticeModal />
         </Modal>
       )}
     </>

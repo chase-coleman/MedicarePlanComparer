@@ -12,7 +12,6 @@ import { setPlans } from "../features/plans/companyPlansSlice";
 import {
   addToPlanComparison,
   removeFromPlanComparison,
-  clearNotice,
   setComparedPlans,
 } from "../features/plans/comparedPlansSlice";
 
@@ -29,9 +28,6 @@ const ExplorePage = () => {
   const companies = useSelector((state) => state.companies.value); // companies in a county value
   const selectedCompany = useSelector((state) => state.selectedCompany.value); // the county the user selects to view their plans
   const companyPlans = useSelector((state) => state.companyPlans.value);
-  const comparisonErrorNotice = useSelector(
-    (state) => state.comparedPlans.notice,
-  );
   const comparedPlans = useSelector((state) => state.comparedPlans.value);
   const [isOctoberYet, setIsOctoberYet] = useState(true);
 
@@ -93,29 +89,19 @@ const ExplorePage = () => {
               <ButtonComponent
                 text="Linn"
                 onPress={() => selectCounty("Linn")}
-                className={
-                  county == `Linn`
-                    ? `btn-pill-active`
-                    : "btn-pill"
-                }
+                className={county == `Linn` ? `btn-pill-active` : "btn-pill"}
               />
               <ButtonComponent
                 text="Tillamook"
                 onPress={() => selectCounty("Tillamook")}
                 className={
-                  county == `Tillamook`
-                    ? `btn-pill-active`
-                    : "btn-pill"
+                  county == `Tillamook` ? `btn-pill-active` : "btn-pill"
                 }
               />
               <ButtonComponent
                 text="Lincoln"
                 onPress={() => selectCounty("Lincoln")}
-                className={
-                  county == `Lincoln`
-                    ? `btn-pill-active`
-                    : "btn-pill"
-                }
+                className={county == `Lincoln` ? `btn-pill-active` : "btn-pill"}
               />
             </div>
           </div>
