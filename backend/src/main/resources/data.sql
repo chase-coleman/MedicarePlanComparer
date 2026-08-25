@@ -23,7 +23,7 @@ dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_ma
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  1, "Giveback", 2026, 0, 7900, "HMO", 0, 115, 385, 5, 385, 525, true, 100, 300, 0, 1250, 0, "None", 154.20, true, 1
+  1, "Giveback", 2026, 0, 7900, "HMO", 0, 115, 385, 5, 385, 525, true, 100, 300, 0, 250, 0, "None", 154.20, true, 1
 );
 INSERT INTO plan (id, plan_name, plan_year, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
@@ -109,21 +109,21 @@ dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_ma
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  12, "Essentials OR-4", 2026, 16, 4500, "HMO-POS", 0, 125, 400, 4, 350, 400, true, 225, 225, 0, 0, 35, "Quarterly", 0, true, 3
+  12, "Essentials OR-4", 2026, 0, 5500, "HMO-POS", 0, 135, 455, 5, 405, 455, true, 260, 260, 0, 0, 25, "Quarterly", 0, true, 3
 );
 INSERT INTO plan (id, plan_name, plan_year, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  13, "Essentials OR-0003", 2026, 46, 3500, "HMO-POS", 0, 140, 395, 5, 345, 395, true, 230, 230, 0, 1500, 0, "None", 0, true, 3
+  13, "Essentials OR-0003", 2026, 69, 5200, "HMO-POS", 0, 130, 425, 5, 375, 425, true, 220, 220, 0, 1500, 0, "None", 0, true, 3
 );
 INSERT INTO plan (id, plan_name, plan_year, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  14, "Essentials OR-0001", 2026, 49, 4900, "PPO", 0, 125, 395, 6, 245, 395, true, 250, 250, 0, 1250, 25, "Quarterly", 0, true, 3
+  14, "Essentials OR-0001", 2026, 74, 5700, "PPO", 0, 130, 455, 6, 305, 455, true, 200, 200, 0, 1000, 0, "None", 0, true, 3
 );
 
 -- ##########################
