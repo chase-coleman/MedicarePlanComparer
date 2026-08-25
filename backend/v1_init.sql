@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `county` (
 CREATE TABLE IF NOT EXISTS `plan` (
   `id`                      BIGINT NOT NULL AUTO_INCREMENT,
   `plan_name`               VARCHAR(255) NOT NULL,
+  `plan_year`               INT NOT NULL DEFAULT 2026,
   `monthly_premium`         DECIMAL(10,2) NOT NULL,
   `moop`                    INT NOT NULL,
   `plan_type`               VARCHAR(255) NOT NULL,

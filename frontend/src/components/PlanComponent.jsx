@@ -13,10 +13,18 @@ import { useState } from "react";
 // Display only — the selected year does not filter or change any plan data.
 const PLAN_YEARS = ["2026", "2027"];
 
+// Start the toggle on the year the plan actually belongs to. Falls back to
+// the first known year if the API omits planYear or sends one we do not
+// render a button for.
+const initialPlanYear = (plan) => {
+  const year = String(plan.planYear ?? "");
+  return PLAN_YEARS.includes(year) ? year : PLAN_YEARS[0];
+};
+
 const PlanComponent = ({ plan, addToCompare, removeFromCompare }) => {
   const comparedPlans = useSelector((state) => state.comparedPlans.value);
   const selectedCompany = useSelector((state) => state.selectedCompany.value); // the county the user selects to view their plans
-  const [planYear, setPlanYear] = useState(PLAN_YEARS[0]);
+  const [planYear, setPlanYear] = useState(() => initialPlanYear(plan));
 
   return (
     <>

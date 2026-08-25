@@ -27,6 +27,13 @@ public class Plan {
   private void setPlanName(String planName) {this.planName = planName; }
 
   @Column(nullable = false)
+  private int planYear;
+
+  // plan year getter/setter
+  private int getPlanYear() { return planYear; }
+  private void setPlanYear(int planYear) { this.planYear = planYear; }
+
+  @Column(nullable = false)
   private BigDecimal monthlyPremium;
 
   // monthly premium getter/setter

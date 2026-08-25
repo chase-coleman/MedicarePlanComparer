@@ -12,6 +12,7 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
   interface PlanSummary {
     Long getId();
     String getPlanName();
+    int getPlanYear();
     BigDecimal getMonthlyPremium();
     int getMoop();
     String getPlanType();
