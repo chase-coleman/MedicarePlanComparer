@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `county` (
 CREATE TABLE IF NOT EXISTS `plan` (
   `id`                      BIGINT NOT NULL AUTO_INCREMENT,
   `plan_name`               VARCHAR(255) NOT NULL,
+  `plan_year`               INT NOT NULL DEFAULT 2026,
   `monthly_premium`         DECIMAL(10,2) NOT NULL,
   `moop`                    INT NOT NULL,
   `plan_type`               VARCHAR(255) NOT NULL,
@@ -34,8 +35,13 @@ CREATE TABLE IF NOT EXISTS `plan` (
   `rx_coverage`             BOOLEAN NOT NULL,
   `company_id`              BIGINT NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_plan_plan_name` (`plan_name`),
-  KEY `idx_plan_company_id` (`company_id`)   -- logical FK to company(id)
+  -- NO unique key on plan_name. The same name legitimately repeats: across
+  -- counties (Devoted "Core" in Tillamook vs Lincoln/Linn have different
+  -- benefits), across distinct products sharing a marketing name in one
+  -- county (the two Humana "HumanaChoice" plans differ by premium), and
+  -- now across plan years.
+  KEY `idx_plan_company_id` (`company_id`),  -- logical FK to company(id)
+  KEY `idx_plan_plan_name` (`plan_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =====================
