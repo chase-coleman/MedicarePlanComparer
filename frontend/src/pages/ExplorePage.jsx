@@ -16,6 +16,7 @@ import {
 } from "../features/plans/comparedPlansSlice";
 
 import PlanComponent from "../components/PlanComponent";
+import { groupPlansByYear } from "../functions/groupPlans";
 import { useState } from "react";
 import { Alert } from "@heroui/react";
 
@@ -140,15 +141,14 @@ const ExplorePage = () => {
             </span>
           )}
           <div className="plans-container w-[90vw]">
-            {companyPlans &&
-              companyPlans.map((plan) => (
-                <PlanComponent
-                  key={plan.id}
-                  plan={plan}
-                  addToCompare={addToCompare}
-                  removeFromCompare={removeFromCompare}
-                />
-              ))}
+            {groupPlansByYear(companyPlans).map((planGroup) => (
+              <PlanComponent
+                key={planGroup.key}
+                planGroup={planGroup}
+                addToCompare={addToCompare}
+                removeFromCompare={removeFromCompare}
+              />
+            ))}
           </div>
         </div>
       ) : (

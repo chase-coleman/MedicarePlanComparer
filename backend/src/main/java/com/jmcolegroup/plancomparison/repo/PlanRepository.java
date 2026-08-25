@@ -11,7 +11,9 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
 
   interface PlanSummary {
     Long getId();
+    Long getPlanGroupId();
     String getPlanName();
+    String getCmsPlanId();
     int getPlanYear();
     BigDecimal getMonthlyPremium();
     int getMoop();
@@ -33,6 +35,10 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
     boolean getRxCoverage();
   }
 
+  // All years. The client groups by planGroupId and toggles between them.
   List <PlanSummary> findDistinctByCompany_CompanyNameIgnoreCaseAndCounties_CountyNameIgnoreCase(String companyName, String countyName);
+
+  // Single year, for callers that only want one plan year.
+  List <PlanSummary> findDistinctByCompany_CompanyNameIgnoreCaseAndCounties_CountyNameIgnoreCaseAndPlanYear(String companyName, String countyName, int planYear);
 
 }
