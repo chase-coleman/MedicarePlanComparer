@@ -45,7 +45,7 @@ const LandingPage = () => {
               <span>Lebanon Walmart Kiosk</span>
               <span>Mon – Fri</span>
             </div>
-            <p className="broker-email mt-3">
+            <p className="office-hours-address mt-3">
               2018 Henson Plaza, Hwy 101, Tillamook
             </p>
           </div>
@@ -80,7 +80,7 @@ const LandingPage = () => {
             npn="20318912"
           />
         </div>
-        <div className="company-text-container w-[90vw] bg-brand">
+        <div className="company-text-container w-[90vw]">
           <span className="about-heading">About JMCole Group</span>
           <span className="about-body">
             If you are going to work with a company to partner with you in your

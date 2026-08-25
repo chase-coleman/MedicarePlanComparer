@@ -479,9 +479,16 @@ button.btn-pill-active[data-hover="true"] {
 }
 
 .broker-email {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--text);
+  word-break: break-word;
+}
+
+/* Office address under the hours block — stays quiet, unlike the emails */
+.office-hours-address {
   font-size: 0.75rem;
   color: var(--text-muted);
-  word-break: break-word;
 }
 
 .broker-npn {
@@ -492,8 +499,7 @@ button.btn-pill-active[data-hover="true"] {
 }
 
 /* "About us" — glass panel with a gradient hairline border */
-.company-text-container,
-.company-text-container.bg-brand {
+.company-text-container {
   position: relative;
   max-width: var(--content-max);
   padding: 2.5rem;
@@ -537,10 +543,10 @@ button.btn-pill-active[data-hover="true"] {
 
 .company-text-container .about-body {
   display: block;
-  font-size: 1rem;
+  font-size: 1.0625rem;
   font-weight: 400;
   line-height: 1.75;
-  color: var(--text-muted);
+  color: var(--text);
   text-wrap: pretty;
 }
 
