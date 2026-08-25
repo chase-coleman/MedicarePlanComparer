@@ -33,7 +33,7 @@ const NavbarComponent = () => {
       onMenuOpenChange={setIsMenuOpen}
     >
       {/* Mobile: left toggle */}
-      <NavbarContent className="sm:hidden text-white" justify="start">
+      <NavbarContent className="sm:hidden" justify="start">
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
         />

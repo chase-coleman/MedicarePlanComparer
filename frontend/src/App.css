@@ -25,7 +25,7 @@
   text-wrap: balance;
   /* Gradient headline — falls back to solid --text where unsupported */
   color: var(--text);
-  background: linear-gradient(180deg, #ffffff 0%, #9fb2bf 100%);
+  background: linear-gradient(175deg, #11181f 0%, #47555f 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -69,7 +69,6 @@
   height: 6px;
   border-radius: 9999px;
   background-color: var(--brand);
-  box-shadow: 0 0 8px var(--brand);
 }
 
 .lede {
@@ -128,11 +127,11 @@
 
 /* Glass navbar: translucent, blurred, hairline base */
 nav.bg-brand {
-  background-color: rgba(8, 12, 16, 0.72) !important;
+  background-color: rgba(248, 250, 251, 0.78) !important;
   border-bottom: 1px solid var(--border) !important;
   backdrop-filter: saturate(180%) blur(16px);
   -webkit-backdrop-filter: saturate(180%) blur(16px);
-  box-shadow: none;
+  box-shadow: var(--sheen);
 }
 
 .nav-brand {
@@ -140,7 +139,7 @@ nav.bg-brand {
   font-weight: 700;
   font-size: 1rem;
   letter-spacing: 0.14em;
-  background: linear-gradient(120deg, var(--brand) 0%, var(--brand-soft) 100%);
+  background: linear-gradient(120deg, var(--brand-dark) 0%, var(--brand-soft) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -182,7 +181,8 @@ nav.bg-brand {
 
 .nav-link-active::after {
   background-color: var(--brand);
-  box-shadow: 0 0 10px var(--brand);
+  height: 2px;
+  box-shadow: none;
 }
 
 .nav-link-mobile {
@@ -203,7 +203,7 @@ nav.bg-brand {
 
 /* Mobile menu sheet */
 .nav-menu-sheet {
-  background-color: rgba(8, 12, 16, 0.97) !important;
+  background-color: rgba(248, 250, 251, 0.97) !important;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-right: 1px solid var(--border);
@@ -226,23 +226,23 @@ button.bg-accent {
 
 button.bg-brand {
   color: var(--on-brand) !important;
-  box-shadow: var(--glow-brand);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
 button.bg-accent {
   color: var(--on-accent) !important;
-  box-shadow: var(--glow-accent);
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.16);
 }
 
 button.bg-brand:hover,
 button.bg-brand[data-hover="true"] {
-  background-color: var(--brand-soft) !important;
+  background-color: var(--brand-dark) !important;
   transform: translateY(-1px);
 }
 
 button.bg-accent:hover,
 button.bg-accent[data-hover="true"] {
-  background-color: #ffb478 !important;
+  background-color: var(--accent-dark) !important;
   transform: translateY(-1px);
 }
 
@@ -268,25 +268,27 @@ button.btn-pill {
   background-color: var(--surface) !important;
   border: 1px solid var(--border-strong);
   color: var(--text-muted) !important;
+  box-shadow: var(--shadow-sm), var(--sheen);
 }
 
 button.btn-pill:hover,
 button.btn-pill[data-hover="true"] {
-  background-color: var(--surface-raised) !important;
+  background-color: var(--surface-muted) !important;
   border-color: var(--brand-line);
   color: var(--text) !important;
 }
 
 button.btn-pill-active {
-  background-color: var(--brand-tint) !important;
+  background-color: var(--brand) !important;
   border: 1px solid var(--brand);
-  color: var(--brand) !important;
-  box-shadow: 0 0 20px rgba(45, 212, 167, 0.15);
+  color: #ffffff !important;
+  box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
 button.btn-pill-active:hover,
 button.btn-pill-active[data-hover="true"] {
-  background-color: rgba(45, 212, 167, 0.2) !important;
+  background-color: var(--brand-dark) !important;
+  border-color: var(--brand-dark);
 }
 
 /*******************/
@@ -420,7 +422,7 @@ button.btn-pill-active[data-hover="true"] {
   background-color: var(--surface) !important;
   border: 1px solid var(--border);
   border-radius: var(--radius) !important;
-  box-shadow: var(--shadow-md) !important;
+  box-shadow: var(--shadow-md), var(--sheen) !important;
   transition: border-color 0.18s ease, transform 0.18s ease,
     box-shadow 0.18s ease;
 }
@@ -445,7 +447,7 @@ button.btn-pill-active[data-hover="true"] {
 .broker-card:hover {
   transform: translateY(-3px);
   border-color: var(--brand-line);
-  box-shadow: var(--shadow-lg), 0 0 32px rgba(45, 212, 167, 0.1) !important;
+  box-shadow: var(--shadow-md), 0 12px 28px rgba(17, 24, 31, 0.10) !important;
 }
 
 .broker-photo {
@@ -499,8 +501,8 @@ button.btn-pill-active[data-hover="true"] {
   text-align: left;
   background: linear-gradient(
     160deg,
-    rgba(45, 212, 167, 0.07),
-    rgba(15, 22, 28, 0.9) 45%
+    var(--surface) 0%,
+    var(--surface-raised) 100%
   ) !important;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-md);
@@ -598,7 +600,7 @@ button.btn-pill-active[data-hover="true"] {
   background-color: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-md), var(--sheen);
   transition: border-color 0.18s ease, transform 0.18s ease,
     box-shadow 0.18s ease;
 }
@@ -606,7 +608,7 @@ button.btn-pill-active[data-hover="true"] {
 .plan-card:hover {
   transform: translateY(-3px);
   border-color: var(--brand-line);
-  box-shadow: var(--shadow-lg), 0 0 32px rgba(45, 212, 167, 0.1);
+  box-shadow: var(--shadow-md), 0 12px 28px rgba(17, 24, 31, 0.10);
 }
 
 .plan-card-header {
@@ -617,8 +619,8 @@ button.btn-pill-active[data-hover="true"] {
   padding: 1rem;
   background: linear-gradient(
     180deg,
-    rgba(45, 212, 167, 0.08),
-    transparent
+    var(--surface-raised),
+    var(--surface)
   );
   border-bottom: 1px solid var(--border);
 }
@@ -687,7 +689,7 @@ button.btn-pill-active[data-hover="true"] {
 }
 
 .plan-table-component tr[data-odd="true"] td {
-  background-color: rgba(255, 255, 255, 0.022) !important;
+  background-color: var(--surface-muted) !important;
 }
 
 .plan-disclaimers {
@@ -775,7 +777,7 @@ button.btn-pill-active[data-hover="true"] {
   background-color: var(--surface) !important;
   border: 1px solid var(--border);
   border-radius: var(--radius) !important;
-  box-shadow: var(--shadow-md) !important;
+  box-shadow: var(--shadow-md), var(--sheen) !important;
   transition: border-color 0.18s ease, transform 0.18s ease,
     box-shadow 0.18s ease;
 }
@@ -799,7 +801,7 @@ button.btn-pill-active[data-hover="true"] {
 .meeting-card:hover {
   transform: translateY(-3px);
   border-color: var(--brand-line);
-  box-shadow: var(--shadow-lg), 0 0 32px rgba(45, 212, 167, 0.1) !important;
+  box-shadow: var(--shadow-md), 0 12px 28px rgba(17, 24, 31, 0.10) !important;
 }
 
 .meeting-venue {
@@ -833,7 +835,7 @@ button.btn-pill-active[data-hover="true"] {
 .modal-backdrop {
   position: absolute;
   inset: 0;
-  background-color: rgba(4, 7, 10, 0.7);
+  background-color: rgba(17, 24, 31, 0.42);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
@@ -860,7 +862,7 @@ button.btn-pill-active[data-hover="true"] {
   background-color: var(--surface) !important;
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg), 0 0 60px rgba(45, 212, 167, 0.08);
+  box-shadow: var(--shadow-lg), var(--sheen);
 }
 
 .form-header {
@@ -920,18 +922,19 @@ button.btn-pill-active[data-hover="true"] {
 .field-wrapper {
   background-color: var(--surface-muted) !important;
   border-color: var(--border-strong) !important;
+  box-shadow: var(--sheen) !important;
   transition: border-color 0.16s ease, box-shadow 0.16s ease;
 }
 
 .field-wrapper[data-hover="true"] {
   background-color: var(--surface-raised) !important;
-  border-color: rgba(255, 255, 255, 0.22) !important;
+  border-color: var(--border-strong) !important;
 }
 
 .field-wrapper[data-focus="true"],
 .field-wrapper[data-focus-visible="true"] {
   border-color: var(--brand) !important;
-  box-shadow: 0 0 0 3px var(--brand-tint) !important;
+  box-shadow: var(--ring-brand) !important;
 }
 
 .field-label {
@@ -948,7 +951,7 @@ button.btn-pill-active[data-hover="true"] {
 }
 
 .field-error {
-  color: #ff8087 !important;
+  color: #b3261e !important;
   font-size: 0.75rem;
   font-weight: 500;
 }
@@ -970,7 +973,7 @@ button.btn-pill-active[data-hover="true"] {
   background-color: var(--surface) !important;
   border: 1px solid var(--brand-line);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg), 0 0 60px rgba(45, 212, 167, 0.14);
+  box-shadow: var(--shadow-lg), var(--sheen);
 }
 
 .submit-success-icon {
@@ -983,7 +986,7 @@ button.btn-pill-active[data-hover="true"] {
   background-color: var(--brand-tint);
   border: 1px solid var(--brand-line);
   color: var(--brand);
-  box-shadow: 0 0 32px rgba(45, 212, 167, 0.22);
+  box-shadow: none;
 }
 
 .submit-success-title {
@@ -1008,7 +1011,7 @@ button.btn-pill-active[data-hover="true"] {
   margin-top: auto;
   padding: 2.5rem 1.25rem 3rem !important;
   background-color: transparent;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--border-strong);
 }
 
 .disclaimer-inner {
