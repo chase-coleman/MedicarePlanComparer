@@ -45,13 +45,13 @@ const RequestContactForm = () => {
     try {
       const response = await axios.post(
         `${API_URL}api/request-call`,
-        contactInfo
+        contactInfo,
       );
       if (response.status === 202) {
         setSubmittedSuccessfully(true);
       } else {
         console.warn(
-          "There was an issue submitting your request. Please refresh and try again. If the error persists, please call us directly!"
+          "There was an issue submitting your request. Please refresh and try again. If the error persists, please call us directly!",
         );
       }
     } catch (error) {
@@ -62,34 +62,47 @@ const RequestContactForm = () => {
   return (
     <div className="contact-form-container w-full">
       {submittedSuccessfully ? (
-        <div className="submit-success p-4 gap-10 bg-green-500">
-          <CircleCheckBig color="black" size={64} />
-          <h1 className="text-black text-center">
-            Request Submitted Successfully. <br /> Someone will be contacting
-            you soon!
-          </h1>
+        <div className="submit-success p-8 gap-4">
+          <div className="submit-success-icon">
+            <CircleCheckBig size={32} strokeWidth={2.25} />
+          </div>
+          <p className="submit-success-title">Request submitted successfully</p>
+          <p className="submit-success-body">
+            Someone will be contacting you soon.
+          </p>
         </div>
       ) : (
         <form
-          className="contact-form p-4 gap-4 bg-[#0070cc]"
+          className="contact-form p-6 gap-4"
           onSubmit={(e) => handleSubmit(e)}
         >
-          <ButtonComponent
-            styling="bg-red text-[#FFFFFF]"
-            text="Close"
-            onPress={() => dispatch(closeModal())}
-          />
+          <div className="form-header">
+            <div>
+              <h2 className="form-title">Request a call</h2>
+              <p className="form-subtitle">
+                Tell us how to reach you and a licensed agent will follow up.
+              </p>
+            </div>
+            <ButtonComponent
+              styling="form-close"
+              text="✕"
+              aria-label="Close"
+              onPress={() => dispatch(closeModal())}
+            />
+          </div>
           <Input
             name="firstName"
             label="First Name"
             type="text"
+            variant="bordered"
             isRequired
             value={fName}
             onChange={(e) => setFname(e.target.value)}
             classNames={{
-              errorMessage: "text-[#FFFFFF] text-sm font-medium", // 🔹 change error text color
-              label: "text-[#1E639A]", // optional: label styling
-              inputWrapper: "bg-white", // optional: input bg
+              errorMessage: "field-error",
+              label: "field-label",
+              inputWrapper: "field-wrapper",
+              input: "field-input",
             }}
           />
 
@@ -97,13 +110,15 @@ const RequestContactForm = () => {
             name="lastName"
             label="Last Name"
             type="text"
+            variant="bordered"
             isRequired
             value={lName}
             onChange={(e) => setLname(e.target.value)}
             classNames={{
-              errorMessage: "text-[#FFFFFF] text-sm font-medium", // 🔹 change error text color
-              label: "text-[#1E639A]", // optional: label styling
-              inputWrapper: "bg-white", // optional: input bg
+              errorMessage: "field-error",
+              label: "field-label",
+              inputWrapper: "field-wrapper",
+              input: "field-input",
             }}
           />
 
@@ -111,6 +126,7 @@ const RequestContactForm = () => {
             name="email"
             label="Email"
             type="email"
+            variant="bordered"
             validationBehavior="native"
             // require a dot after @ and at least 2 chars in the TLD
             pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
@@ -118,16 +134,17 @@ const RequestContactForm = () => {
               validationDetails.valueMissing
                 ? "Please enter your email"
                 : validationDetails.typeMismatch ||
-                  validationDetails.patternMismatch
-                ? "Please enter a valid email (e.g., name@example.com)"
-                : ""
+                    validationDetails.patternMismatch
+                  ? "Please enter a valid email (e.g., name@example.com)"
+                  : ""
             }
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             classNames={{
-              errorMessage: "text-[#FFFFFF] text-sm font-medium", // 🔹 change error text color
-              label: "text-[#1E639A]", // optional: label styling
-              inputWrapper: "bg-white", // optional: input bg
+              errorMessage: "field-error",
+              label: "field-label",
+              inputWrapper: "field-wrapper",
+              input: "field-input",
             }}
           />
 
@@ -135,6 +152,7 @@ const RequestContactForm = () => {
             name="phone"
             label="Phone Number"
             type="tel"
+            variant="bordered"
             autoComplete="tel"
             inputMode="numeric"
             isRequired
@@ -145,8 +163,8 @@ const RequestContactForm = () => {
               validationDetails.valueMissing
                 ? "Please enter your phone number"
                 : validationDetails.patternMismatch
-                ? "Enter a valid 10-digit number"
-                : ""
+                  ? "Enter a valid 10-digit number"
+                  : ""
             }
             value={phoneNum}
             onChange={(e) => {
@@ -154,19 +172,20 @@ const RequestContactForm = () => {
               setPhoneNum(digits.slice(0, 10));
             }}
             classNames={{
-              errorMessage: "text-[#FFFFFF] text-sm font-medium", // 🔹 change error text color
-              label: "text-[#1E639A]", // optional: label styling
-              inputWrapper: "bg-white", // optional: input bg
+              errorMessage: "field-error",
+              label: "field-label",
+              inputWrapper: "field-wrapper",
+              input: "field-input",
             }}
           />
           <Textarea
             label="Message"
             classNames={{
-              inputWrapper:
-                "bg-[#FFFFFF] border-[#FFFFFF] focus-within:border-[#FFFFFF]", // border + focus color
-              input: "text-black placeholder:text-black", // text + placeholder
-              label: "!text-black font-semibold", // label color
-              description: "text-[#FFFFFF]", // counter text
+              inputWrapper: "field-wrapper",
+              input: "field-input",
+              label: "field-label",
+              description: "field-description",
+              errorMessage: "field-error",
             }}
             placeholder="Enter anything you'd like us to know!"
             variant="bordered"
@@ -179,17 +198,17 @@ const RequestContactForm = () => {
             }
           />
           {submitting ? (
-            <ButtonComponent styling="bg-red text-[#FFFFFF]">
+            <ButtonComponent styling="bg-accent h-11 w-full">
               <Ring size={25} stroke="3" speed="2" color="white" />
             </ButtonComponent>
           ) : (
             <ButtonComponent
               text="Submit"
-              styling="bg-red text-[#FFFFFF]"
+              styling="bg-accent h-11 w-full"
               type="submit"
             />
           )}
-          <span className="text-sm text-center">
+          <span className="form-consent">
             By submitting this form, you agree that a licensed sales agent may
             contact you by phone, text, or email to discuss Medicare Advantage,
             Prescription Drug, and Medicare Supplement Insurance plans.

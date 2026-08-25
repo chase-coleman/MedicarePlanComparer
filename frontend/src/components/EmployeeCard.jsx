@@ -5,28 +5,21 @@ const EmployeeCard = ({ imgSource, broker, phone, email, npn }) => {
 
   return (
     <>
-      <Card className="bg-main py-1 px-1 w-42 flex items-center">
+      <Card className="broker-card pt-4 pb-3 px-3 flex items-center">
         <Image
-          alt="Card background"
-          className="object-cover rounded-xl w-24"
+          alt={broker}
+          className="broker-photo object-cover"
           src={imgSource}
         />
-        <CardHeader className="pb-0 pt-2 px-4 flex-col items-center gap-1">
-          <p className="text-small text-[#FFFFFF] uppercase font-bold">
-            {broker}
-          </p>
-          <a
-            href={phoneHref}
-            className="text-tiny text-blue-500 underline uppercase font-bold"
-          >
+        <CardHeader className="pb-0 pt-3 px-2 flex-col items-center gap-1">
+          <p className="broker-name">{broker}</p>
+          <a href={phoneHref} className="broker-phone">
             {phone}
           </a>
-          <p className="text-tiny text-[#FFFFFF] uppercase font-bold">
-            {email}
-          </p>
+          <p className="broker-email">{email}</p>
         </CardHeader>
-        <small className="text-[#FFFFFF] mb-0">NPN: {npn}</small>
-        <CardBody className="overflow-visible py-2"></CardBody>
+        <small className="broker-npn mt-2">NPN {npn}</small>
+        <CardBody className="overflow-visible py-0"></CardBody>
       </Card>
     </>
   );

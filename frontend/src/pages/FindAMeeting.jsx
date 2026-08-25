@@ -23,15 +23,12 @@ import RsvpForm from "../components/RsvpForm";
 const FindAMeetingPage = () => {
   const [county, setCounty] = useState("");
 
-
   return (
     <>
       <div className="find-us-page-container w-[100vw] mt-2">
-        <div className="county-container w-[95vw] h-25">
+        <div className="county-container w-[92vw]">
           <div>
-            <span className="text-black font-semibold text-[1.5em]">
-              Select your county:
-            </span>
+            <span className="section-title">Select your county:</span>
           </div>
           <div className="county-buttons-container">
             <ButtonComponent
@@ -39,8 +36,8 @@ const FindAMeetingPage = () => {
               onPress={() => setCounty("Linn")}
               className={
                 county == `Linn`
-                  ? `bg-red-500 text-[FFFFFF] font-semibold`
-                  : "bg-main text-[FFFFFF] font-semibold"
+                  ? `btn-pill-active`
+                  : "btn-pill"
               }
             />
             <ButtonComponent
@@ -48,8 +45,8 @@ const FindAMeetingPage = () => {
               onPress={() => setCounty("Tillamook")}
               className={
                 county == `Tillamook`
-                  ? `bg-red-500 text-[FFFFFF] font-semibold`
-                  : "bg-main text-[FFFFFF] font-semibold"
+                  ? `btn-pill-active`
+                  : "btn-pill"
               }
             />
             <ButtonComponent
@@ -57,23 +54,24 @@ const FindAMeetingPage = () => {
               onPress={() => setCounty("Lincoln")}
               className={
                 county == `Lincoln`
-                  ? `bg-red-500 text-[FFFFFF] font-semibold`
-                  : "bg-main text-[FFFFFF] font-semibold"
+                  ? `btn-pill-active`
+                  : "btn-pill"
               }
             />
           </div>
         </div>
-        <div 
-        className={county == "Linn" ? 
-          "meeting-container w-[95vw]"
-          :
-          "meeting-container w-[95vw] p-[1em]"
-          }>
+        <div
+          className={
+            county == "Linn"
+              ? "meeting-container w-[92vw]"
+              : "meeting-container w-[92vw]"
+          }
+        >
           {county == "Lincoln" ? (
             <>
               {newportMeetings.map((meeting) => (
                 <MeetingComponent
-                key={meeting.day}
+                  key={meeting.day}
                   venue={meeting.venueName}
                   address={meeting.address}
                   month={meeting.month}
@@ -97,32 +95,34 @@ const FindAMeetingPage = () => {
             </>
           ) : county == "Linn" ? (
             <>
-              <div className="lebanon-sweethome-meeting-container w-[95vw]">
+              <div className="lebanon-sweethome-meeting-container w-[92vw]">
                 <div className="l-sh-cols">
-                  <span className="text-black text-[1.5em] font-semibold">Lebanon Meetings:</span>
-                {lebanonMeetings.map((meeting) => (
-                  <MeetingComponent
-                  key={meeting.day}
-                  venue={meeting.venueName}
-                    address={meeting.address}
-                    month={meeting.month}
-                    day={meeting.day}
-                    startTime={meeting.startTime}
-                  />
-                ))}
+                  <span className="section-title mb-1">Lebanon Meetings:</span>
+                  {lebanonMeetings.map((meeting) => (
+                    <MeetingComponent
+                      key={meeting.day}
+                      venue={meeting.venueName}
+                      address={meeting.address}
+                      month={meeting.month}
+                      day={meeting.day}
+                      startTime={meeting.startTime}
+                    />
+                  ))}
                 </div>
                 <div className="l-sh-cols">
-                  <span className="text-black text-[1.5em] font-semibold">Sweethome Meetings:</span>
-                {sweethomeMeetings.map((meeting) => (
-                  <MeetingComponent
-                    key={meeting.day}
-                    venue={meeting.venueName}
-                    address={meeting.address}
-                    month={meeting.month}
-                    day={meeting.day}
-                    startTime={meeting.startTime}
-                  />
-                ))}
+                  <span className="section-title mb-1">
+                    Sweethome Meetings:
+                  </span>
+                  {sweethomeMeetings.map((meeting) => (
+                    <MeetingComponent
+                      key={meeting.day}
+                      venue={meeting.venueName}
+                      address={meeting.address}
+                      month={meeting.month}
+                      day={meeting.day}
+                      startTime={meeting.startTime}
+                    />
+                  ))}
                 </div>
               </div>
             </>

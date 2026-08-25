@@ -30,7 +30,7 @@ const ExplorePage = () => {
   const selectedCompany = useSelector((state) => state.selectedCompany.value); // the county the user selects to view their plans
   const companyPlans = useSelector((state) => state.companyPlans.value);
   const comparisonErrorNotice = useSelector(
-    (state) => state.comparedPlans.notice
+    (state) => state.comparedPlans.notice,
   );
   const comparedPlans = useSelector((state) => state.comparedPlans.value);
   const [isOctoberYet, setIsOctoberYet] = useState(true);
@@ -59,7 +59,7 @@ const ExplorePage = () => {
   const getCompanyPlans = async () => {
     try {
       const response = await axios.get(
-        `${API_URL}${county}/${selectedCompany}`
+        `${API_URL}${county}/${selectedCompany}`,
       );
       dispatch(setPlans(response.data));
     } catch (error) {
@@ -85,11 +85,9 @@ const ExplorePage = () => {
     <>
       {isOctoberYet ? (
         <div className="explore-page-container w-[100vw] m-1">
-          <div className="county-container w-[90vw] h-25 ">
+          <div className="county-container w-[90vw]">
             <div>
-              <span className="text-black font-semibold text-[1.5em]">
-                Select your county:
-              </span>
+              <span className="section-title">Select your county:</span>
             </div>
             <div className="county-buttons-container">
               <ButtonComponent
@@ -97,8 +95,8 @@ const ExplorePage = () => {
                 onPress={() => selectCounty("Linn")}
                 className={
                   county == `Linn`
-                    ? `bg-red-500 text-[FFFFFF] font-semibold`
-                    : "bg-main text-[FFFFFF] font-semibold"
+                    ? `btn-pill-active`
+                    : "btn-pill"
                 }
               />
               <ButtonComponent
@@ -106,8 +104,8 @@ const ExplorePage = () => {
                 onPress={() => selectCounty("Tillamook")}
                 className={
                   county == `Tillamook`
-                    ? `bg-red-500 text-[FFFFFF] font-semibold`
-                    : "bg-main text-[FFFFFF] font-semibold"
+                    ? `btn-pill-active`
+                    : "btn-pill"
                 }
               />
               <ButtonComponent
@@ -115,8 +113,8 @@ const ExplorePage = () => {
                 onPress={() => selectCounty("Lincoln")}
                 className={
                   county == `Lincoln`
-                    ? `bg-red-500 text-[FFFFFF] font-semibold`
-                    : "bg-main text-[FFFFFF] font-semibold"
+                    ? `btn-pill-active`
+                    : "btn-pill"
                 }
               />
             </div>
@@ -124,7 +122,7 @@ const ExplorePage = () => {
           <div className="company-container block w-[90vw]">
             <div>
               {county && (
-                <span className="text-black font-semibold text-[1.5em]">
+                <span className="section-title">
                   Select a company to view their plans in {county} county:
                 </span>
               )}
@@ -141,19 +139,18 @@ const ExplorePage = () => {
                   }
                   className={
                     selectedCompany == company.companyName
-                      ? `bg-red-500 text-white font-semibold`
-                      : `bg-main text-white font-semibold`
+                      ? `btn-pill-active`
+                      : `btn-pill`
                   }
                 />
               ))}
             </div>
           </div>
           {companyPlans.length > 0 && (
-            <span className="text-black font-semibold text-sm">
-              The plans displayed are{" "}
-              <span className="italic text-[#E63946]">highlights</span>, not the
-              full benefits. <br /> If you'd like to learn more about them,
-              please click the "Request a Call" button!{" "}
+            <span className="hint-text">
+              The plans displayed are <em>highlights</em>, not the full
+              benefits. <br /> If you'd like to learn more about them, please
+              click the "Request a Call" button!{" "}
             </span>
           )}
           <div className="plans-container w-[90vw]">

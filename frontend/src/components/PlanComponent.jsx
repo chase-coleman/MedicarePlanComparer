@@ -15,48 +15,36 @@ const PlanComponent = ({ plan, addToCompare, removeFromCompare }) => {
 
   return (
     <>
-      <div>
-        {comparedPlans.some((comparedPlan) => comparedPlan.id == plan.id) ? (
-          <ButtonComponent
-            styling="h-8 bg-red text-[FFFFFF]"
-            text={"Remove from compare"}
-            onPress={() => removeFromCompare(plan)}
-          />
-        ) : (
-          <ButtonComponent
-            text={"Add to compare"}
-            styling="h-8 bg-main text-[FFFFFF]"
-            onPress={() => addToCompare(plan)}
-          />
+      <div className="plan-card">
+        <div className="plan-card-header">
+          <span className="plan-card-name">{plan.planName}</span>
+        </div>
+
+        {plan.planType === "C-SNP" && (
+          <p className="plan-note">
+            This plan is only for individuals with certain qualifying chronic
+            conditions.
+          </p>
         )}
-        <Table isStriped className="plan-table-component text-black">
+        {selectedCompany == "Devoted" && (
+          <p className="plan-note">
+            Ask use about Devoted's Food&amp;Home card that can pay for
+            groceries, rent, or your utility bill!
+          </p>
+        )}
+
+        <Table
+          isStriped
+          hideHeader
+          removeWrapper
+          aria-label={`${plan.planName} benefit highlights`}
+          className="plan-table-component"
+        >
           <TableHeader>
-            <TableColumn>Plan Name</TableColumn>
-            <TableColumn>{plan.planName}</TableColumn>
+            <TableColumn>Benefit</TableColumn>
+            <TableColumn>Detail</TableColumn>
           </TableHeader>
           <TableBody>
-            <TableRow key="disclaimer">
-              <TableCell
-                colSpan={2}
-                className="text-xs text-red-500 italic whitespace-normal bold"
-              >
-                {plan.planType === "C-SNP" && (
-                  <span>
-                    This plan is only for individuals with certain qualifying
-                    chronic conditions.
-                  </span>
-                )}
-              </TableCell>
-            </TableRow>
-            <TableRow key="food-home-card">
-              <TableCell
-                colSpan={2}
-                className="text-xs text-red-500 italic whitespace-normal bold"
-              >
-                {selectedCompany == "Devoted" &&
-                  "Ask use about Devoted's Food&Home card that can pay for groceries, rent, or your utility bill!"}
-              </TableCell>
-            </TableRow>
             <TableRow key="monthly">
               <TableCell>Monthly Premium</TableCell>
               <TableCell>${plan.monthlyPremium}</TableCell>
@@ -149,39 +137,43 @@ const PlanComponent = ({ plan, addToCompare, removeFromCompare }) => {
                 <TableCell>N/A</TableCell>
               )}
             </TableRow>
-            <TableRow key="disclaimer">
-              <TableCell
-                colSpan={2}
-                className="text-xs text-gray-500 italic whitespace-normal"
-              >
-                This is a brief summary, not a complete description of benefits.
-                For more information, please refer to the plan’s Evidence of
-                Coverage (EOC) or Summary of Benefits. Limitations, copayments,
-                and restrictions may apply.
-              </TableCell>
-            </TableRow>
-            <TableRow key="disclaimer">
-              <TableCell
-                colSpan={2}
-                className="text-xs text-gray-500 italic whitespace-normal"
-              >
-                {selectedCompany} is a Medicare Advantage plan with a Medicare
-                contract. Enrollment in {selectedCompany} depends on contract
-                renewal.
-              </TableCell>
-            </TableRow>
-            <TableRow key="disclaimer">
-              <TableCell
-                colSpan={2}
-                className="text-xs text-gray-500 italic whitespace-normal bold"
-              >
-                All copays/coinsurance amounts shown are in-network. PPO plans
-                that offer out-of-network coverage may have higher coverage
-                costs for those services.
-              </TableCell>
-            </TableRow>
           </TableBody>
         </Table>
+
+        <div className="plan-card-actions">
+          {comparedPlans.some((comparedPlan) => comparedPlan.id == plan.id) ? (
+            <ButtonComponent
+              styling="h-9 bg-accent"
+              text={"Remove from compare"}
+              onPress={() => removeFromCompare(plan)}
+            />
+          ) : (
+            <ButtonComponent
+              text={"Add to compare"}
+              styling="h-9 bg-brand"
+              onPress={() => addToCompare(plan)}
+            />
+          )}
+        </div>
+
+        <div className="plan-disclaimers">
+          <p>
+            This is a brief summary, not a complete description of benefits. For
+            more information, please refer to the plan’s Evidence of Coverage
+            (EOC) or Summary of Benefits. Limitations, copayments, and
+            restrictions may apply.
+          </p>
+          <p>
+            {selectedCompany} is a Medicare Advantage plan with a Medicare
+            contract. Enrollment in {selectedCompany} depends on contract
+            renewal.
+          </p>
+          <p>
+            All copays/coinsurance amounts shown are in-network. PPO plans that
+            offer out-of-network coverage may have higher coverage costs for
+            those services.
+          </p>
+        </div>
       </div>
     </>
   );

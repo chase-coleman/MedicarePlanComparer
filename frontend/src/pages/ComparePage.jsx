@@ -34,10 +34,17 @@ const ComparePage = () => {
             ))}
           </div>
         ) : (
-          <span className="text-black text-[1.75em]">
-            You don't have any plans selected to compare! <br /> Go to the
-            <Link as={Link} to="/explore" className="text-[#E63946] font-semibold underline"> Explore Plan Options </Link>page to select plans to compare!
-          </span>
+          <div className="empty-state">
+            <p className="section-title mb-2">No plans selected yet</p>
+            <p className="lede">
+              Head to the
+              <Link as={Link} to="/explore">
+                {" "}
+                Explore Plan Options{" "}
+              </Link>
+              page to pick plans to compare side by side.
+            </p>
+          </div>
         )}
       </div>
     </>

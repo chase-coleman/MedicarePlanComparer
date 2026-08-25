@@ -11,24 +11,44 @@ const LandingPage = () => {
 
   return (
     <>
-      <div className="landing-page-container w-[100vw] mt-2">
-        <div className="headline-container w-[90vw] gap-4">
-          <span className="text-black font-bold text-xl">
-            Explore Medicare Plans in Your Area Today — Find the Coverage That
-            Fits You, Even if Your Insurance Company is Leaving Your County.
-          </span>
+      <div className="landing-page-container w-[100vw]">
+        <div className="headline-container w-[90vw]">
+          <span className="eyebrow">Medicare Annual Enrollment</span>
+          <h1 className="page-title">
+            Explore Medicare plans in your area today
+          </h1>
+          <p className="lede">
+            Find the coverage that fits you — even if your insurance company is
+            leaving your county.
+          </p>
           <ButtonComponent
-            styling="bg-red border-[#A4161A] text-[#FFFFFF]"
-            text="Request a call!"
+            styling="bg-accent px-6 h-11 text-base"
+            text="Request a call"
             onPress={() => dispatch(openModal())}
           />
-          <Link as={Link} to="/find-meeting" className="text-black font-semibold text-[1em]">Find a Medicare Meeting <span className="text-blue-500 underline">near you!</span></Link>
-          <div className="flex flex-col">
-          <span className="text-black font-semibold underline">Find us during the Annual Enrollment Period</span>
-          <span className="text-black font-semibold">Tillamook Office (2018 Henson Plaza, Hwy 101): Monday - Saturday</span>
-          <span className="text-black font-semibold">Newport Walmart Kiosk: Monday - Thursday</span>
-          <span className="text-black font-semibold">Lebanon Walmart Kiosk: Monday - Friday</span>
-        </div>
+          <Link as={Link} to="/find-meeting" className="meeting-cta">
+            Find a Medicare meeting <span>near you</span>
+          </Link>
+          <div className="office-hours">
+            <p className="office-hours-title">
+              Find us during the Annual Enrollment Period
+            </p>
+            <div className="office-hours-row">
+              <span>Tillamook Office</span>
+              <span>Mon – Sat</span>
+            </div>
+            <div className="office-hours-row">
+              <span>Newport Walmart Kiosk</span>
+              <span>Mon – Thu</span>
+            </div>
+            <div className="office-hours-row">
+              <span>Lebanon Walmart Kiosk</span>
+              <span>Mon – Fri</span>
+            </div>
+            <p className="office-hours-address mt-3">
+              2018 Henson Plaza, Hwy 101, Tillamook
+            </p>
+          </div>
         </div>
         <div className="company-images-container block w-[90vw]">
           <EmployeeCard
@@ -60,8 +80,9 @@ const LandingPage = () => {
             npn="20318912"
           />
         </div>
-        <div className="company-text-container w-[90vw] bg-main">
-          <span className="font-bold text-lg text-[#FFFFFF]">
+        <div className="company-text-container w-[90vw]">
+          <span className="about-heading">About JMCole Group</span>
+          <span className="about-body">
             If you are going to work with a company to partner with you in your
             healthcare needs, you want to know a little about them. As we would
             want to know about you, we want you to know about us as well. As a
