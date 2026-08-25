@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS `plan` (
   -- CMS contract/PBP id, e.g. "H1234-005-000". Nullable until known.
   `cms_plan_id`             VARCHAR(32) NULL,
   `plan_year`               INT NOT NULL DEFAULT 2026,
+  -- FALSE = placeholder row; the UI renders every benefit as N/A
+  `benefits_published`      BOOLEAN NOT NULL DEFAULT TRUE,
   `monthly_premium`         DECIMAL(10,2) NOT NULL,
   `moop`                    INT NOT NULL,
   `plan_type`               VARCHAR(255) NOT NULL,

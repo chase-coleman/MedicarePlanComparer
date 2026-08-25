@@ -48,6 +48,14 @@ public class Plan {
   private int getPlanYear() { return planYear; }
   private void setPlanYear(int planYear) { this.planYear = planYear; }
 
+  // False marks a placeholder plan-year whose real benefits are not published
+  // yet; the client renders every benefit as N/A for those rows.
+  @Column(nullable = false)
+  private boolean benefitsPublished = true;
+
+  private boolean getBenefitsPublished() { return benefitsPublished; }
+  private void setBenefitsPublished(boolean benefitsPublished) { this.benefitsPublished = benefitsPublished; }
+
   @Column(nullable = false)
   private BigDecimal monthlyPremium;
 

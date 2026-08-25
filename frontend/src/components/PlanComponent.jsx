@@ -23,6 +23,11 @@ const PlanComponent = ({ planGroup, addToCompare, removeFromCompare }) => {
   // that year, which is a state the card renders rather than an error.
   const plan = planGroup.byYear.get(planYear);
 
+  // Placeholder plan-years carry zeroed benefits. Render N/A rather than a
+  // wall of $0, which would read as a real (and very attractive) benefit.
+  const published = plan ? plan.benefitsPublished !== false : true;
+  const na = (value) => (published ? value : "N/A");
+
   return (
     <>
       <div className="plan-card">
@@ -68,13 +73,18 @@ const PlanComponent = ({ planGroup, addToCompare, removeFromCompare }) => {
           </div>
         ) : (
           <>
-            {plan.planType === "C-SNP" && (
+            {!published && (
+              <p className="plan-pending">
+                {planYear} benefits have not been published yet.
+              </p>
+            )}
+            {published && plan.planType === "C-SNP" && (
               <p className="plan-note">
                 This plan is only for individuals with certain qualifying
                 chronic conditions.
               </p>
             )}
-            {selectedCompany == "Devoted" && (
+            {published && selectedCompany == "Devoted" && (
               <p className="plan-note">
                 Ask use about Devoted's Food&amp;Home card that can pay for
                 groceries, rent, or your utility bill!
@@ -95,50 +105,49 @@ const PlanComponent = ({ planGroup, addToCompare, removeFromCompare }) => {
               <TableBody>
                 <TableRow key="monthly">
                   <TableCell>Monthly Premium</TableCell>
-                  <TableCell>${plan.monthlyPremium}</TableCell>
+                  <TableCell>{na(`$${plan.monthlyPremium}`)}</TableCell>
                 </TableRow>
                 <TableRow key="moop">
                   <TableCell>Max-out-of-Pocket (In-Network)</TableCell>
-                  <TableCell>${plan.moop}</TableCell>
+                  <TableCell>{na(`$${plan.moop}`)}</TableCell>
                 </TableRow>
                 <TableRow key="rx">
                   <TableCell>Drug Coverage</TableCell>
-                  {plan.rxCoverage ? (
-                    <TableCell>Included</TableCell>
-                  ) : (
-                    <TableCell>Not Included</TableCell>
-                  )}
+                  <TableCell>
+                    {na(plan.rxCoverage ? "Included" : "Not Included")}
+                  </TableCell>
                 </TableRow>
                 <TableRow key="plan_type">
                   <TableCell>Plan Type</TableCell>
-                  <TableCell>{plan.planType}</TableCell>
+                  <TableCell>{na(plan.planType)}</TableCell>
                 </TableRow>
                 <TableRow key="pcp">
                   <TableCell>PCP Visit</TableCell>
-                  <TableCell>${plan.drVisit}</TableCell>
+                  <TableCell>{na(`$${plan.drVisit}`)}</TableCell>
                 </TableRow>
                 <TableRow key="er">
                   <TableCell>ER Visit</TableCell>
-                  <TableCell>${plan.erVisit}</TableCell>
+                  <TableCell>{na(`$${plan.erVisit}`)}</TableCell>
                 </TableRow>
                 <TableRow key="hospital_stay">
                   <TableCell>Hospital Stay</TableCell>
                   <TableCell>
-                    ${plan.hospitalStay} copay per day, days 1-
-                    {plan.hospitalStayLength}{" "}
+                    {na(
+                      `$${plan.hospitalStay} copay per day, days 1-${plan.hospitalStayLength}`,
+                    )}
                   </TableCell>
                 </TableRow>
                 <TableRow key="surgery">
                   <TableCell>Hospital Surgery</TableCell>
-                  {!plan.surgeryCopayType ? (
-                    <TableCell>20%</TableCell>
-                  ) : plan.surgeryMin === plan.surgeryMax ? (
-                    <TableCell>${plan.surgeryMin}</TableCell>
-                  ) : (
-                    <TableCell>
-                      ${plan.surgeryMin} - ${plan.surgeryMax}
-                    </TableCell>
-                  )}
+                  <TableCell>
+                    {na(
+                      !plan.surgeryCopayType
+                        ? "20%"
+                        : plan.surgeryMin === plan.surgeryMax
+                          ? `$${plan.surgeryMin}`
+                          : `$${plan.surgeryMin} - $${plan.surgeryMax}`,
+                    )}
+                  </TableCell>
                 </TableRow>
                 <TableRow key="radiology">
                   <TableCell>
@@ -147,43 +156,45 @@ const PlanComponent = ({ planGroup, addToCompare, removeFromCompare }) => {
                       : "Radiology Copay"}
                   </TableCell>
                   <TableCell>
-                    {plan.radiologyCoinsurance > 0 ? (
-                      <>${plan.radiologyCoinsurance}</>
-                    ) : plan.radiologyCopayMin === plan.radiologyCopayMax ? (
-                      <>${plan.radiologyCopayMin}</>
-                    ) : (
-                      <>
-                        ${plan.radiologyCopayMin} - ${plan.radiologyCopayMax}
-                      </>
+                    {na(
+                      plan.radiologyCoinsurance > 0
+                        ? `$${plan.radiologyCoinsurance}`
+                        : plan.radiologyCopayMin === plan.radiologyCopayMax
+                          ? `$${plan.radiologyCopayMin}`
+                          : `$${plan.radiologyCopayMin} - $${plan.radiologyCopayMax}`,
                     )}
                   </TableCell>
                 </TableRow>
                 <TableRow key="dental">
                   <TableCell>Dental Benefit</TableCell>
-                  <TableCell>${plan.dentalBenefit} per year</TableCell>
+                  <TableCell>{na(`$${plan.dentalBenefit} per year`)}</TableCell>
                 </TableRow>
                 <TableRow key="otc_credit">
                   <TableCell>OTC Credit</TableCell>
-                  {plan.otcCredit > 0 ? (
-                    <TableCell>${plan.otcCredit}</TableCell>
-                  ) : (
-                    <TableCell>N/A</TableCell>
-                  )}
+                  <TableCell>
+                    {na(plan.otcCredit > 0 ? `$${plan.otcCredit}` : "N/A")}
+                  </TableCell>
                 </TableRow>
                 <TableRow key="otc_renewal">
                   <TableCell>OTC Renewal</TableCell>
                   <TableCell>
-                    {plan.otcRenewal.charAt(0).toUpperCase() +
-                      plan.otcRenewal.slice(1)}
+                    {na(
+                      plan.otcRenewal
+                        ? plan.otcRenewal.charAt(0).toUpperCase() +
+                            plan.otcRenewal.slice(1)
+                        : "N/A",
+                    )}
                   </TableCell>
                 </TableRow>
                 <TableRow key="giveback">
                   <TableCell>Part B Giveback</TableCell>
-                  {plan.givebackAmount > 0 ? (
-                    <TableCell>${plan.givebackAmount} per month</TableCell>
-                  ) : (
-                    <TableCell>N/A</TableCell>
-                  )}
+                  <TableCell>
+                    {na(
+                      plan.givebackAmount > 0
+                        ? `$${plan.givebackAmount} per month`
+                        : "N/A",
+                    )}
+                  </TableCell>
                 </TableRow>
               </TableBody>
             </Table>
