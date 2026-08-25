@@ -619,7 +619,9 @@ button.btn-pill-active[data-hover="true"] {
 
 .plan-card-header {
   display: flex;
-  align-items: center;
+  /* flex-start keeps the year toggle pinned top-right when a long plan
+     name wraps to a second line */
+  align-items: flex-start;
   justify-content: space-between;
   gap: 0.75rem;
   padding: 1rem;
@@ -632,12 +634,54 @@ button.btn-pill-active[data-hover="true"] {
 }
 
 .plan-card-name {
+  min-width: 0;
   font-size: 0.9375rem;
   font-weight: 600;
   line-height: 1.35;
   letter-spacing: -0.01em;
   color: var(--text);
   text-align: left;
+}
+
+/* Plan-year toggle, top right of the card header. Display only. */
+.year-toggle {
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: 2px;
+  padding: 2px;
+  background-color: var(--surface-raised);
+  border: 1px solid var(--border);
+  border-radius: 9999px;
+  box-shadow: var(--sheen);
+}
+
+.year-toggle-option {
+  padding: 0.2rem 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  color: var(--text-muted);
+  background-color: transparent;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.16s ease, color 0.16s ease;
+}
+
+.year-toggle-option:hover {
+  color: var(--text);
+}
+
+.year-toggle-option-active {
+  color: #ffffff;
+  background-color: var(--brand);
+  box-shadow: var(--shadow-sm);
+}
+
+.year-toggle-option-active:hover {
+  color: #ffffff;
 }
 
 .plan-card-actions {

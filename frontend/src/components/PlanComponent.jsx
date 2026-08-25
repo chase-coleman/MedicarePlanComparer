@@ -8,16 +8,38 @@ import {
 } from "@heroui/react";
 import ButtonComponent from "./ButtonComponent";
 import { useSelector } from "react-redux";
+import { useState } from "react";
+
+// Display only — the selected year does not filter or change any plan data.
+const PLAN_YEARS = ["2026", "2027"];
 
 const PlanComponent = ({ plan, addToCompare, removeFromCompare }) => {
   const comparedPlans = useSelector((state) => state.comparedPlans.value);
   const selectedCompany = useSelector((state) => state.selectedCompany.value); // the county the user selects to view their plans
+  const [planYear, setPlanYear] = useState(PLAN_YEARS[0]);
 
   return (
     <>
       <div className="plan-card">
         <div className="plan-card-header">
           <span className="plan-card-name">{plan.planName}</span>
+          <div className="year-toggle" role="group" aria-label="Plan year">
+            {PLAN_YEARS.map((year) => (
+              <button
+                key={year}
+                type="button"
+                aria-pressed={planYear === year}
+                className={
+                  planYear === year
+                    ? "year-toggle-option year-toggle-option-active"
+                    : "year-toggle-option"
+                }
+                onClick={() => setPlanYear(year)}
+              >
+                {year}
+              </button>
+            ))}
+          </div>
         </div>
 
         {plan.planType === "C-SNP" && (
