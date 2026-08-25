@@ -21,7 +21,7 @@ const RsvpForm = () => {
   const [submitting, setSubmitting] = useState(false);
   const dispatch = useDispatch();
   const meeting = useSelector((state) => state.meetingRsvp.value);
-  const defaultMsg = `${fName} ${lName} is RSVP'ing for the Meeting on ${meeting.month} ${meeting.day} at ${meeting.venue}`
+  const defaultMsg = `${fName} ${lName} is RSVP'ing for the Meeting on ${meeting.month} ${meeting.day} at ${meeting.venue}`;
 
   useEffect(() => {
     if (!submittedSuccessfully) return;
@@ -35,63 +35,75 @@ const RsvpForm = () => {
   }, [submittedSuccessfully]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const rsvpInfo = {
       fname: fName,
       lname: lName,
       email: email,
       phone: phoneNum,
-      message: msg + ' | ' + defaultMsg
-    }
+      message: msg + " | " + defaultMsg,
+    };
     try {
-      const response = await axios.post(
-        `${API_URL}api/request-call`,
-        rsvpInfo
-      );
+      const response = await axios.post(`${API_URL}api/request-call`, rsvpInfo);
       if (response.status === 202) {
-        setSubmittedSuccessfully(true)
+        setSubmittedSuccessfully(true);
       } else {
         console.warn(
-          "There was an issue submitting your request. Please refresh and try again."
+          "There was an issue submitting your request. Please refresh and try again.",
         );
-      };
+      }
     } catch (error) {
-      dispatch(setErrorMsg(parseAxiosError(error)))
+      dispatch(setErrorMsg(parseAxiosError(error)));
     }
-  }
+  };
 
   return (
     <>
       <div className="contact-form-container w-full">
         {submittedSuccessfully ? (
-          <div className="submit-success p-4 gap-10 bg-green-500">
-            <CircleCheckBig color="black" size={64} />
-            <h1 className="text-black text-center">
-              Request Submitted Successfully. <br /> Someone will be contacting
-              you soon!
-            </h1>
+          <div className="submit-success p-8 gap-4">
+            <div className="submit-success-icon">
+              <CircleCheckBig size={32} strokeWidth={2.25} />
+            </div>
+            <p className="submit-success-title">
+              Request submitted successfully
+            </p>
+            <p className="submit-success-body">
+              Someone will be contacting you soon.
+            </p>
           </div>
         ) : (
           <form
-            className="contact-form p-4 gap-4 bg-[#0070cc]"
+            className="contact-form p-6 gap-4"
             onSubmit={(e) => handleSubmit(e)}
           >
-            <ButtonComponent
-              styling="bg-red text-[#FFFFFF]"
-              text="Close"
-              onPress={() => dispatch(closeRsvpModal())}
-            />
+            <div className="form-header">
+              <div>
+                <h2 className="form-title">RSVP for this meeting</h2>
+                <p className="form-subtitle">
+                  Reserve your spot and we will send you the details.
+                </p>
+              </div>
+              <ButtonComponent
+                styling="form-close"
+                text="✕"
+                aria-label="Close"
+                onPress={() => dispatch(closeRsvpModal())}
+              />
+            </div>
             <Input
               name="firstName"
               label="First Name"
               type="text"
+              variant="bordered"
               isRequired
               value={fName}
               onChange={(e) => setFname(e.target.value)}
               classNames={{
-                errorMessage: "text-[#FFFFFF] text-sm font-medium", // 🔹 change error text color
-                label: "text-[#1E639A]", // optional: label styling
-                inputWrapper: "bg-white", // optional: input bg
+                errorMessage: "field-error",
+                label: "field-label",
+                inputWrapper: "field-wrapper",
+                input: "field-input",
               }}
             />
 
@@ -99,13 +111,15 @@ const RsvpForm = () => {
               name="lastName"
               label="Last Name"
               type="text"
+              variant="bordered"
               isRequired
               value={lName}
               onChange={(e) => setLname(e.target.value)}
               classNames={{
-                errorMessage: "text-[#FFFFFF] text-sm font-medium", // 🔹 change error text color
-                label: "text-[#1E639A]", // optional: label styling
-                inputWrapper: "bg-white", // optional: input bg
+                errorMessage: "field-error",
+                label: "field-label",
+                inputWrapper: "field-wrapper",
+                input: "field-input",
               }}
             />
 
@@ -113,6 +127,7 @@ const RsvpForm = () => {
               name="email"
               label="Email"
               type="email"
+              variant="bordered"
               validationBehavior="native"
               // require a dot after @ and at least 2 chars in the TLD
               pattern="^[^\s@]+@[^\s@]+\.[^\s@]{2,}$"
@@ -120,16 +135,17 @@ const RsvpForm = () => {
                 validationDetails.valueMissing
                   ? "Please enter your email"
                   : validationDetails.typeMismatch ||
-                    validationDetails.patternMismatch
-                  ? "Please enter a valid email (e.g., name@example.com)"
-                  : ""
+                      validationDetails.patternMismatch
+                    ? "Please enter a valid email (e.g., name@example.com)"
+                    : ""
               }
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               classNames={{
-                errorMessage: "text-[#FFFFFF] text-sm font-medium", // 🔹 change error text color
-                label: "text-[#1E639A]", // optional: label styling
-                inputWrapper: "bg-white", // optional: input bg
+                errorMessage: "field-error",
+                label: "field-label",
+                inputWrapper: "field-wrapper",
+                input: "field-input",
               }}
             />
 
@@ -137,6 +153,7 @@ const RsvpForm = () => {
               name="phone"
               label="Phone Number"
               type="tel"
+              variant="bordered"
               autoComplete="tel"
               inputMode="numeric"
               isRequired
@@ -147,8 +164,8 @@ const RsvpForm = () => {
                 validationDetails.valueMissing
                   ? "Please enter your phone number"
                   : validationDetails.patternMismatch
-                  ? "Enter a valid 10-digit number"
-                  : ""
+                    ? "Enter a valid 10-digit number"
+                    : ""
               }
               value={phoneNum}
               onChange={(e) => {
@@ -156,19 +173,20 @@ const RsvpForm = () => {
                 setPhoneNum(digits.slice(0, 10));
               }}
               classNames={{
-                errorMessage: "text-[#FFFFFF] text-sm font-medium", // 🔹 change error text color
-                label: "text-[#1E639A]", // optional: label styling
-                inputWrapper: "bg-white", // optional: input bg
+                errorMessage: "field-error",
+                label: "field-label",
+                inputWrapper: "field-wrapper",
+                input: "field-input",
               }}
             />
             <Textarea
               label="Message"
               classNames={{
-                inputWrapper:
-                  "bg-[#FFFFFF] border-[#FFFFFF] focus-within:border-[#FFFFFF]", // border + focus color
-                input: "text-black placeholder:text-black", // text + placeholder
-                label: "!text-black font-semibold", // label color
-                description: "text-[#FFFFFF]", // counter text
+                inputWrapper: "field-wrapper",
+                input: "field-input",
+                label: "field-label",
+                description: "field-description",
+                errorMessage: "field-error",
               }}
               placeholder="Enter anything you'd like us to know!"
               variant="bordered"
@@ -181,17 +199,17 @@ const RsvpForm = () => {
               }
             />
             {submitting ? (
-              <ButtonComponent styling="bg-red text-[#FFFFFF]">
+              <ButtonComponent styling="bg-accent text-white h-11 w-full">
                 <Ring size={25} stroke="3" speed="2" color="white" />
               </ButtonComponent>
             ) : (
               <ButtonComponent
                 text="Submit"
-                styling="bg-red text-[#FFFFFF]"
+                styling="bg-accent text-white h-11 w-full"
                 type="submit"
               />
             )}
-            <span className="text-sm text-center">
+            <span className="form-consent">
               By submitting this form, you agree that a licensed sales agent may
               contact you by phone, text, or email to discuss Medicare
               Advantage, Prescription Drug, and Medicare Supplement Insurance
@@ -200,7 +218,6 @@ const RsvpForm = () => {
           </form>
         )}
       </div>
-
     </>
   );
 };

@@ -28,28 +28,32 @@ const NavbarComponent = () => {
     <Navbar
       disableAnimation
       isBordered
-      className="bg-main border-b-2 !border-black"
+      className="bg-brand"
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
     >
       {/* Mobile: left toggle */}
       <NavbarContent className="sm:hidden text-white" justify="start">
-        <NavbarMenuToggle aria-label={isMenuOpen ? "Close menu" : "Open menu"} />
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        />
       </NavbarContent>
 
       {/* Mobile: centered brand */}
-      <NavbarContent className="sm:hidden pr-3 text-white" justify="center">
+      <NavbarContent className="sm:hidden pr-3" justify="center">
         <NavbarBrand>
-          <span>MPRC</span>
+          <span className="nav-brand">MPRC</span>
         </NavbarBrand>
       </NavbarContent>
 
       {/* Desktop nav */}
       <NavbarContent
-        className="hidden sm:flex gap-10 flex-1 justify-center"
+        className="hidden sm:flex gap-8 flex-1 justify-center items-center"
         justify="center"
       >
-        <NavbarBrand></NavbarBrand>
+        <NavbarBrand>
+          <span className="nav-brand">MPRC</span>
+        </NavbarBrand>
 
         <NavbarItem>
           <NavLink
@@ -57,10 +61,10 @@ const NavbarComponent = () => {
             as={RouterLink}
             to="/find-meeting"
             className={({ isActive }) =>
-              isActive ? `text-[#E63946] font-medium` : `text-white font-medium`
+              isActive ? `nav-link nav-link-active` : `nav-link`
             }
           >
-            Find A <br /> Meeting
+            Find A Meeting
           </NavLink>
         </NavbarItem>
 
@@ -70,10 +74,10 @@ const NavbarComponent = () => {
             as={RouterLink}
             to="/explore"
             className={({ isActive }) =>
-              isActive ? `text-[#E63946] font-medium` : `text-white font-medium`
+              isActive ? `nav-link nav-link-active` : `nav-link`
             }
           >
-            Explore <br /> Plan Options
+            Explore Plan Options
           </NavLink>
         </NavbarItem>
 
@@ -83,7 +87,7 @@ const NavbarComponent = () => {
             as={RouterLink}
             to="/"
             className={({ isActive }) =>
-              isActive ? `text-[#E63946] font-medium` : `text-white font-medium`
+              isActive ? `nav-link nav-link-active` : `nav-link`
             }
           >
             Home
@@ -96,10 +100,10 @@ const NavbarComponent = () => {
             as={RouterLink}
             to="/compare"
             className={({ isActive }) =>
-              isActive ? `text-[#E63946] font-medium` : `text-white font-medium`
+              isActive ? `nav-link nav-link-active` : `nav-link`
             }
           >
-            Compare <br /> Plans
+            Compare Plans
           </NavLink>
         </NavbarItem>
       </NavbarContent>
@@ -108,8 +112,8 @@ const NavbarComponent = () => {
       <NavbarContent justify="end" className="max-w-[35%]">
         <NavbarItem>
           <ButtonComponent
-            styling="bg-red border-[#A4161A] text-[#FFFFFF]"
-            text="Request a call!"
+            styling="bg-accent text-white"
+            text="Request a call"
             onPress={() => dispatch(openModal())}
           />
         </NavbarItem>
@@ -124,7 +128,9 @@ const NavbarComponent = () => {
               to={item.to}
               onClick={() => setIsMenuOpen(false)}
               className={({ isActive }) =>
-                (isActive ? "text-red-500" : "text-black") + " block w-full py-2"
+                isActive
+                  ? "nav-link-mobile nav-link-mobile-active"
+                  : "nav-link-mobile"
               }
             >
               {item.label}
