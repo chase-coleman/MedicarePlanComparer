@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// Most plans a user may hold in a comparison at once.
+export const MAX_COMPARED_PLANS = 3;
+
 export const comparedPlansSlice = createSlice({
   name: "comparedPlans",
   initialState: {
@@ -12,10 +15,18 @@ export const comparedPlansSlice = createSlice({
     },
     addToPlanComparison: (state, action) => {
       if (state.value.some(plan => plan.id == action.payload.id)) {
-        state.notice = { type: "notice", msg: "Plan is already selected to compare" }
+        state.notice = {
+          type: "duplicate",
+          title: "Plan already added",
+          msg: "Plan is already selected to compare",
+        }
         return;
-      } else if (state.value.length >= 3) {
-        state.notice = { type: "notice", msg: "Only 3 plans can be compared at once." }
+      } else if (state.value.length >= MAX_COMPARED_PLANS) {
+        state.notice = {
+          type: "limit",
+          title: `You can compare up to ${MAX_COMPARED_PLANS} plans`,
+          msg: `Only ${MAX_COMPARED_PLANS} plans can be compared at once.`,
+        }
         return;
       }
       state.value.push(action.payload) 
