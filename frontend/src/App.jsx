@@ -1,4 +1,4 @@
-import { AFFILIATION_DISCLAIMER, CURRENT_INFO_DISCLAIMER, JMCOLE_DISCLAIMER, LINCOLN_CO_DISCLAIMER, LINN_CO_DISCLAIMER, PLAN_OFFERING_DISCLAIMER, TILLAMOOK_CO_DISCLAIMER } from "./data/constants";
+import { AFFILIATION_DISCLAIMER, CURRENT_INFO_DISCLAIMER, JMCOLE_DISCLAIMER, LINCOLN_CO_DISCLAIMER, LINN_CO_DISCLAIMER, PLAN_OFFERING_DISCLAIMER, TILLAMOOK_CO_DISCLAIMER, TRADEMARK_NOTICE } from "./data/constants";
 import { Outlet } from "react-router-dom";
 import "./App.css";
 import NavbarComponent from "./components/NavbarComponent";
@@ -50,6 +50,7 @@ function App() {
           <p>
             {JMCOLE_DISCLAIMER}
           </p>
+          <p className="trademark-notice">{TRADEMARK_NOTICE}</p>
         </div>
       </footer>
       {showContactForm && (

@@ -10,3 +10,7 @@ export const LINCOLN_CO_DISCLAIMER = "We do not offer every plan available in yo
 export const TILLAMOOK_CO_DISCLAIMER = "We do not offer every plan available in your area. In Tillamook County, we represent 1 organization which offer 4 products in the county. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Assistance Program (SHIP) to get information on all of your options."
 export const PLAN_OFFERING_DISCLAIMER = "We do not offer every plan available in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Assistance Program (SHIP) to get information on all of your options." 
 export const JMCOLE_DISCLAIMER = "JMColegroup complies with applicable Federal civil rights laws and does not discriminate on the basis of race, color, national origin, age, disability, or sex. ATTENTION: If you speak a language other than English, language assistance services, free of charge, are available to you. Call 1-800-MEDICARE (TTY: 1-877-486-2048)."
+
+// Trademark / copyright line rendered beneath the footer disclaimers
+export const TRADEMARK = "JMColegroup™"
+export const TRADEMARK_NOTICE = `© ${new Date().getFullYear()} ${TRADEMARK}. All rights reserved.`
