@@ -633,6 +633,54 @@ button.btn-pill-active[data-hover="true"] {
   border-bottom: 1px solid var(--border);
 }
 
+.plan-card-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+/* CMS contract/PBP id — the thing that tells two same-named plans apart */
+.plan-card-cms {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.03em;
+  color: var(--text-subtle);
+}
+
+/* Banner on a plan-year whose real benefits are not published yet */
+.plan-pending {
+  padding: 0.75rem 1rem;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  text-align: left;
+  color: var(--text-muted);
+  background-color: var(--surface-raised);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Shown when the selected year has no record for this plan */
+.plan-unavailable {
+  padding: 1.75rem 1rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--surface-muted);
+}
+
+.plan-unavailable-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 0.35rem;
+}
+
+.plan-unavailable-body {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--text-muted);
+  margin: 0;
+}
+
 .plan-card-name {
   min-width: 0;
   font-size: 0.9375rem;
@@ -682,6 +730,19 @@ button.btn-pill-active[data-hover="true"] {
 
 .year-toggle-option-active:hover {
   color: #ffffff;
+}
+
+/* A year this plan has no record for — still selectable, so the user can
+   see the "not offered" explanation rather than the button doing nothing. */
+.year-toggle-option-empty {
+  color: var(--text-subtle);
+  opacity: 0.65;
+}
+
+.year-toggle-option-empty.year-toggle-option-active {
+  color: #ffffff;
+  opacity: 1;
+  background-color: var(--text-subtle);
 }
 
 .plan-card-actions {

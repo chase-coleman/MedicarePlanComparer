@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PlanComponent from "../components/PlanComponent";
+import { groupPlansByYear } from "../functions/groupPlans";
 import {
   addToPlanComparison,
   removeFromPlanComparison,
@@ -24,10 +25,10 @@ const ComparePage = () => {
       <div className="compare-page-container w-[100vw] m-1">
         {comparedPlans.length > 0 ? (
           <div className="plans-container">
-            {comparedPlans.map((plan) => (
+            {groupPlansByYear(comparedPlans).map((planGroup) => (
               <PlanComponent
-                key={plan.id}
-                plan={plan}
+                key={planGroup.key}
+                planGroup={planGroup}
                 addToCompare={addToCompare}
                 removeFromCompare={removeFromCompare}
               />

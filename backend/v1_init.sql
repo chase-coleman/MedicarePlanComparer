@@ -13,8 +13,15 @@ CREATE TABLE IF NOT EXISTS `county` (
 
 CREATE TABLE IF NOT EXISTS `plan` (
   `id`                      BIGINT NOT NULL AUTO_INCREMENT,
+  -- stable identity of a plan across years; rows sharing this are the
+  -- same plan in different years
+  `plan_group_id`           BIGINT NOT NULL,
   `plan_name`               VARCHAR(255) NOT NULL,
+  -- CMS contract/PBP id, e.g. "H1234-005-000". Nullable until known.
+  `cms_plan_id`             VARCHAR(32) NULL,
   `plan_year`               INT NOT NULL DEFAULT 2026,
+  -- FALSE = placeholder row; the UI renders every benefit as N/A
+  `benefits_published`      BOOLEAN NOT NULL DEFAULT TRUE,
   `monthly_premium`         DECIMAL(10,2) NOT NULL,
   `moop`                    INT NOT NULL,
   `plan_type`               VARCHAR(255) NOT NULL,
@@ -41,7 +48,9 @@ CREATE TABLE IF NOT EXISTS `plan` (
   -- county (the two Humana "HumanaChoice" plans differ by premium), and
   -- now across plan years.
   KEY `idx_plan_company_id` (`company_id`),  -- logical FK to company(id)
-  KEY `idx_plan_plan_name` (`plan_name`)
+  KEY `idx_plan_plan_name` (`plan_name`),
+  KEY `idx_plan_cms_plan_id` (`cms_plan_id`),
+  UNIQUE KEY `uk_plan_group_year` (`plan_group_id`, `plan_year`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =====================

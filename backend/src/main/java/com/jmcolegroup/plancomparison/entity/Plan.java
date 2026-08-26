@@ -19,8 +19,23 @@ public class Plan {
   private Long getId() { return id; }
   private void setId(Long id) { this.id = id; }
 
+  // Stable identity of a plan across years. Two rows sharing a
+  // planGroupId are the same plan in different plan years.
+  @Column(nullable = false)
+  private Long planGroupId;
+
+  private Long getPlanGroupId() { return planGroupId; }
+  private void setPlanGroupId(Long planGroupId) { this.planGroupId = planGroupId; }
+
   @Column(nullable = false, unique = false)
   private String planName;
+
+  // CMS contract/PBP identifier, e.g. "H1234-005-000". Nullable until known.
+  @Column(nullable = true, length = 32)
+  private String cmsPlanId;
+
+  private String getCmsPlanId() { return cmsPlanId; }
+  private void setCmsPlanId(String cmsPlanId) { this.cmsPlanId = cmsPlanId; }
 
   // Plan Name getter/setter
   private String getPlanName() { return planName; }
@@ -32,6 +47,14 @@ public class Plan {
   // plan year getter/setter
   private int getPlanYear() { return planYear; }
   private void setPlanYear(int planYear) { this.planYear = planYear; }
+
+  // False marks a placeholder plan-year whose real benefits are not published
+  // yet; the client renders every benefit as N/A for those rows.
+  @Column(nullable = false)
+  private boolean benefitsPublished = true;
+
+  private boolean getBenefitsPublished() { return benefitsPublished; }
+  private void setBenefitsPublished(boolean benefitsPublished) { this.benefitsPublished = benefitsPublished; }
 
   @Column(nullable = false)
   private BigDecimal monthlyPremium;

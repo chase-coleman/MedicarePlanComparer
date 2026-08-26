@@ -15,8 +15,15 @@ public class PlanController {
     this.repository = repository;
   }
 
+  // ?year= is optional. Without it every plan year is returned and the client
+  // groups by planGroupId to drive the year toggle. With it, one year only.
   @GetMapping("/{companyName}")
-  public List<PlanSummary> all(@PathVariable String companyName, @PathVariable String countyName) {
-    return repository.findDistinctByCompany_CompanyNameIgnoreCaseAndCounties_CountyNameIgnoreCase(companyName, countyName);
+  public List<PlanSummary> all(@PathVariable String companyName,
+                               @PathVariable String countyName,
+                               @RequestParam(required = false) Integer year) {
+    if (year == null) {
+      return repository.findDistinctByCompany_CompanyNameIgnoreCaseAndCounties_CountyNameIgnoreCase(companyName, countyName);
+    }
+    return repository.findDistinctByCompany_CompanyNameIgnoreCaseAndCounties_CountyNameIgnoreCaseAndPlanYear(companyName, countyName, year);
   }
 }
