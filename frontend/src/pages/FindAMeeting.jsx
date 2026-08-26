@@ -1,16 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "../data/meetings";
 import ButtonComponent from "../components/ButtonComponent";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Divider,
-  Link,
-  Image,
-  Modal,
-} from "@heroui/react";
 import MeetingComponent from "../components/MeetingComponent";
 import {
   lebanonMeetings,
@@ -18,7 +8,6 @@ import {
   sweethomeMeetings,
   tillamookMeetings,
 } from "../data/meetings";
-import RsvpForm from "../components/RsvpForm";
 
 const FindAMeetingPage = () => {
   const [county, setCounty] = useState("");

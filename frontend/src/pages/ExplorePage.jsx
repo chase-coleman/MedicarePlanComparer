@@ -12,15 +12,12 @@ import { setPlans } from "../features/plans/companyPlansSlice";
 import {
   addToPlanComparison,
   removeFromPlanComparison,
-  setComparedPlans,
 } from "../features/plans/comparedPlansSlice";
-
 import PlanComponent from "../components/PlanComponent";
 import { groupPlansByYear } from "../functions/groupPlans";
 import { useState } from "react";
 import { Alert } from "@heroui/react";
-
-const API_URL = import.meta.env.VITE_API_ENDPOINT;
+import { API_URL } from "../data/constants";
 
 const ExplorePage = () => {
   const dispatch = useDispatch(); // redux state updater

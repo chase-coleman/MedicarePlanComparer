@@ -1,4 +1,3 @@
-import React from "react";
 import "../App.css";
 import ButtonComponent from "../components/ButtonComponent";
 import EmployeeCard from "../components/EmployeeCard";
@@ -18,8 +17,7 @@ const LandingPage = () => {
             Explore Medicare plans in your area today
           </h1>
           <p className="lede">
-            Find the coverage that fits you — even if your insurance company is
-            leaving your county.
+            Find the coverage that fits you — simplified.
           </p>
           <ButtonComponent
             styling="bg-accent px-6 h-11 text-base"
@@ -34,10 +32,6 @@ const LandingPage = () => {
               Find us during the Annual Enrollment Period
             </p>
             <div className="office-hours-row">
-              <span>Tillamook Office</span>
-              <span>Mon – Sat</span>
-            </div>
-            <div className="office-hours-row">
               <span>Newport Walmart Kiosk</span>
               <span>Mon – Thu</span>
             </div>
@@ -45,9 +39,6 @@ const LandingPage = () => {
               <span>Lebanon Walmart Kiosk</span>
               <span>Mon – Fri</span>
             </div>
-            <p className="office-hours-address mt-3">
-              2018 Henson Plaza, Hwy 101, Tillamook
-            </p>
           </div>
         </div>
         <div className="company-images-container block w-[90vw]">

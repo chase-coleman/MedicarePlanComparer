@@ -9,9 +9,7 @@ import {
 import ButtonComponent from "./ButtonComponent";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-
-// Years the toggle offers, regardless of which ones a given plan has.
-const PLAN_YEARS = ["2026", "2027"];
+import { PLAN_YEARS } from "../data/constants";
 
 const PlanComponent = ({ planGroup, addToCompare, removeFromCompare }) => {
   const comparedPlans = useSelector((state) => state.comparedPlans.value);
@@ -64,7 +62,7 @@ const PlanComponent = ({ planGroup, addToCompare, removeFromCompare }) => {
         </div>
         {!plan ? (
           <div className="plan-unavailable">
-            <p className="plan-unavailable-title">{planYear} not available until October 1st</p>
+            <p className="plan-unavailable-title">{planYear} plan info not available until October 1st</p>
             <p className="plan-unavailable-body">
               {planGroup.years.length > 0
                 ? `This plan is available for ${planGroup.years.join(" and ")}.`

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { AFFILIATION_DISCLAIMER, CURRENT_INFO_DISCLAIMER, JMCOLE_DISCLAIMER, LINCOLN_CO_DISCLAIMER, LINN_CO_DISCLAIMER, PLAN_OFFERING_DISCLAIMER, TILLAMOOK_CO_DISCLAIMER, TRADEMARK_NOTICE } from "./data/constants";
 import { Outlet } from "react-router-dom";
 import "./App.css";
 import NavbarComponent from "./components/NavbarComponent";
@@ -25,53 +25,32 @@ function App() {
         <div className="disclaimer-inner">
           <span className="disclaimer-label">Disclaimers</span>
           <p>
-            Not connected with or endorsed by the United States government or
-            the federal Medicare program.
+            {AFFILIATION_DISCLAIMER}
           </p>
           <p>
-            Plan availability, benefits, premiums, and costs may change on
-            January 1 of each year. Information provided here is current as of
-            09/2025, but is subject to change.
+            {CURRENT_INFO_DISCLAIMER}
           </p>
           {county === "Linn" ? (
             <p>
-              We do not offer every plan available in your area. In Linn County,
-              we represent 5 organizations which offer 21 products in the
-              county. Please contact Medicare.gov, 1-800-MEDICARE, or your local
-              State Health Insurance Assistance Program (SHIP) to get
-              information on all of your options.
+              {LINN_CO_DISCLAIMER}
             </p>
           ) : county === "Lincoln" ? (
             <p>
-              We do not offer every plan available in your area. In Lincoln
-              County, we represent 1 organization which offer 4 products in the
-              county. Please contact Medicare.gov, 1-800-MEDICARE, or your local
-              State Health Insurance Assistance Program (SHIP) to get
-              information on all of your options.
+              {LINCOLN_CO_DISCLAIMER}
             </p>
           ) : county === "Tillamook" ? (
             <p>
-              We do not offer every plan available in your area. In Tillamook
-              County, we represent 1 organization which offer 4 products in the
-              county. Please contact Medicare.gov, 1-800-MEDICARE, or your local
-              State Health Insurance Assistance Program (SHIP) to get
-              information on all of your options.
+              {TILLAMOOK_CO_DISCLAIMER}
             </p>
           ) : (
             <p>
-              We do not offer every plan available in your area. Please contact
-              Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance
-              Assistance Program (SHIP) to get information on all of your
-              options.
+              {PLAN_OFFERING_DISCLAIMER}
             </p>
           )}
           <p>
-            JMColegroup complies with applicable Federal civil rights laws and
-            does not discriminate on the basis of race, color, national origin,
-            age, disability, or sex. ATTENTION: If you speak a language other
-            than English, language assistance services, free of charge, are
-            available to you. Call 1-800-MEDICARE (TTY: 1-877-486-2048).
+            {JMCOLE_DISCLAIMER}
           </p>
+          <p className="trademark-notice">{TRADEMARK_NOTICE}</p>
         </div>
       </footer>
       {showContactForm && (

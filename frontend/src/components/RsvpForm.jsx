@@ -8,8 +8,7 @@ import { parseAxiosError } from "../functions/axiosError";
 import { Ring } from "ldrs/react";
 import { CircleCheckBig } from "lucide-react";
 import axios from "axios";
-
-const API_URL = import.meta.env.VITE_API_ENDPOINT;
+import { API_URL } from "../data/constants";
 
 const RsvpForm = () => {
   const [fName, setFname] = useState("");

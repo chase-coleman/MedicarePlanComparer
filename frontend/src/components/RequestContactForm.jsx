@@ -9,8 +9,7 @@ import axios from "axios";
 import { Ring } from "ldrs/react";
 import "ldrs/react/Ring.css";
 import { CircleCheckBig } from "lucide-react";
-
-const API_URL = import.meta.env.VITE_API_ENDPOINT;
+import { API_URL } from "../data/constants";
 
 const RequestContactForm = () => {
   const [fName, setFname] = useState("");
