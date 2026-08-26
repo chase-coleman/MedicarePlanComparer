@@ -7,10 +7,11 @@
 -- one flag says "this row is a placeholder" and the UI renders every
 -- benefit as N/A.
 --
--- Flip a row to 1 once its real figures are entered.
+-- Safe as a single PlanetScale deploy: no unique index is involved, and
+-- DEFAULT TRUE already gives every copied row the right value, so no
+-- backfill UPDATE is needed.
+--
+-- Flip a row to TRUE once its real figures are entered.
 
 ALTER TABLE `plan`
   ADD COLUMN `benefits_published` BOOLEAN NOT NULL DEFAULT TRUE AFTER `plan_year`;
-
--- Existing rows are all real 2026 data.
-UPDATE `plan` SET `benefits_published` = TRUE WHERE `plan_year` = 2026;

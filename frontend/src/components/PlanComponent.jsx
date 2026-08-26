@@ -64,7 +64,7 @@ const PlanComponent = ({ planGroup, addToCompare, removeFromCompare }) => {
         </div>
         {!plan ? (
           <div className="plan-unavailable">
-            <p className="plan-unavailable-title">Not offered in {planYear}</p>
+            <p className="plan-unavailable-title">{planYear} not available until October 1st</p>
             <p className="plan-unavailable-body">
               {planGroup.years.length > 0
                 ? `This plan is available for ${planGroup.years.join(" and ")}.`

@@ -13,7 +13,7 @@ const LandingPage = () => {
     <>
       <div className="landing-page-container w-[100vw]">
         <div className="headline-container w-[90vw]">
-          <span className="eyebrow">Medicare Annual Enrollment</span>
+          <span className="eyebrow">Medicare Annual Enrollment begins October 15</span>
           <h1 className="page-title">
             Explore Medicare plans in your area today
           </h1>
