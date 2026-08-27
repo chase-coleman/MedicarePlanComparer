@@ -1,3 +1,98 @@
+-- #################################################################
+-- ###### PLAN COVERAGE MAP (plan / company / county / CMS id) #####
+-- #################################################################
+-- Derived from the counties_plan rows below. If you add, remove, or
+-- re-assign a plan, update this map too so it does not go stale.
+--
+-- CMS ids use a three-digit segment (H2923-004-000). 2027 rows are
+-- placeholders and stay NULL until CMS publishes 2027 plan ids.
+--
+-- ===== PLAN YEAR 2026 =====
+-- Linn County (county_id=1)
+--   Devoted (company_id=1)
+--     - Giveback                       HMO      H2923-004-000  plan_id=1
+--     - Core                           HMO      H2923-003-000  plan_id=5
+--     - Premium                        HMO      H2923-006-000  plan_id=6
+--     - C-SNP Plus                     C-SNP    H2923-009-000  plan_id=24
+--   Humana (company_id=2)
+--     - HumanaChoice                   PPO      H5216-428-005  plan_id=7
+--     - HumanaChoice                   PPO      H5216-048-000  plan_id=8
+--     - USAA Honor Giveback            PPO      H5216-427-002  plan_id=9
+--     - USAA Honor Giveback            PPO      H5216-455-000  plan_id=10
+--   UnitedHealthcare (company_id=3)
+--     - Patriot                        PPO      H2406-073-000  plan_id=11
+--     - Essentials OR-4                HMO-POS  H3805-039-002  plan_id=12
+--     - Essentials OR-0003             HMO-POS  H3805-001-000  plan_id=13
+--     - Essentials OR-0001             PPO      H2406-042-000  plan_id=14
+--   Wellcare (company_id=4)
+--     - Giveback Open                  PPO      H5439-015-000  plan_id=15
+--     - Patriot Giveback Open          PPO      H5439-010-000  plan_id=16
+--     - Simple                         HMO-POS  H6815-039-000  plan_id=17
+--     - Simple Open                    PPO      H5439-022-003  plan_id=18
+--     - Low Premium                    HMO-POS  H6815-038-000  plan_id=19
+--     - Low Premium Open               PPO      H5439-019-000  plan_id=20
+--     - Premium Ultra Open             PPO      H5439-011-000  plan_id=21
+-- Tillamook County (county_id=2)
+--   Devoted (company_id=1)
+--     - Giveback                       HMO      H2923-004-000  plan_id=1
+--     - Core                           HMO      H2923-001-000  plan_id=2
+--     - Premium                        HMO      H2923-005-000  plan_id=3
+--     - Choice Premium                 PPO      H7199-002-000  plan_id=4
+--     - C-SNP Plus                     C-SNP    H2923-009-000  plan_id=24
+-- Lincoln County (county_id=3)
+--   Devoted (company_id=1)
+--     - Giveback                       HMO      H2923-004-000  plan_id=1
+--     - Core                           HMO      H2923-003-000  plan_id=5
+--     - Premium                        HMO      H2923-006-000  plan_id=6
+--     - C-SNP Plus                     C-SNP    H2923-009-000  plan_id=24
+--
+-- ===== PLAN YEAR 2027   (placeholders, benefits_published = false) =====
+-- Linn County (county_id=1)
+--   Devoted (company_id=1)
+--     - Giveback                       HMO      NULL           plan_id=101
+--     - Core                           HMO      NULL           plan_id=105
+--     - Premium                        HMO      NULL           plan_id=106
+--     - C-SNP Plus                     C-SNP    NULL           plan_id=124
+--   Humana (company_id=2)
+--     - HumanaChoice                   PPO      NULL           plan_id=107
+--     - HumanaChoice                   PPO      NULL           plan_id=108
+--     - USAA Honor Giveback            PPO      NULL           plan_id=109
+--     - USAA Honor Giveback            PPO      NULL           plan_id=110
+--   UnitedHealthcare (company_id=3)
+--     - Patriot                        PPO      NULL           plan_id=111
+--     - Essentials OR-4                HMO-POS  NULL           plan_id=112
+--     - Essentials OR-0003             HMO-POS  NULL           plan_id=113
+--     - Essentials OR-0001             PPO      NULL           plan_id=114
+--   Wellcare (company_id=4)
+--     - Giveback Open                  PPO      NULL           plan_id=115
+--     - Patriot Giveback Open          PPO      NULL           plan_id=116
+--     - Simple                         HMO-POS  NULL           plan_id=117
+--     - Simple Open                    PPO      NULL           plan_id=118
+--     - Low Premium                    HMO-POS  NULL           plan_id=119
+--     - Low Premium Open               PPO      NULL           plan_id=120
+--     - Premium Ultra Open             PPO      NULL           plan_id=121
+-- Tillamook County (county_id=2)
+--   Devoted (company_id=1)
+--     - Giveback                       HMO      NULL           plan_id=101
+--     - Core                           HMO      NULL           plan_id=102
+--     - Premium                        HMO      NULL           plan_id=103
+--     - Choice Premium                 PPO      NULL           plan_id=104
+--     - C-SNP Plus                     C-SNP    NULL           plan_id=124
+-- Lincoln County (county_id=3)
+--   Devoted (company_id=1)
+--     - Giveback                       HMO      NULL           plan_id=101
+--     - Core                           HMO      NULL           plan_id=105
+--     - Premium                        HMO      NULL           plan_id=106
+--     - C-SNP Plus                     C-SNP    NULL           plan_id=124
+--
+-- ===== PLANS NOT ASSIGNED TO ANY COUNTY =====
+-- These have plan rows but no counties_plan rows, so they never
+-- reach the UI, and no CMS id was collected for them.
+--   UnitedHealthcare   Complete Care OR-5             C-SNP    plan_id=22 year=2026
+--   UnitedHealthcare   Complete Care Support OR-1A    C-SNP    plan_id=23 year=2026
+--   UnitedHealthcare   Complete Care OR-5             C-SNP    plan_id=122 year=2027
+--   UnitedHealthcare   Complete Care Support OR-1A    C-SNP    plan_id=123 year=2027
+-- #################################################################
 -- Clearing existing Data
 DELETE FROM counties_plan;
 DELETE FROM counties_companies;
@@ -23,42 +118,42 @@ dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_ma
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  1, 1, "Giveback", NULL, 2026, true, 0, 7900, "HMO", 0, 115, 385, 5, 385, 525, true, 100, 300, 0, 250, 0, "None", 154.20, true, 1
+  1, 1, "Giveback", "H2923-004-000", 2026, true, 0, 7900, "HMO", 0, 115, 385, 5, 385, 525, true, 100, 300, 0, 250, 0, "None", 154.20, true, 1
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  2, 2, "Core", NULL, 2026, true, 0, 5900, "HMO", 0, 130, 375, 5, 375, 475, true, 100, 300, 0, 2000, 40, "Quarterly", 0, true, 1
+  2, 2, "Core", "H2923-001-000", 2026, true, 0, 5900, "HMO", 0, 130, 375, 5, 375, 475, true, 100, 300, 0, 2000, 40, "Quarterly", 0, true, 1
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  3, 3, "Premium", NULL, 2026, true, 43.20, 5900, "HMO", 0, 130, 375, 5, 375, 475, true, 100, 300, 0, 3000, 40, "Quarterly", 0, true, 1
+  3, 3, "Premium", "H2923-005-000", 2026, true, 43.20, 5900, "HMO", 0, 130, 375, 5, 375, 475, true, 100, 300, 0, 3000, 40, "Quarterly", 0, true, 1
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  4, 4, "Choice Premium", NULL, 2026, true, 29, 5900, "PPO", 0, 130, 325, 5, 325, 425, true, 100, 300, 0, 2000, 30, "Quarterly", 0, true, 1
+  4, 4, "Choice Premium", "H7199-002-000", 2026, true, 29, 5900, "PPO", 0, 130, 325, 5, 325, 425, true, 100, 300, 0, 2000, 30, "Quarterly", 0, true, 1
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  5, 5, "Core", NULL, 2026, true, 0, 5900, "HMO", 0, 130, 425, 4, 425, 525, true, 100, 400, 0, 1500, 40, "Quarterly", 0, true, 1
+  5, 5, "Core", "H2923-003-000", 2026, true, 0, 5900, "HMO", 0, 130, 425, 4, 425, 525, true, 100, 400, 0, 1500, 40, "Quarterly", 0, true, 1
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  6, 6, "Premium", NULL, 2026, true, 47.50, 5900, "HMO", 0, 130, 425, 4, 425, 525, true, 100, 400, 0, 3000, 40, "Quarterly", 0, true, 1
+  6, 6, "Premium", "H2923-006-000", 2026, true, 47.50, 5900, "HMO", 0, 130, 425, 4, 425, 525, true, 100, 400, 0, 3000, 40, "Quarterly", 0, true, 1
 );
 
 
@@ -70,28 +165,28 @@ dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_ma
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  7, 7, "HumanaChoice", NULL, 2026, true, 0, 6750, "PPO", 0, 130, 495, 5, 200, 495, true, 200, 335, 0, 1500, 0, "None", 0, true, 2
+  7, 7, "HumanaChoice", "H5216-428-005", 2026, true, 0, 6750, "PPO", 0, 130, 495, 5, 200, 495, true, 200, 335, 0, 1500, 0, "None", 0, true, 2
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  8, 8, "HumanaChoice", NULL, 2026, true, 87, 6750, "PPO", 0, 130, 325, 4, 0, 0, false, 200, 335, 0, 1000, 0, "None", 0, true, 2
+  8, 8, "HumanaChoice", "H5216-048-000", 2026, true, 87, 6750, "PPO", 0, 130, 325, 4, 0, 0, false, 200, 335, 0, 1000, 0, "None", 0, true, 2
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  9, 9, "USAA Honor Giveback", NULL, 2026, true, 0, 9150, "PPO", 0, 115, 600, 4, 350, 495, true, 200, 335, 0, 1500, 50, "Quarterly", 125, true, 2
+  9, 9, "USAA Honor Giveback", "H5216-427-002", 2026, true, 0, 9150, "PPO", 0, 115, 600, 4, 350, 495, true, 200, 335, 0, 1500, 50, "Quarterly", 125, true, 2
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  10, 10, "USAA Honor Giveback", NULL, 2026, true, 0, 5100, "PPO", 0, 130, 480, 5, 350, 480, true, 200, 335, 0, 2500, 50, "Quarterly", 30, true, 2
+  10, 10, "USAA Honor Giveback", "H5216-455-000", 2026, true, 0, 5100, "PPO", 0, 130, 480, 5, 350, 480, true, 200, 335, 0, 2500, 50, "Quarterly", 30, true, 2
 );
 
 -- ##########################
@@ -102,28 +197,28 @@ dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_ma
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  11, 11, "Patriot", NULL, 2026, true, 0, 6700, "PPO", 0, 125, 495, 5, 495, 495, true, 250, 250, 0, 1500, 75, "Quarterly", 115, false, 3
+  11, 11, "Patriot", "H2406-073-000", 2026, true, 0, 6700, "PPO", 0, 125, 495, 5, 495, 495, true, 250, 250, 0, 1500, 75, "Quarterly", 115, false, 3
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  12, 12, "Essentials OR-4", NULL, 2026, true, 0, 5500, "HMO-POS", 0, 135, 455, 5, 405, 455, true, 260, 260, 0, 0, 25, "Quarterly", 0, true, 3
+  12, 12, "Essentials OR-4", "H3805-039-002", 2026, true, 0, 5500, "HMO-POS", 0, 135, 455, 5, 405, 455, true, 260, 260, 0, 0, 25, "Quarterly", 0, true, 3
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  13, 13, "Essentials OR-0003", NULL, 2026, true, 69, 5200, "HMO-POS", 0, 130, 425, 5, 375, 425, true, 220, 220, 0, 1500, 0, "None", 0, true, 3
+  13, 13, "Essentials OR-0003", "H3805-001-000", 2026, true, 69, 5200, "HMO-POS", 0, 130, 425, 5, 375, 425, true, 220, 220, 0, 1500, 0, "None", 0, true, 3
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  14, 14, "Essentials OR-0001", NULL, 2026, true, 74, 5700, "PPO", 0, 130, 455, 6, 305, 455, true, 200, 200, 0, 1000, 0, "None", 0, true, 3
+  14, 14, "Essentials OR-0001", "H2406-042-000", 2026, true, 74, 5700, "PPO", 0, 130, 455, 6, 305, 455, true, 200, 200, 0, 1000, 0, "None", 0, true, 3
 );
 
 -- ##########################
@@ -134,49 +229,49 @@ dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_ma
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  15, 15, "Giveback Open", NULL, 2026, true, 0, 9250, "PPO", 0, 115, 475, 5, 300, 500, true, 225, 500, 0, 0, 0, "None", 10, true, 4
+  15, 15, "Giveback Open", "H5439-015-000", 2026, true, 0, 9250, "PPO", 0, 115, 475, 5, 300, 500, true, 225, 500, 0, 0, 0, "None", 10, true, 4
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  16, 16, "Patriot Giveback Open", NULL, 2026, true, 0, 6750, "PPO", 0, 130, 525, 5, 200, 500, true, 125, 500, 0, 1000, 15, "Monthly", 50, false, 4
+  16, 16, "Patriot Giveback Open", "H5439-010-000", 2026, true, 0, 6750, "PPO", 0, 130, 525, 5, 200, 500, true, 125, 500, 0, 1000, 15, "Monthly", 50, false, 4
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  17, 17, "Simple", NULL, 2026, true, 0, 7500, "HMO-POS", 0, 115, 600, 4, 250, 500, true, 100, 500, 0, 0, 0, "None", 0, true, 4
+  17, 17, "Simple", "H6815-039-000", 2026, true, 0, 7500, "HMO-POS", 0, 115, 600, 4, 250, 500, true, 100, 500, 0, 0, 0, "None", 0, true, 4
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  18, 18, "Simple Open", NULL, 2026, true, 0, 6750, "PPO", 0, 130, 600, 4, 250, 500, true, 300, 400, 0, 1500, 0, "None", 0, true, 4
+  18, 18, "Simple Open", "H5439-022-003", 2026, true, 0, 6750, "PPO", 0, 130, 600, 4, 250, 500, true, 300, 400, 0, 1500, 0, "None", 0, true, 4
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  19, 19, "Low Premium", NULL, 2026, true, 35, 7900, "HMO-POS", 0, 115, 600, 4, 300, 500, true, 200, 400, 0, 0, 0, "None", 0, true, 4
+  19, 19, "Low Premium", "H6815-038-000", 2026, true, 35, 7900, "HMO-POS", 0, 115, 600, 4, 300, 500, true, 200, 400, 0, 0, 0, "None", 0, true, 4
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  20, 20, "Low Premium Open", NULL, 2026, true, 59, 7000, "PPO", 0, 115, 475, 5, 350, 500, true, 250, 500, 0, 0, 0, "None", 0, true, 4
+  20, 20, "Low Premium Open", "H5439-019-000", 2026, true, 59, 7000, "PPO", 0, 115, 475, 5, 350, 500, true, 250, 500, 0, 0, 0, "None", 0, true, 4
 );
 INSERT INTO plan (id, plan_group_id, plan_name, cms_plan_id, plan_year, benefits_published, monthly_premium, moop, plan_type, 
 dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_max, surgery_copay_type, 
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  21, 21, "Premium Ultra Open", NULL, 2026, true, 160, 6500, "PPO", 0, 130, 425, 7, 200, 425, true, 125, 425, 0, 2000, 0, "None", 0, true, 4
+  21, 21, "Premium Ultra Open", "H5439-011-000", 2026, true, 160, 6500, "PPO", 0, 130, 425, 7, 200, 425, true, 125, 425, 0, 2000, 0, "None", 0, true, 4
 );
 
 
@@ -202,7 +297,7 @@ dr_visit, er_visit, hospital_stay, hospital_stay_length, surgery_min, surgery_ma
 radiology_copay_min, radiology_copay_max, radiology_coinsurance, dental_benefit, 
 otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 ) VALUES (
-  24, 24, "C-SNP Plus", NULL, 2026, true, 0, 0, "C-SNP", 0, 0, 0, 0, 0, 0, true, 0, 0, 0, 3000, 314, "Monthly", 0, true, 1
+  24, 24, "C-SNP Plus", "H2923-009-000", 2026, true, 0, 0, "C-SNP", 0, 0, 0, 0, 0, 0, true, 0, 0, 0, 3000, 314, "Monthly", 0, true, 1
 );
 
 

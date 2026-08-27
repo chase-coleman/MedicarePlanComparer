@@ -32,9 +32,6 @@ const PlanComponent = ({ planGroup, addToCompare, removeFromCompare }) => {
         <div className="plan-card-header">
           <div className="plan-card-heading">
             <span className="plan-card-name">{planGroup.planName}</span>
-            {planGroup.cmsPlanId && (
-              <span className="plan-card-cms">{planGroup.cmsPlanId}</span>
-            )}
           </div>
           <div className="year-toggle" role="group" aria-label="Plan year">
             {PLAN_YEARS.map((year) => {
