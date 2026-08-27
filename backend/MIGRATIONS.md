@@ -12,6 +12,7 @@ alters the schema. Run these in order against PlanetScale.
 | `v4b_backfill_plan_group_id.sql` | **DML** | run in the console / `pscale shell` |
 | `v4c_add_plan_group_year_unique.sql` | schema | deploy request, only after v4b |
 | `v5_add_benefits_published.sql` | schema | deploy request |
+| `v6_backfill_cms_plan_ids.sql` | **DML** | run in the console / `pscale shell` |
 
 ## Two PlanetScale rules these follow
 
