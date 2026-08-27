@@ -57,6 +57,19 @@ const NavbarComponent = () => {
 
         <NavbarItem>
           <NavLink
+            aria-current="page"
+            as={RouterLink}
+            to="/"
+            className={({ isActive }) =>
+              isActive ? `nav-link nav-link-active` : `nav-link`
+            }
+          >
+            Home
+          </NavLink>
+        </NavbarItem>
+
+        <NavbarItem>
+          <NavLink
             color="foreground"
             as={RouterLink}
             to="/find-meeting"
@@ -78,19 +91,6 @@ const NavbarComponent = () => {
             }
           >
             Explore Plan Options
-          </NavLink>
-        </NavbarItem>
-
-        <NavbarItem>
-          <NavLink
-            aria-current="page"
-            as={RouterLink}
-            to="/"
-            className={({ isActive }) =>
-              isActive ? `nav-link nav-link-active` : `nav-link`
-            }
-          >
-            Home
           </NavLink>
         </NavbarItem>
 

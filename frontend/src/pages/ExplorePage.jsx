@@ -17,7 +17,7 @@ import PlanComponent from "../components/PlanComponent";
 import { groupPlansByYear } from "../functions/groupPlans";
 import { useState } from "react";
 import { Alert } from "@heroui/react";
-import { API_URL } from "../data/constants";
+import { API_URL, ALL_COUNTIES } from "../data/constants";
 
 const ExplorePage = () => {
   const dispatch = useDispatch(); // redux state updater
@@ -84,23 +84,18 @@ const ExplorePage = () => {
               <span className="section-title">Select your county:</span>
             </div>
             <div className="county-buttons-container">
-              <ButtonComponent
-                text="Linn"
-                onPress={() => selectCounty("Linn")}
-                className={county == `Linn` ? `btn-pill-active` : "btn-pill"}
-              />
-              <ButtonComponent
-                text="Tillamook"
-                onPress={() => selectCounty("Tillamook")}
-                className={
-                  county == `Tillamook` ? `btn-pill-active` : "btn-pill"
-                }
-              />
-              <ButtonComponent
-                text="Lincoln"
-                onPress={() => selectCounty("Lincoln")}
-                className={county == `Lincoln` ? `btn-pill-active` : "btn-pill"}
-              />
+              {ALL_COUNTIES.map((option) => (
+                <ButtonComponent
+                  key={option.countyName}
+                  text={option.countyName}
+                  onPress={() => selectCounty(option.countyName)}
+                  className={
+                    county === option.countyName
+                      ? `btn-pill-active`
+                      : `btn-pill`
+                  }
+                />
+              ))}
             </div>
           </div>
           <div className="company-container block w-[90vw]">

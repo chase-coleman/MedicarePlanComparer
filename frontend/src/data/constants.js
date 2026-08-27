@@ -1,4 +1,5 @@
 export const PLAN_YEARS = ["2026", "2027"]
+export const ALL_COUNTIES = [{countyName: "Linn"}, {countyName: "Tillamook"}, {countyName: "Lincoln"}]
 
 export const API_URL = import.meta.env.VITE_API_ENDPOINT
 
