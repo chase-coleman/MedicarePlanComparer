@@ -9,17 +9,21 @@ import showContactFormReducer from "./features/modal/ShowContactFormSlice";
 import showRsvpFormReducer from "./features/modal/showRsvpForm";
 import meetingToRsvpReducer from "./features/meetings/MeetingToRsvpSlice";
 
+// the reducer map, shared so tests can build a throwaway store off the same wiring
+export const rootReducer = {
+  county: countyReducer, // sets/retrieves the selected county
+  errorMsg: errorReducer, // sets/retrieves any error messages
+  companies: companiesReducer, // sets/retrieves companies in a county
+  selectedCompany: selectedCompanyReducer, // sets/retrieves the selected company 
+  companyPlans: companyPlansReducer, // sets/retrieves the plans belongin to a company in a county
+  comparedPlans: comparedPlansReducer,
+  showContactForm: showContactFormReducer,
+  showRsvpForm: showRsvpFormReducer,
+  meetingRsvp: meetingToRsvpReducer,
+};
+
+export const makeStore = (preloadedState) =>
+  configureStore({ reducer: rootReducer, preloadedState });
+
 // creating the Redux store
-export default configureStore({
-  reducer: {
-    county: countyReducer, // sets/retrieves the selected county
-    errorMsg: errorReducer, // sets/retrieves any error messages
-    companies: companiesReducer, // sets/retrieves companies in a county
-    selectedCompany: selectedCompanyReducer, // sets/retrieves the selected company 
-    companyPlans: companyPlansReducer, // sets/retrieves the plans belongin to a company in a county
-    comparedPlans: comparedPlansReducer,
-    showContactForm: showContactFormReducer,
-    showRsvpForm: showRsvpFormReducer,
-    meetingRsvp: meetingToRsvpReducer,
-  }
-})
+export default makeStore();
