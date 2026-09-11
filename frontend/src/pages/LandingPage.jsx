@@ -1,6 +1,7 @@
 import "../App.css";
 import ButtonComponent from "../components/ButtonComponent";
 import EmployeeCard from "../components/EmployeeCard";
+import { BROKERS } from "../data/brokers";
 import { openModal } from "../features/modal/ShowContactFormSlice";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
@@ -32,44 +33,38 @@ const LandingPage = () => {
               Find us during the Annual Enrollment Period
             </p>
             <div className="office-hours-row">
+              <span>Astoria Walmart Kiosk</span>
+              <span>Mon – Sat</span>
+            </div>
+            <div className="office-hours-row">
               <span>Newport Walmart Kiosk</span>
               <span>Mon – Thu</span>
             </div>
             <div className="office-hours-row">
               <span>Lebanon Walmart Kiosk</span>
-              <span>Mon – Fri</span>
+              <span>Mon – Wed, Fri, Sat</span>
+            </div>
+            <div className="office-hours-row">
+              <span>Albany Walmart Kiosk</span>
+              <span>Friday</span>
+            </div>
+            <div className="office-hours-row">
+              <span>McMinnville Walmart Kiosk</span>
+              <span>Wed - Sun</span>
             </div>
           </div>
         </div>
         <div className="company-images-container block w-[90vw]">
-          <EmployeeCard
-            imgSource="/john-main.jpg"
-            broker="John Coleman"
-            phone="541-554-8382"
-            email="john@mprc.info"
-            npn="18136647"
-          />
-          <EmployeeCard
-            imgSource="/matt-main.jpg"
-            broker="Matt Buck"
-            phone="541-285-8998"
-            email="matt22buck@gmail.com"
-            npn="21435734"
-          />
-          <EmployeeCard
-            imgSource="/garin-main.jpg"
-            broker="Garin Coleman"
-            phone="541-510-9685"
-            email="garin@mprc.info"
-            npn="21248588"
-          />
-          <EmployeeCard
-            imgSource="/chase-main.jpg"
-            broker="Chase Coleman"
-            phone="541-554-5916"
-            email="chase@mprc.info"
-            npn="20318912"
-          />
+          {BROKERS.map((broker) => (
+            <EmployeeCard
+              key={broker.broker}
+              imgSource={broker.imgSource}
+              broker={broker.broker}
+              phone={broker.phone}
+              email={broker.email}
+              npn={broker.npn}
+            />
+          ))}
         </div>
         <div className="company-text-container w-[90vw]">
           <span className="about-heading">About JMCole Group</span>

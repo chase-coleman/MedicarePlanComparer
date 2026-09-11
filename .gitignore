@@ -1,2 +1,10 @@
 .env
 ./backend/.env
+
+.tools/fixtures/
+
+# plan-importer working files
+tools/plan-importer/data/
+tools/plan-importer/out/
+tools/plan-importer/.venv/
+__pycache__/

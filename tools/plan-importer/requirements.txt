@@ -1,0 +1,6 @@
+# The importer deliberately uses only the Python standard library
+# (zipfile, csv, json, urllib). Nothing to install -- Python 3.9+ is enough.
+#
+# CMS source data:
+#   PBP Benefits  https://www.cms.gov/data-research/statistics-trends-and-reports/medicare-advantagepart-d-contract-and-enrollment-data/benefits-data
+#   Zip URL       https://www.cms.gov/files/zip/pbp-benefits-<YEAR>.zip
