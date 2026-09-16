@@ -1,4 +1,4 @@
-import { AFFILIATION_DISCLAIMER, CURRENT_INFO_DISCLAIMER, JMCOLE_DISCLAIMER, LINCOLN_CO_DISCLAIMER, LINN_CO_DISCLAIMER, PLAN_OFFERING_DISCLAIMER, TILLAMOOK_CO_DISCLAIMER, TRADEMARK_NOTICE } from "./data/constants";
+import { AFFILIATION_DISCLAIMER, CURRENT_INFO_DISCLAIMER, countyDisclaimer, JMCOLE_DISCLAIMER, TRADEMARK_NOTICE } from "./data/constants";
 import { Outlet } from "react-router-dom";
 import "./App.css";
 import NavbarComponent from "./components/NavbarComponent";
@@ -30,23 +30,12 @@ function App() {
           <p>
             {CURRENT_INFO_DISCLAIMER}
           </p>
-          {county === "Linn" ? (
-            <p>
-              {LINN_CO_DISCLAIMER}
-            </p>
-          ) : county === "Lincoln" ? (
-            <p>
-              {LINCOLN_CO_DISCLAIMER}
-            </p>
-          ) : county === "Tillamook" ? (
-            <p>
-              {TILLAMOOK_CO_DISCLAIMER}
-            </p>
-          ) : (
-            <p>
-              {PLAN_OFFERING_DISCLAIMER}
-            </p>
-          )}
+          {/* Counties without their own disclaimer fall back to the generic
+              plan-offering language, so adding a county never leaves the
+              footer without a CMS-required notice. */}
+          <p>
+            {countyDisclaimer(county)}
+          </p>
           <p>
             {JMCOLE_DISCLAIMER}
           </p>

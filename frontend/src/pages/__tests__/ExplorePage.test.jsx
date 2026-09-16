@@ -32,7 +32,7 @@ describe("ExplorePage", () => {
     renderWithProviders(<ExplorePage />);
 
     expect(screen.getByText("Select your county:")).toBeInTheDocument();
-    for (const county of ["Linn", "Tillamook", "Lincoln"]) {
+    for (const county of ["Linn", "Tillamook", "Lincoln", "Clatsop", "Lane", "Yamhill"]) {
       expect(screen.getByRole("button", { name: county })).toBeInTheDocument();
     }
   });
@@ -47,6 +47,77 @@ describe("ExplorePage", () => {
     renderWithProviders(<ExplorePage />);
 
     expect(screen.queryByText(/Select a company/)).not.toBeInTheDocument();
+  });
+
+  describe("a county with nothing in it yet", () => {
+    it("says so instead of showing an empty company row", async () => {
+      respondWith({ companyList: [] });
+      const { user } = renderWithProviders(<ExplorePage />);
+
+      await user.click(screen.getByRole("button", { name: "Clatsop" }));
+
+      await waitFor(() =>
+        expect(
+          screen.getByText(/do not have any plans to show in Clatsop county/i),
+        ).toBeInTheDocument(),
+      );
+      expect(screen.queryByText(/Select a company/)).not.toBeInTheDocument();
+    });
+
+    it("keeps the message off screen until the company fetch comes back", async () => {
+      let release;
+      axios.get.mockImplementation(
+        () => new Promise((resolve) => { release = () => resolve({ data: [] }); }),
+      );
+      const { user } = renderWithProviders(<ExplorePage />);
+
+      await user.click(screen.getByRole("button", { name: "Lane" }));
+
+      expect(
+        screen.queryByText(/do not have any plans to show/i),
+      ).not.toBeInTheDocument();
+
+      release();
+      await waitFor(() =>
+        expect(
+          screen.getByText(/do not have any plans to show in Lane county/i),
+        ).toBeInTheDocument(),
+      );
+    });
+
+    it("drops the previous county's companies when a new county is picked", async () => {
+      const { user } = renderWithProviders(<ExplorePage />);
+
+      await user.click(screen.getByRole("button", { name: "Linn" }));
+      await waitFor(() =>
+        expect(screen.getByRole("button", { name: "Devoted" })).toBeInTheDocument(),
+      );
+
+      respondWith({ companyList: [] });
+      await user.click(screen.getByRole("button", { name: "Yamhill" }));
+
+      await waitFor(() =>
+        expect(
+          screen.queryByRole("button", { name: "Devoted" }),
+        ).not.toBeInTheDocument(),
+      );
+    });
+
+    it("says so when a company has no plans in the selected county", async () => {
+      respondWith({ plans: [] });
+      const { user } = renderWithProviders(<ExplorePage />);
+
+      await user.click(screen.getByRole("button", { name: "Yamhill" }));
+      await user.click(
+        await screen.findByRole("button", { name: "Devoted" }),
+      );
+
+      await waitFor(() =>
+        expect(
+          screen.getByText(/do not have any Devoted plans to show in Yamhill/i),
+        ).toBeInTheDocument(),
+      );
+    });
   });
 
   describe("choosing a county", () => {

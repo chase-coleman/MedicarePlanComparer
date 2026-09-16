@@ -3,6 +3,8 @@ import {
   AFFILIATION_DISCLAIMER,
   ALL_COUNTIES,
   API_URL,
+  COUNTY_DISCLAIMERS,
+  countyDisclaimer,
   CURRENT_INFO_DISCLAIMER,
   JMCOLE_DISCLAIMER,
   LINCOLN_CO_DISCLAIMER,
@@ -34,19 +36,48 @@ describe("ALL_COUNTIES", () => {
       "Linn",
       "Tillamook",
       "Lincoln",
+      "Clatsop",
+      "Lane",
+      "Yamhill",
     ]);
   });
 
-  it("has a county-specific disclaimer for each county", () => {
-    const byCounty = {
-      Linn: LINN_CO_DISCLAIMER,
-      Tillamook: TILLAMOOK_CO_DISCLAIMER,
-      Lincoln: LINCOLN_CO_DISCLAIMER,
-    };
+  it("carries the database id for every county", () => {
+    expect(ALL_COUNTIES.map((county) => county.id)).toEqual([1, 2, 3, 4, 5, 6]);
+  });
 
+  it("gives every county a disclaimer, its own or the generic fallback", () => {
     for (const { countyName } of ALL_COUNTIES) {
-      expect(byCounty[countyName]).toContain(`In ${countyName} County`);
+      expect(countyDisclaimer(countyName).trim().length).toBeGreaterThan(0);
     }
+  });
+
+  it("names the county in every county-specific disclaimer", () => {
+    for (const [countyName, text] of Object.entries(COUNTY_DISCLAIMERS)) {
+      expect(text).toContain(`In ${countyName} County`);
+    }
+  });
+});
+
+describe("countyDisclaimer", () => {
+  it("returns the county's own disclaimer when it has one", () => {
+    expect(countyDisclaimer("Linn")).toBe(LINN_CO_DISCLAIMER);
+    expect(countyDisclaimer("Lincoln")).toBe(LINCOLN_CO_DISCLAIMER);
+    expect(countyDisclaimer("Tillamook")).toBe(TILLAMOOK_CO_DISCLAIMER);
+  });
+
+  it("falls back to the generic disclaimer for a county without one", () => {
+    // Clatsop, Lane, and Yamhill ship before their organization and product
+    // counts are known, so the footer must still carry the generic notice.
+    for (const countyName of ["Clatsop", "Lane", "Yamhill"]) {
+      expect(countyDisclaimer(countyName)).toBe(PLAN_OFFERING_DISCLAIMER);
+    }
+  });
+
+  it("falls back for an unknown county and for no county at all", () => {
+    expect(countyDisclaimer("Benton")).toBe(PLAN_OFFERING_DISCLAIMER);
+    expect(countyDisclaimer("")).toBe(PLAN_OFFERING_DISCLAIMER);
+    expect(countyDisclaimer(undefined)).toBe(PLAN_OFFERING_DISCLAIMER);
   });
 });
 

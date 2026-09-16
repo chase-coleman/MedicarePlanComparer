@@ -28,6 +28,11 @@ const ExplorePage = () => {
   const companyPlans = useSelector((state) => state.companyPlans.value);
   const comparedPlans = useSelector((state) => state.comparedPlans.value);
   const [isOctoberYet, setIsOctoberYet] = useState(true);
+  // An empty `companies` list means one of two different things: the fetch has
+  // not come back yet, or the county genuinely has no companies. These flags
+  // keep the empty-state message off the screen during the first case.
+  const [companiesLoaded, setCompaniesLoaded] = useState(false);
+  const [plansLoaded, setPlansLoaded] = useState(false);
 
   useEffect(() => {
     if (!county) return;
@@ -38,6 +43,7 @@ const ExplorePage = () => {
     try {
       const response = await axios.get(`${API_URL}${county}`);
       dispatch(setCompanies(response.data));
+      setCompaniesLoaded(true);
     } catch (error) {
       // set the errorMsg state to the axios error
       // using a custom axios error message handler
@@ -47,6 +53,7 @@ const ExplorePage = () => {
 
   useEffect(() => {
     if (!selectedCompany) return;
+    setPlansLoaded(false);
     getCompanyPlans();
   }, [selectedCompany]);
 
@@ -56,6 +63,7 @@ const ExplorePage = () => {
         `${API_URL}${county}/${selectedCompany}`,
       );
       dispatch(setPlans(response.data));
+      setPlansLoaded(true);
     } catch (error) {
       dispatch(setErrorMsg(parseAxiosError(error)));
     }
@@ -64,6 +72,9 @@ const ExplorePage = () => {
   const selectCounty = (countyName) => {
     dispatch(setSelectedCompany(null)); // clear their previous company selection
     dispatch(setPlans()); // clear the companies plans
+    dispatch(setCompanies([])); // drop the previous county's companies
+    setCompaniesLoaded(false);
+    setPlansLoaded(false);
     dispatch(setCounty(countyName));
   };
 
@@ -99,31 +110,43 @@ const ExplorePage = () => {
             </div>
           </div>
           <div className="company-container block w-[90vw]">
-            <div>
-              {county && (
-                <span className="section-title">
-                  Select a company to view their plans in {county} county:
-                </span>
-              )}
-            </div>
-            <div className="company-buttons gap-3 p-2">
-              {" "}
-              {/* 🔹 gap handles spacing */}
-              {companies.map((company) => (
-                <ButtonComponent
-                  key={company.id}
-                  text={company.companyName}
-                  onPress={() =>
-                    dispatch(setSelectedCompany(company.companyName))
-                  }
-                  className={
-                    selectedCompany == company.companyName
-                      ? `btn-pill-active`
-                      : `btn-pill`
-                  }
-                />
-              ))}
-            </div>
+            {/* A county we serve shows its companies. A county with none yet
+                says so, rather than leaving the heading above an empty row. */}
+            {county && companiesLoaded && companies.length === 0 ? (
+              <p className="county-empty-state">
+                We are still working at adding plans in {county}. Please
+                check back soon, or use the "Request a Call" button and we will
+                help you directly.
+              </p>
+            ) : (
+              <>
+                <div>
+                  {county && (
+                    <span className="section-title">
+                      Select a company to view their plans in {county} county:
+                    </span>
+                  )}
+                </div>
+                <div className="company-buttons gap-3 p-2">
+                  {" "}
+                  {/* 🔹 gap handles spacing */}
+                  {companies.map((company) => (
+                    <ButtonComponent
+                      key={company.id}
+                      text={company.companyName}
+                      onPress={() =>
+                        dispatch(setSelectedCompany(company.companyName))
+                      }
+                      className={
+                        selectedCompany == company.companyName
+                          ? `btn-pill-active`
+                          : `btn-pill`
+                      }
+                    />
+                  ))}
+                </div>
+              </>
+            )}
           </div>
           {companyPlans.length > 0 && (
             <span className="hint-text">
@@ -131,6 +154,11 @@ const ExplorePage = () => {
               benefits. <br /> If you'd like to learn more about them, please
               click the "Request a Call" button!{" "}
             </span>
+          )}
+          {selectedCompany && plansLoaded && companyPlans.length === 0 && (
+            <p className="county-empty-state">
+              We are still working at adding {selectedCompany} plans in {county}{" "} county. Please check back soon, or select "Request a Call".
+            </p>
           )}
           <div className="plans-container w-[90vw]">
             {groupPlansByYear(companyPlans).map((planGroup) => (
