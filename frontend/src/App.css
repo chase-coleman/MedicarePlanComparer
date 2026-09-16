@@ -648,15 +648,31 @@ button.btn-pill-active[data-hover="true"] {
   color: var(--text-subtle);
 }
 
-/* Banner on a plan-year whose real benefits are not published yet */
+/* Banner on a plan-year whose real benefits are not published yet. Carries
+   the copper accent rather than the muted surface: every benefit below it
+   reads "N/A", and a reader who misses this banner has no other cue telling
+   them the data is pending rather than absent. */
 .plan-pending {
-  padding: 0.75rem 1rem;
-  font-size: 0.75rem;
-  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.45;
   text-align: left;
-  color: var(--text-muted);
-  background-color: var(--surface-raised);
+  color: var(--accent-dark);
+  background-color: var(--accent-tint);
   border-bottom: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+}
+
+.plan-pending::before {
+  content: "\26A0";
+  flex-shrink: 0;
+  font-size: 0.9375rem;
+  line-height: 1;
+  color: var(--accent);
 }
 
 /* Shown when the selected year has no record for this plan */
@@ -695,8 +711,8 @@ button.btn-pill-active[data-hover="true"] {
 .year-toggle {
   display: inline-flex;
   flex-shrink: 0;
-  gap: 2px;
-  padding: 2px;
+  gap: 3px;
+  padding: 3px;
   background-color: var(--surface-raised);
   border: 1px solid var(--border);
   border-radius: 9999px;
@@ -704,10 +720,10 @@ button.btn-pill-active[data-hover="true"] {
 }
 
 .year-toggle-option {
-  padding: 0.2rem 0.6rem;
+  padding: 0.4rem 0.95rem;
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  font-weight: 500;
+  font-size: 0.8125rem;
+  font-weight: 600;
   letter-spacing: 0.02em;
   line-height: 1.5;
   color: var(--text-muted);
