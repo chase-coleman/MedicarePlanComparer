@@ -1334,3 +1334,19 @@ button.btn-pill-active[data-hover="true"] {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* Shown when a county has no companies yet, or a company has no plans in the
+   selected county. Uses the same muted panel treatment as .plan-unavailable so
+   an empty county reads as "nothing here yet" rather than as a broken page. */
+.county-empty-state {
+  max-width: 44rem;
+  margin: 0.5rem auto;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  background-color: var(--surface-muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}

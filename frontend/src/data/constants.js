@@ -1,5 +1,14 @@
 export const PLAN_YEARS = ["2026", "2027"]
-export const ALL_COUNTIES = [{countyName: "Linn"}, {countyName: "Tillamook"}, {countyName: "Lincoln"}]
+// The counties the explore page offers. `id` mirrors county.id in the
+// database so the two lists cannot drift; the API itself is keyed by name.
+export const ALL_COUNTIES = [
+  { id: 1, countyName: "Linn" },
+  { id: 2, countyName: "Tillamook" },
+  { id: 3, countyName: "Lincoln" },
+  { id: 4, countyName: "Clatsop" },
+  { id: 5, countyName: "Lane" },
+  { id: 6, countyName: "Yamhill" },
+]
 
 export const API_URL = import.meta.env.VITE_API_ENDPOINT
 
@@ -10,6 +19,19 @@ export const LINN_CO_DISCLAIMER = "We do not offer every plan available in your 
 export const LINCOLN_CO_DISCLAIMER = "We do not offer every plan available in your area. In Lincoln County, we represent 1 organization which offer 4 products in the county. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Assistance Program (SHIP) to get information on all of your options."
 export const TILLAMOOK_CO_DISCLAIMER = "We do not offer every plan available in your area. In Tillamook County, we represent 1 organization which offer 4 products in the county. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Assistance Program (SHIP) to get information on all of your options."
 export const PLAN_OFFERING_DISCLAIMER = "We do not offer every plan available in your area. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Assistance Program (SHIP) to get information on all of your options." 
+// County-specific plan-offering disclaimers, keyed by the county name the
+// explore page stores. A county with no entry here falls back to the generic
+// PLAN_OFFERING_DISCLAIMER, so a new county can ship before its organization
+// and product counts are confirmed.
+export const COUNTY_DISCLAIMERS = {
+  Linn: LINN_CO_DISCLAIMER,
+  Lincoln: LINCOLN_CO_DISCLAIMER,
+  Tillamook: TILLAMOOK_CO_DISCLAIMER,
+}
+
+export const countyDisclaimer = (countyName) =>
+  COUNTY_DISCLAIMERS[countyName] ?? PLAN_OFFERING_DISCLAIMER
+
 export const JMCOLE_DISCLAIMER = "JMColegroup complies with applicable Federal civil rights laws and does not discriminate on the basis of race, color, national origin, age, disability, or sex. ATTENTION: If you speak a language other than English, language assistance services, free of charge, are available to you. Call 1-800-MEDICARE (TTY: 1-877-486-2048)."
 
 // Trademark / copyright line rendered beneath the footer disclaimers

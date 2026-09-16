@@ -60,6 +60,15 @@ describe("App", () => {
       expect(screen.queryByText(PLAN_OFFERING_DISCLAIMER)).not.toBeInTheDocument();
     });
 
+    it.each(["Clatsop", "Lane", "Yamhill"])(
+      "shows the generic disclaimer in %s, which has no county-specific text yet",
+      (county) => {
+        renderApp({ preloadedState: { county: { value: county } } });
+
+        expect(screen.getByText(PLAN_OFFERING_DISCLAIMER)).toBeInTheDocument();
+      },
+    );
+
     it("falls back to the generic disclaimer for an unknown county", () => {
       renderApp({ preloadedState: { county: { value: "Benton" } } });
 
