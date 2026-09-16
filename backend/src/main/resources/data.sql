@@ -85,6 +85,14 @@
 --     - Premium                        HMO      NULL           plan_id=106
 --     - C-SNP Plus                     C-SNP    NULL           plan_id=124
 --
+-- ===== COUNTIES WITH COMPANIES BUT NO PLANS YET =====
+-- Clatsop (4), Lane (5), and Yamhill (6) have county rows and
+-- counties_companies rows, but no counties_plan rows yet, so their company
+-- buttons appear and each one shows the "no plans yet" message.
+--   Clatsop (4)  Devoted
+--   Lane (5)     Devoted, UnitedHealthcare, Wellcare
+--   Yamhill (6)  Devoted, UnitedHealthcare, Wellcare
+--
 -- ===== PLANS NOT ASSIGNED TO ANY COUNTY =====
 -- These have plan rows but no counties_plan rows, so they never
 -- reach the UI, and no CMS id was collected for them.
@@ -308,6 +316,12 @@ otc_credit, otc_renewal, giveback_amount, rx_coverage, company_id
 INSERT INTO county (id, county_name) VALUES (1, "Linn");
 INSERT INTO county (id, county_name) VALUES (2, "Tillamook");
 INSERT INTO county (id, county_name) VALUES (3, "Lincoln");
+-- Counties 4-6 are new. They have counties_companies rows but no
+-- counties_plan rows yet, so their company buttons render and each shows the
+-- "no plans yet" message until plans are linked.
+INSERT INTO county (id, county_name) VALUES (4, "Clatsop");
+INSERT INTO county (id, county_name) VALUES (5, "Lane");
+INSERT INTO county (id, county_name) VALUES (6, "Yamhill");
 
 
 -- ####################################
@@ -367,6 +381,19 @@ INSERT INTO counties_companies (company_id, county_id) VALUES (3, 1);
 
 -- Wellcare into Linn County
 INSERT INTO counties_companies (company_id, county_id) VALUES (4, 1);
+
+-- Devoted into Clatsop County
+INSERT INTO counties_companies (company_id, county_id) VALUES (1, 4);
+
+-- Devoted, UHC, and Wellcare into Lane County
+INSERT INTO counties_companies (company_id, county_id) VALUES (1, 5);
+INSERT INTO counties_companies (company_id, county_id) VALUES (3, 5);
+INSERT INTO counties_companies (company_id, county_id) VALUES (4, 5);
+
+-- Devoted, UHC, and Wellcare into Yamhill County
+INSERT INTO counties_companies (company_id, county_id) VALUES (1, 6);
+INSERT INTO counties_companies (company_id, county_id) VALUES (3, 6);
+INSERT INTO counties_companies (company_id, county_id) VALUES (4, 6);
 
 
 -- ############################################

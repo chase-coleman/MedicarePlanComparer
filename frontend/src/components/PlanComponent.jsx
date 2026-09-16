@@ -81,7 +81,7 @@ const PlanComponent = ({ planGroup, addToCompare, removeFromCompare }) => {
             )}
             {published && selectedCompany == "Devoted" && (
               <p className="plan-note">
-                Ask use about Devoted's Food&amp;Home card that can pay for
+                Ask us about Devoted's Food&amp;Home card that can pay for
                 groceries, rent, or your utility bill!
               </p>
             )}
