@@ -168,6 +168,15 @@ describe("PlanComponent", () => {
       expect(screen.getByRole("button", { name: "2027" })).toBeInTheDocument();
     });
 
+    it("drops an earlier year the plan has no record for", () => {
+      renderPlan(groupOf(makePlan({ planYear: 2027 })));
+
+      expect(
+        screen.queryByRole("button", { name: "2026" }),
+      ).not.toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "2027" })).toBeInTheDocument();
+    });
+
     it("opens on the plan's earliest year", () => {
       renderPlan(
         groupOf(
@@ -249,6 +258,35 @@ describe("PlanComponent", () => {
       expect(
         screen.getByText("This plan has no published benefits."),
       ).toBeInTheDocument();
+    });
+  });
+
+  describe("new-plan badge", () => {
+    it("flags a plan the API marks as new", () => {
+      renderPlan(groupOf(makePlan({ newPlan: true })));
+
+      expect(screen.getByText("New plan!")).toBeInTheDocument();
+    });
+
+    it("stays off when the plan is not new", () => {
+      renderPlan(groupOf(makePlan({ newPlan: false })));
+
+      expect(screen.queryByText("New plan!")).not.toBeInTheDocument();
+    });
+
+    it("follows the selected year, since the flag is per plan-year", async () => {
+      const { user } = renderPlan(
+        groupOf(
+          makePlan({ id: 1, planGroupId: 7, planYear: 2026, newPlan: false }),
+          makePlan({ id: 2, planGroupId: 7, planYear: 2027, newPlan: true }),
+        ),
+      );
+
+      expect(screen.queryByText("New plan!")).not.toBeInTheDocument();
+
+      await user.click(screen.getByRole("button", { name: "2027" }));
+
+      expect(screen.getByText("New plan!")).toBeInTheDocument();
     });
   });
 

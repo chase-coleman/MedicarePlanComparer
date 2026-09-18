@@ -16,6 +16,7 @@ public interface PlanRepository extends JpaRepository<Plan, Long> {
     String getCmsPlanId();
     int getPlanYear();
     boolean getBenefitsPublished();
+    boolean getNewPlan();
     BigDecimal getMonthlyPremium();
     int getMoop();
     String getPlanType();

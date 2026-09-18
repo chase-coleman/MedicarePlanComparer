@@ -12,6 +12,7 @@ export const makePlan = (overrides = {}) => {
     cmsPlanId: "H1234-005-000",
     planYear: 2026,
     benefitsPublished: true,
+    newPlan: false,
     monthlyPremium: 0,
     moop: 4500,
     planType: "HMO",

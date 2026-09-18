@@ -9,7 +9,7 @@ import {
 import ButtonComponent from "./ButtonComponent";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { PLAN_YEARS } from "../data/constants";
+import { PLAN_YEARS, UPCOMING_PLAN_YEAR } from "../data/constants";
 
 const PlanComponent = ({ planGroup, addToCompare, removeFromCompare }) => {
   const comparedPlans = useSelector((state) => state.comparedPlans.value);
@@ -27,14 +27,21 @@ const PlanComponent = ({ planGroup, addToCompare, removeFromCompare }) => {
   const na = (value) => (published ? value : "N/A");
 
   return (
-    <>
+    <div className="plan-card-shell">
+      {plan?.newPlan && <span className="plan-new-flag">New plan!</span>}
       <div className="plan-card">
         <div className="plan-card-header">
           <div className="plan-card-heading">
             <span className="plan-card-name">{planGroup.planName}</span>
           </div>
           <div className="year-toggle" role="group" aria-label="Plan year">
-            {PLAN_YEARS.map((year) => {
+            {PLAN_YEARS.filter(
+              // A year the plan has no record for is only worth a toggle when
+              // it is the upcoming one, where the gap means "not published
+              // yet". An earlier year with no record means the site never
+              // carried the plan then, so offering it would be a dead option.
+              (year) => planGroup.byYear.has(year) || year === UPCOMING_PLAN_YEAR,
+            ).map((year) => {
               const offered = planGroup.byYear.has(year);
               return (
                 <button
@@ -233,7 +240,7 @@ const PlanComponent = ({ planGroup, addToCompare, removeFromCompare }) => {
           </>
         )}
       </div>
-    </>
+    </div>
   );
 };
 

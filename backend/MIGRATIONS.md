@@ -16,6 +16,8 @@ alters the schema. Run these in order against PlanetScale.
 | `v4_add_counties.sql` | **DML** | run in the console / `pscale shell` — despite the name, this is rows, not schema, and is independent of the `v4` plan-grouping steps above |
 | `v7_add_2027_plan_rows.sql` | **DML** | run in the console / `pscale shell` |
 | `v8_add_companies.sql` | **DML** | run in the console / `pscale shell` — adds PacificSource and Atrio and their county pairings |
+| `v9_add_2026_or6.sql` | **DML** | run in the console / `pscale shell` — adds the 2026 row for UnitedHealthcare OR-6 and its Lane/Yamhill links |
+| `v10_add_new_plan_flag.sql` | schema **+ DML** | section 1 is a deploy request; sections 2-3 run in the console / `pscale shell` — adds `new_plan`, which drives the "New plan!" badge |
 
 ## Two PlanetScale rules these follow
 
