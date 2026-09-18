@@ -56,6 +56,16 @@ public class Plan {
   private boolean getBenefitsPublished() { return benefitsPublished; }
   private void setBenefitsPublished(boolean benefitsPublished) { this.benefitsPublished = benefitsPublished; }
 
+  // True marks a plan as newly offered, which the client renders as a
+  // "New plan!" badge on the card. Defaults to false so an added row is
+  // never flagged by accident; flip it on deliberately, and clear it for
+  // every row when the next plan year opens.
+  @Column(nullable = false)
+  private boolean newPlan = false;
+
+  private boolean getNewPlan() { return newPlan; }
+  private void setNewPlan(boolean newPlan) { this.newPlan = newPlan; }
+
   @Column(nullable = false)
   private BigDecimal monthlyPremium;
 

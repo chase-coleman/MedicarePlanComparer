@@ -592,9 +592,46 @@ button.btn-pill-active[data-hover="true"] {
   display: flex;
   flex-direction: row;
   gap: 1.25rem;
-  padding: 0.5rem 0 1rem;
+  /* 1rem of top padding clears the "New plan!" badge, which hangs half a
+     badge-height above each card's top edge */
+  padding: 1rem 0;
   max-width: var(--content-max);
   align-items: start;
+}
+
+/* .plan-card clips its children to its rounded corners, so the "New plan!"
+   badge cannot hang above its top edge from inside it. This wrapper holds
+   the badge outside that clip, and carries the hover lift so the badge
+   rises with the card rather than staying behind. */
+.plan-card-shell {
+  position: relative;
+  display: flex;
+  transition: transform 0.18s ease;
+}
+
+.plan-card-shell:hover {
+  transform: translateY(-3px);
+}
+
+/* Straddles the card's top border, half above and half inside, so it reads
+   as splitting the edge rather than sitting on the header. */
+.plan-new-flag {
+  position: absolute;
+  top: 0;
+  left: 1rem;
+  z-index: 2;
+  transform: translateY(-50%);
+  padding: 0.1875rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--surface);
+  background-color: var(--accent);
+  border: 1px solid var(--accent-dark);
+  border-radius: 999px;
+  box-shadow: var(--shadow-sm);
 }
 
 .plan-card {
@@ -607,12 +644,10 @@ button.btn-pill-active[data-hover="true"] {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow-md), var(--sheen);
-  transition: border-color 0.18s ease, transform 0.18s ease,
-    box-shadow 0.18s ease;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
 }
 
-.plan-card:hover {
-  transform: translateY(-3px);
+.plan-card-shell:hover .plan-card {
   border-color: var(--brand-line);
   box-shadow: var(--shadow-md), 0 12px 28px rgba(17, 24, 31, 0.10);
 }
@@ -657,9 +692,9 @@ button.btn-pill-active[data-hover="true"] {
   align-items: center;
   gap: 0.5rem;
   padding: 0.8rem 1rem;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 600;
-  line-height: 1.45;
+  line-height: 1.5;
   text-align: left;
   color: var(--accent-dark);
   background-color: var(--accent-tint);
@@ -670,7 +705,7 @@ button.btn-pill-active[data-hover="true"] {
 .plan-pending::before {
   content: "\26A0";
   flex-shrink: 0;
-  font-size: 0.9375rem;
+  font-size: 1rem;
   line-height: 1;
   color: var(--accent);
 }
@@ -773,9 +808,10 @@ button.btn-pill-active[data-hover="true"] {
 
 .plan-note {
   padding: 0.75rem 1rem;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-style: normal;
-  line-height: 1.55;
+  font-weight: 600;
+  line-height: 1.5;
   text-align: left;
   color: var(--accent);
   background-color: var(--accent-tint);
