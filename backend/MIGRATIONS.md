@@ -15,6 +15,7 @@ alters the schema. Run these in order against PlanetScale.
 | `v6_backfill_cms_plan_ids.sql` | **DML** | run in the console / `pscale shell` |
 | `v4_add_counties.sql` | **DML** | run in the console / `pscale shell` — despite the name, this is rows, not schema, and is independent of the `v4` plan-grouping steps above |
 | `v7_add_2027_plan_rows.sql` | **DML** | run in the console / `pscale shell` |
+| `v8_add_companies.sql` | **DML** | run in the console / `pscale shell` — adds PacificSource and Atrio and their county pairings |
 
 ## Two PlanetScale rules these follow
 
