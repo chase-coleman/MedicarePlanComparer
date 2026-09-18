@@ -90,8 +90,8 @@
 -- counties_companies rows, but no counties_plan rows yet, so their company
 -- buttons appear and each one shows the "no plans yet" message.
 --   Clatsop (4)  Devoted
---   Lane (5)     Devoted, UnitedHealthcare, Wellcare
---   Yamhill (6)  Devoted, UnitedHealthcare, Wellcare
+--   Lane (5)     Devoted, UnitedHealthcare, Wellcare, PacificSource, Atrio
+--   Yamhill (6)  Devoted, UnitedHealthcare, Wellcare, Atrio
 --
 -- ===== PLANS NOT ASSIGNED TO ANY COUNTY =====
 -- These have plan rows but no counties_plan rows, so they never
@@ -115,7 +115,12 @@ INSERT INTO company (id, company_name) VALUES (1, "Devoted");
 INSERT INTO company (id, company_name) VALUES (2, "Humana");
 INSERT INTO company (id, company_name) VALUES (3, "UnitedHealthcare");
 INSERT INTO company (id, company_name) VALUES (4, "Wellcare");
--- INSERT INTO company (id, company_name) VALUES (5, "Regence");
+-- PacificSource and Atrio are carried for their counties' company buttons.
+-- They have no plan rows yet, so each button shows the "no plans yet" message.
+INSERT INTO company (id, company_name) VALUES (5, "PacificSource");
+INSERT INTO company (id, company_name) VALUES (6, "Atrio");
+-- Regence is not carried. If it is ever added, it takes the next free id (7),
+-- not 5, which PacificSource now holds.
 
 -- ###################
 -- ###### PLANS ######
@@ -394,6 +399,13 @@ INSERT INTO counties_companies (company_id, county_id) VALUES (4, 5);
 INSERT INTO counties_companies (company_id, county_id) VALUES (1, 6);
 INSERT INTO counties_companies (company_id, county_id) VALUES (3, 6);
 INSERT INTO counties_companies (company_id, county_id) VALUES (4, 6);
+
+-- PacificSource into Lane County
+INSERT INTO counties_companies (company_id, county_id) VALUES (5, 5);
+
+-- Atrio into Lane and Yamhill Counties
+INSERT INTO counties_companies (company_id, county_id) VALUES (6, 5);
+INSERT INTO counties_companies (company_id, county_id) VALUES (6, 6);
 
 
 -- ############################################
