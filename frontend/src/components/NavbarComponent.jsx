@@ -18,11 +18,25 @@ const NavbarComponent = () => {
   const dispatch = useDispatch();
 
   const menuItems = [
-    { label: "Explore plan options", to: "/explore" },
     { label: "Home", to: "/" },
+    { label: "Explore plan options", to: "/explore" },
     { label: "Compare Plans", to: "/compare" },
     { label: "Find A Meeting", to: "/find-meeting" },
   ];
+
+  // The wordmark doubles as the way home, which is what visitors expect of a
+  // site's logo. Closing the menu matters on mobile, where the brand stays
+  // visible above the open sheet.
+  const brand = (
+    <RouterLink
+      to="/"
+      className="nav-brand"
+      aria-label="MPRC, go to the home page"
+      onClick={() => setIsMenuOpen(false)}
+    >
+      MPRC
+    </RouterLink>
+  );
 
   return (
     <Navbar
@@ -41,9 +55,7 @@ const NavbarComponent = () => {
 
       {/* Mobile: centered brand */}
       <NavbarContent className="sm:hidden pr-3" justify="center">
-        <NavbarBrand>
-          <span className="nav-brand">MPRC</span>
-        </NavbarBrand>
+        <NavbarBrand>{brand}</NavbarBrand>
       </NavbarContent>
 
       {/* Desktop nav */}
@@ -51,9 +63,7 @@ const NavbarComponent = () => {
         className="hidden sm:flex gap-8 flex-1 justify-center items-center"
         justify="center"
       >
-        <NavbarBrand>
-          <span className="nav-brand">MPRC</span>
-        </NavbarBrand>
+        <NavbarBrand>{brand}</NavbarBrand>
 
         <NavbarItem>
           <NavLink

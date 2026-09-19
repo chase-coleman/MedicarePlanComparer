@@ -8,9 +8,25 @@ import {
   sweethomeMeetings,
   tillamookMeetings,
 } from "../data/meetings";
+import {
+  MEETINGS_SCHEDULED,
+  MEETINGS_PENDING_MESSAGE,
+} from "../data/constants";
 
 const FindAMeetingPage = () => {
   const [county, setCounty] = useState("");
+  // Whether there are meetings to show at all. Seeded from MEETINGS_SCHEDULED
+  // in constants.js -- flip that to true and the county buttons and their
+  // meeting lists render exactly as before.
+  const [hasMeetings] = useState(MEETINGS_SCHEDULED);
+
+  if (!hasMeetings) {
+    return (
+      <div className="find-us-page-container w-[100vw] mt-2">
+        <p className="site-notice">{MEETINGS_PENDING_MESSAGE}</p>
+      </div>
+    );
+  }
 
   return (
     <>

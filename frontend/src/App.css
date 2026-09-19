@@ -53,7 +53,7 @@
   gap: 0.5rem;
   padding: 0.3rem 0.75rem 0.3rem 0.6rem;
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -135,6 +135,9 @@ nav.bg-brand {
 }
 
 .nav-brand {
+  /* An anchor now, so the browser's link underline and colour are cleared
+     before the gradient text-fill below takes over. */
+  text-decoration: none;
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 1rem;
@@ -630,7 +633,7 @@ button.btn-pill-active[data-hover="true"] {
   color: var(--surface);
   background-color: var(--accent);
   border: 1px solid var(--accent-dark);
-  border-radius: 999px;
+  border-radius: 5px;
   box-shadow: var(--shadow-sm);
 }
 
@@ -1390,6 +1393,64 @@ button.btn-pill-active[data-hover="true"] {
 /* Shown when a county has no companies yet, or a company has no plans in the
    selected county. Uses the same muted panel treatment as .plan-unavailable so
    an empty county reads as "nothing here yet" rather than as a broken page. */
+/* Pending-request spinner. The ring is drawn from the brand token with one
+   transparent quadrant, so it reads as rotating without needing an image. */
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 2rem 1rem;
+}
+
+.loader-spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid var(--border);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: loader-spin 0.7s linear infinite;
+}
+
+.loader-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+@keyframes loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Respects a visitor who has asked for less motion: the ring stops turning
+   and simply sits there while the label carries the message. */
+@media (prefers-reduced-motion: reduce) {
+  .loader-spinner {
+    animation: none;
+  }
+}
+
+/* Standing notice: a carrier's message under the company buttons, or the
+   Find a Meeting page's "not scheduled yet" line. The accent tint reads as
+   information the site is choosing to tell you, which is what separates it
+   from .county-empty-state below -- that one means "nothing here yet". */
+.site-notice {
+  max-width: 44rem;
+  margin: 0.5rem auto;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--accent-dark);
+  background-color: var(--accent-tint);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
 .county-empty-state {
   max-width: 44rem;
   margin: 0.5rem auto;

@@ -22,6 +22,9 @@ CREATE TABLE IF NOT EXISTS `plan` (
   `plan_year`               INT NOT NULL DEFAULT 2026,
   -- FALSE = placeholder row; the UI renders every benefit as N/A
   `benefits_published`      BOOLEAN NOT NULL DEFAULT TRUE,
+  -- TRUE renders a "New plan!" badge on the card. Per plan-year row, so a
+  -- plan can be new in the year it launches and unflagged the next.
+  `new_plan`                BOOLEAN NOT NULL DEFAULT FALSE,
   `monthly_premium`         DECIMAL(10,2) NOT NULL,
   `moop`                    INT NOT NULL,
   `plan_type`               VARCHAR(255) NOT NULL,

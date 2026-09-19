@@ -36,6 +36,16 @@ describe("NavbarComponent", () => {
     );
   });
 
+  it("points both wordmarks at the home route", () => {
+    renderWithProviders(<NavbarComponent />);
+
+    const brands = screen.getAllByRole("link", { name: /^MPRC/ });
+    expect(brands.length).toBeGreaterThan(0);
+    for (const brand of brands) {
+      expect(brand).toHaveAttribute("href", "/");
+    }
+  });
+
   it("marks Home active on the landing route", () => {
     renderWithProviders(<NavbarComponent />, { route: "/" });
 
@@ -74,8 +84,8 @@ describe("NavbarComponent", () => {
 
       const menu = document.querySelector(".nav-menu-sheet");
       for (const [label, href] of [
-        ["Explore plan options", "/explore"],
         ["Home", "/"],
+        ["Explore plan options", "/explore"],
         ["Compare Plans", "/compare"],
         ["Find A Meeting", "/find-meeting"],
       ]) {
@@ -86,7 +96,19 @@ describe("NavbarComponent", () => {
       }
     });
 
-    it("puts Home first after the explore entry, matching the menu order", async () => {
+    it("closes the menu when the wordmark is used to go home", async () => {
+      const { user } = renderWithProviders(<NavbarComponent />);
+
+      await user.click(screen.getByRole("button", { name: "Open menu" }));
+      const [mobileBrand] = screen.getAllByRole("link", { name: /^MPRC/ });
+      await user.click(mobileBrand);
+
+      expect(
+        screen.getByRole("button", { name: "Open menu" }),
+      ).toBeInTheDocument();
+    });
+
+    it("puts Home at the top of the menu", async () => {
       const { user } = renderWithProviders(<NavbarComponent />);
 
       await user.click(screen.getByRole("button", { name: "Open menu" }));
@@ -97,8 +119,8 @@ describe("NavbarComponent", () => {
           .getAllByRole("link")
           .map((link) => link.textContent),
       ).toEqual([
-        "Explore plan options",
         "Home",
+        "Explore plan options",
         "Compare Plans",
         "Find A Meeting",
       ]);

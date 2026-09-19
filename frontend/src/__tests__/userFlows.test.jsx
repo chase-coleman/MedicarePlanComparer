@@ -15,6 +15,30 @@ import { makeCompany, makePlan } from "../test/fixtures";
 
 vi.mock("axios");
 
+// The meeting journey only exists while meetings are switched on, and the real
+// lists empty out between enrollment seasons. Both are pinned here so this flow
+// stays covered whatever the live data and the MEETINGS_SCHEDULED switch say.
+vi.mock("../data/meetings", () => ({
+  tillamookMeetings: [
+    {
+      county: "Tillamook",
+      venueName: "Tillamook Library",
+      address: "1716 3rd St, Tillamook, OR 97141",
+      month: "October",
+      day: "2",
+      startTime: "10:30 am",
+    },
+  ],
+  newportMeetings: [],
+  lebanonMeetings: [],
+  sweethomeMeetings: [],
+}));
+
+vi.mock("../data/constants", async (importOriginal) => ({
+  ...(await importOriginal()),
+  MEETINGS_SCHEDULED: true,
+}));
+
 const API = "https://api.test.local/";
 
 // Mirrors src/router.jsx, with an in-memory history so each test starts clean.
