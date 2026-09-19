@@ -32,6 +32,6 @@ export const BROKERS = [
     broker: "JJ Peters",
     phone: "503-502-0891",
     email: "jj@mprc.info",
-    npn: "",
+    npn: "22154524",
   },
 ]

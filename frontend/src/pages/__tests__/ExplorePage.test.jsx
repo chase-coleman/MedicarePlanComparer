@@ -304,6 +304,69 @@ describe("ExplorePage", () => {
     });
   });
 
+  describe("carrier notices", () => {
+    it("shows Wellcare's 2027 notice in a county", async () => {
+      renderWithProviders(<ExplorePage />, {
+        preloadedState: {
+          county: { value: "Linn" },
+          selectedCompany: { value: "Wellcare" },
+        },
+      });
+
+      expect(
+        await screen.findByText(
+          "Wellcare has decided to not promote their plans for 2027.",
+        ),
+      ).toBeInTheDocument();
+    });
+
+    it("withholds the plan cards for a hidden carrier", async () => {
+      // Served by the API, so this proves suppression rather than an empty list
+      respondWith({ plans: [makePlan({ id: 1, planName: "Wellcare Simple" })] });
+      renderWithProviders(<ExplorePage />, {
+        preloadedState: {
+          county: { value: "Linn" },
+          selectedCompany: { value: "Wellcare" },
+        },
+      });
+
+      await screen.findByText(
+        "Wellcare has decided to not promote their plans for 2027.",
+      );
+      expect(screen.queryByText("Wellcare Simple")).not.toBeInTheDocument();
+      // The notice is the explanation, so the empty state must not contradict it
+      expect(
+        screen.queryByText(/still working at adding/i),
+      ).not.toBeInTheDocument();
+    });
+
+    it("still shows plans for a carrier that is not hidden", async () => {
+      respondWith({ plans: [makePlan({ id: 1, planName: "Devoted Core" })] });
+      renderWithProviders(<ExplorePage />, {
+        preloadedState: {
+          county: { value: "Linn" },
+          selectedCompany: { value: "Devoted" },
+        },
+      });
+
+      expect(await screen.findByText("Devoted Core")).toBeInTheDocument();
+    });
+
+    it("stays off for a carrier with no notice", () => {
+      renderWithProviders(<ExplorePage />, {
+        preloadedState: {
+          county: { value: "Linn" },
+          selectedCompany: { value: "Devoted" },
+          companyPlans: { value: [makePlan({ id: 1 })] },
+        },
+      });
+
+      expect(
+        screen.queryByText(/decided to not promote/i),
+      ).not.toBeInTheDocument();
+    });
+  });
+
   describe("building a comparison", () => {
     const renderWithPlans = (planList) => {
       respondWith({ plans: planList });

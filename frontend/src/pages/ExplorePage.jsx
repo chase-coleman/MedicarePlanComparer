@@ -17,7 +17,12 @@ import PlanComponent from "../components/PlanComponent";
 import { groupPlansByYear } from "../functions/groupPlans";
 import { useState } from "react";
 import { Alert } from "@heroui/react";
-import { API_URL, ALL_COUNTIES } from "../data/constants";
+import {
+  API_URL,
+  ALL_COUNTIES,
+  companyNotice,
+  arePlansHidden,
+} from "../data/constants";
 
 const ExplorePage = () => {
   const dispatch = useDispatch(); // redux state updater
@@ -27,6 +32,10 @@ const ExplorePage = () => {
   const selectedCompany = useSelector((state) => state.selectedCompany.value); // the county the user selects to view their plans
   const companyPlans = useSelector((state) => state.companyPlans.value);
   const comparedPlans = useSelector((state) => state.comparedPlans.value);
+  // Carriers on the hidden list keep their button and notice but show no plan
+  // cards, and no "still adding plans" message either -- the notice is the
+  // explanation, so the empty state would contradict it.
+  const plansHidden = arePlansHidden(selectedCompany);
   const [isOctoberYet, setIsOctoberYet] = useState(true);
   // An empty `companies` list means one of two different things: the fetch has
   // not come back yet, or the county genuinely has no companies. These flags
@@ -148,28 +157,39 @@ const ExplorePage = () => {
               </>
             )}
           </div>
-          {companyPlans.length > 0 && (
+          {!plansHidden && companyPlans.length > 0 && (
             <span className="hint-text">
               The plans displayed are <em>highlights</em>, not the full
               benefits. <br /> If you'd like to learn more about them, please
               click the "Request a Call" button!{" "}
             </span>
           )}
-          {selectedCompany && plansLoaded && companyPlans.length === 0 && (
+          {selectedCompany && companyNotice(selectedCompany) && (
+            <>
+              <div className="site-notice">
+              <p>{companyNotice(selectedCompany)}</p>
+              <br />
+              <p>If you would like information on their plans, please reach out to us or visit the company's site.</p>
+              </div>
+            </>
+          )}
+          {!plansHidden && selectedCompany && plansLoaded && companyPlans.length === 0 && (
             <p className="county-empty-state">
               We are still working at adding {selectedCompany} plans in {county}{" "} county. Please check back soon, or select "Request a Call".
             </p>
           )}
-          <div className="plans-container w-[90vw]">
-            {groupPlansByYear(companyPlans).map((planGroup) => (
-              <PlanComponent
-                key={planGroup.key}
-                planGroup={planGroup}
-                addToCompare={addToCompare}
-                removeFromCompare={removeFromCompare}
-              />
-            ))}
-          </div>
+          {!plansHidden && (
+            <div className="plans-container w-[90vw]">
+              {groupPlansByYear(companyPlans).map((planGroup) => (
+                <PlanComponent
+                  key={planGroup.key}
+                  planGroup={planGroup}
+                  addToCompare={addToCompare}
+                  removeFromCompare={removeFromCompare}
+                />
+              ))}
+            </div>
+          )}
         </div>
       ) : (
         <div className="explore-page-container w-[100vw] m-1 mt-5">

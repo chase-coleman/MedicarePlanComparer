@@ -39,6 +39,33 @@ export const COUNTY_DISCLAIMERS = {
 export const countyDisclaimer = (countyName) =>
   COUNTY_DISCLAIMERS[countyName] ?? PLAN_OFFERING_DISCLAIMER
 
+// Standing notices shown beneath the company buttons in every county, keyed
+// by the company name the explore page stores. A company with no entry here
+// shows nothing, so adding or retiring a notice is a one-line change.
+export const COMPANY_NOTICES = {
+  Wellcare: "Wellcare has decided to not promote their plans for 2027.",
+}
+
+export const companyNotice = (companyName) =>
+  COMPANY_NOTICES[companyName] ?? null
+
+// Carriers whose plan cards are withheld in every county. The company button
+// and its COMPANY_NOTICES message still render, so a visitor sees the carrier
+// and the reason rather than an empty list or a "still adding plans" message.
+// Nothing is deleted -- clearing this list brings the plans straight back.
+export const COMPANIES_WITH_PLANS_HIDDEN = ["Wellcare"]
+
+export const arePlansHidden = (companyName) =>
+  COMPANIES_WITH_PLANS_HIDDEN.includes(companyName)
+
+// The switch for the Find a Meeting page. FALSE tells visitors that meetings
+// are still being arranged; TRUE restores the county buttons and their
+// meeting lists. Flip this one word once the schedule is set.
+export const MEETINGS_SCHEDULED = false
+
+export const MEETINGS_PENDING_MESSAGE =
+  "We are still working on setting up informational meetings. Please check back soon!"
+
 export const JMCOLE_DISCLAIMER = "JMColegroup complies with applicable Federal civil rights laws and does not discriminate on the basis of race, color, national origin, age, disability, or sex. ATTENTION: If you speak a language other than English, language assistance services, free of charge, are available to you. Call 1-800-MEDICARE (TTY: 1-877-486-2048)."
 
 // Trademark / copyright line rendered beneath the footer disclaimers
