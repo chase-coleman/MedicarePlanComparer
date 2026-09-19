@@ -58,6 +58,12 @@ export const COMPANIES_WITH_PLANS_HIDDEN = ["Wellcare"]
 export const arePlansHidden = (companyName) =>
   COMPANIES_WITH_PLANS_HIDDEN.includes(companyName)
 
+// Shown at the top of the explore page, above the county buttons. ALL_COUNTIES
+// is the whole list the site carries, so a visitor from anywhere else needs to
+// be told they are not out of options.
+export const UNLISTED_COUNTY_NOTICE =
+  "Don't see your county? We can still help. Give us a call, or use the \"Request a Call\" button and one of our agents will reach out."
+
 // The switch for the Find a Meeting page. FALSE tells visitors that meetings
 // are still being arranged; TRUE restores the county buttons and their
 // meeting lists. Flip this one word once the schedule is set.

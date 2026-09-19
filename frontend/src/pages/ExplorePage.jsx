@@ -22,7 +22,9 @@ import {
   ALL_COUNTIES,
   companyNotice,
   arePlansHidden,
+  UNLISTED_COUNTY_NOTICE,
 } from "../data/constants";
+import LoaderComponent from "../components/LoaderComponent";
 
 const ExplorePage = () => {
   const dispatch = useDispatch(); // redux state updater
@@ -42,6 +44,11 @@ const ExplorePage = () => {
   // keep the empty-state message off the screen during the first case.
   const [companiesLoaded, setCompaniesLoaded] = useState(false);
   const [plansLoaded, setPlansLoaded] = useState(false);
+  // companiesLoaded/plansLoaded mean "the fetch came back"; these mean "a
+  // fetch is in flight". They are separate so a failed request clears the
+  // spinner without being mistaken for a successful empty result.
+  const [companiesLoading, setCompaniesLoading] = useState(false);
+  const [plansLoading, setPlansLoading] = useState(false);
 
   useEffect(() => {
     if (!county) return;
@@ -49,6 +56,7 @@ const ExplorePage = () => {
   }, [county]);
 
   const getCompanies = async () => {
+    setCompaniesLoading(true);
     try {
       const response = await axios.get(`${API_URL}${county}`);
       dispatch(setCompanies(response.data));
@@ -57,6 +65,8 @@ const ExplorePage = () => {
       // set the errorMsg state to the axios error
       // using a custom axios error message handler
       dispatch(setErrorMsg(parseAxiosError(error)));
+    } finally {
+      setCompaniesLoading(false);
     }
   };
 
@@ -67,6 +77,7 @@ const ExplorePage = () => {
   }, [selectedCompany]);
 
   const getCompanyPlans = async () => {
+    setPlansLoading(true);
     try {
       const response = await axios.get(
         `${API_URL}${county}/${selectedCompany}`,
@@ -75,6 +86,8 @@ const ExplorePage = () => {
       setPlansLoaded(true);
     } catch (error) {
       dispatch(setErrorMsg(parseAxiosError(error)));
+    } finally {
+      setPlansLoading(false);
     }
   };
 
@@ -99,6 +112,9 @@ const ExplorePage = () => {
     <>
       {isOctoberYet ? (
         <div className="explore-page-container w-[100vw] m-1">
+          <div className="site-notice">
+            <p>{UNLISTED_COUNTY_NOTICE}</p>
+          </div>
           <div className="county-container w-[90vw]">
             <div>
               <span className="section-title">Select your county:</span>
@@ -121,7 +137,9 @@ const ExplorePage = () => {
           <div className="company-container block w-[90vw]">
             {/* A county we serve shows its companies. A county with none yet
                 says so, rather than leaving the heading above an empty row. */}
-            {county && companiesLoaded && companies.length === 0 ? (
+            {companiesLoading ? (
+              <LoaderComponent label={`Loading companies in ${county}`} />
+            ) : county && companiesLoaded && companies.length === 0 ? (
               <p className="county-empty-state">
                 We are still working at adding plans in {county}. Please
                 check back soon, or use the "Request a Call" button and we will
@@ -157,7 +175,10 @@ const ExplorePage = () => {
               </>
             )}
           </div>
-          {!plansHidden && companyPlans.length > 0 && (
+          {plansLoading && (
+            <LoaderComponent label={`Loading ${selectedCompany} plans`} />
+          )}
+          {!plansLoading && !plansHidden && companyPlans.length > 0 && (
             <span className="hint-text">
               The plans displayed are <em>highlights</em>, not the full
               benefits. <br /> If you'd like to learn more about them, please
@@ -173,12 +194,12 @@ const ExplorePage = () => {
               </div>
             </>
           )}
-          {!plansHidden && selectedCompany && plansLoaded && companyPlans.length === 0 && (
+          {!plansLoading && !plansHidden && selectedCompany && plansLoaded && companyPlans.length === 0 && (
             <p className="county-empty-state">
               We are still working at adding {selectedCompany} plans in {county}{" "} county. Please check back soon, or select "Request a Call".
             </p>
           )}
-          {!plansHidden && (
+          {!plansLoading && !plansHidden && (
             <div className="plans-container w-[90vw]">
               {groupPlansByYear(companyPlans).map((planGroup) => (
                 <PlanComponent

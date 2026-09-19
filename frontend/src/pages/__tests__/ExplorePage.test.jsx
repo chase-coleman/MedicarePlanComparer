@@ -58,7 +58,7 @@ describe("ExplorePage", () => {
 
       await waitFor(() =>
         expect(
-          screen.getByText(/do not have any plans to show in Clatsop county/i),
+          screen.getByText(/still working at adding plans in Clatsop/i),
         ).toBeInTheDocument(),
       );
       expect(screen.queryByText(/Select a company/)).not.toBeInTheDocument();
@@ -74,13 +74,13 @@ describe("ExplorePage", () => {
       await user.click(screen.getByRole("button", { name: "Lane" }));
 
       expect(
-        screen.queryByText(/do not have any plans to show/i),
+        screen.queryByText(/still working at adding plans/i),
       ).not.toBeInTheDocument();
 
       release();
       await waitFor(() =>
         expect(
-          screen.getByText(/do not have any plans to show in Lane county/i),
+          screen.getByText(/still working at adding plans in Lane/i),
         ).toBeInTheDocument(),
       );
     });
@@ -114,7 +114,7 @@ describe("ExplorePage", () => {
 
       await waitFor(() =>
         expect(
-          screen.getByText(/do not have any Devoted plans to show in Yamhill/i),
+          screen.getByText(/still working at adding Devoted plans in Yamhill/i),
         ).toBeInTheDocument(),
       );
     });
