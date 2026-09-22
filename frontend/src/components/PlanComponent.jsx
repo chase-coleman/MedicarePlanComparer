@@ -10,6 +10,7 @@ import ButtonComponent from "./ButtonComponent";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { PLAN_YEARS, UPCOMING_PLAN_YEAR } from "../data/constants/planYears";
+import { PLAN_DISCLAIMERS } from "../data/constants/disclaimers";
 
 const PlanComponent = ({ planGroup, addToCompare, removeFromCompare }) => {
   const comparedPlans = useSelector((state) => state.comparedPlans.value);
@@ -220,22 +221,9 @@ const PlanComponent = ({ planGroup, addToCompare, removeFromCompare }) => {
             </div>
 
             <div className="plan-disclaimers">
-              <p>
-                This is a brief summary, not a complete description of benefits.
-                For more information, please refer to the plan’s Evidence of
-                Coverage (EOC) or Summary of Benefits. Limitations, copayments,
-                and restrictions may apply.
-              </p>
-              <p>
-                {selectedCompany} is a Medicare Advantage plan with a Medicare
-                contract. Enrollment in {selectedCompany} depends on contract
-                renewal.
-              </p>
-              <p>
-                All copays/coinsurance amounts shown are in-network. PPO plans
-                that offer out-of-network coverage may have higher coverage
-                costs for those services.
-              </p>
+              {PLAN_DISCLAIMERS.map((disclaimer, i) => (
+                <p key={i}>{disclaimer(selectedCompany)}</p>
+              ))}
             </div>
           </>
         )}

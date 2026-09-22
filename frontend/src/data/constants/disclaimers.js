@@ -24,3 +24,16 @@ export const JMCOLE_DISCLAIMER = "JMColegroup complies with applicable Federal c
 // Trademark / copyright line rendered beneath the footer disclaimers
 export const TRADEMARK = "JMColegroup™"
 export const TRADEMARK_NOTICE = `© ${new Date().getFullYear()} ${TRADEMARK}. All rights reserved.`
+
+export const ABOUT_JMCOLE_DISCLAIMER = "If you are going to work with a company to partner with you in your healthcare needs, you want to know a little about them. As we would want to know about you, we want you to know about us as well. As a company, JMCole Group is a part of the Medicare Plans Resource Center located in Eugene, Oregon. We have partnered with hundreds of individuals throughout the state or Oregon to get them the very best Medicare coverage that fits their needs."
+
+// Disclaimers rendered at the bottom of every plan card. Each entry takes the
+// selected company's name, since some of the CMS-required wording names it.
+export const PLAN_DISCLAIMERS = [
+  () => "This is a brief summary, not a complete description of benefits. For more information, please refer to the plan’s Evidence of Coverage (EOC) or Summary of Benefits. Limitations, copayments, and restrictions may apply.",
+  (company) => `${company} is a Medicare Advantage plan with a Medicare contract. Enrollment in ${company} depends on contract renewal.`,
+  () => "All copays/coinsurance amounts shown are in-network. PPO plans that offer out-of-network coverage may have higher coverage costs for those services.",
+]
+
+// Consent language shown beneath the submit button of the request-contact and RSVP forms.
+export const SOA_DISCLAIMER = "By submitting this form, you agree that a licensed sales agent may contact you by phone, text, or email to discuss Medicare Advantage, Prescription Drug, and Medicare Supplement Insurance plans."

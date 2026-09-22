@@ -33,6 +33,15 @@ const fillIn = (overrides = {}) => {
   }
 };
 
+// Chooses a county from the Autocomplete the way a visitor would.
+const pickCounty = async (user, name) => {
+  await user.type(
+    screen.getByRole("combobox", { name: /County/ }),
+    name.slice(0, 3),
+  );
+  await user.click(screen.getByRole("option", { name }));
+};
+
 describe("RequestContactForm", () => {
   beforeEach(() => {
     axios.post.mockResolvedValue({ status: 202 });
@@ -200,24 +209,25 @@ describe("RequestContactForm", () => {
       expect(axios.post).not.toHaveBeenCalled();
     });
 
-    it("starts on the county already picked on the Explore page", () => {
+    it("starts blank even when a county was picked on the Explore page", () => {
       renderWithProviders(<RequestContactForm />, {
         preloadedState: { county: { value: "Linn" } },
       });
 
-      expect(countyBox()).toHaveValue("Linn");
+      expect(countyBox()).toHaveValue("");
     });
   });
 
   describe("submitting", () => {
-    // Every submission needs a county; start as if Linn was picked on Explore.
-    const renderReady = () =>
-      renderWithProviders(<RequestContactForm />, {
-        preloadedState: { county: { value: "Linn" } },
-      });
+    // Every submission needs a county, and the field starts blank.
+    const renderReady = async () => {
+      const rendered = renderWithProviders(<RequestContactForm />);
+      await pickCounty(rendered.user, "Linn");
+      return rendered;
+    };
 
     it("posts the collected details to the request-call endpoint", async () => {
-      const { user } = renderReady();
+      const { user } = await renderReady();
 
       fillIn({ Message: "Please call mornings" });
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -235,7 +245,7 @@ describe("RequestContactForm", () => {
     });
 
     it("sends an empty message when the user leaves it blank", async () => {
-      const { user } = renderReady();
+      const { user } = await renderReady();
 
       fillIn();
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -249,7 +259,7 @@ describe("RequestContactForm", () => {
     });
 
     it("confirms success in place of the form when the API accepts", async () => {
-      const { user } = renderReady();
+      const { user } = await renderReady();
 
       fillIn();
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -266,7 +276,7 @@ describe("RequestContactForm", () => {
     it("keeps the form up and warns when the API answers with anything else", async () => {
       axios.post.mockResolvedValue({ status: 200 });
       const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-      const { user } = renderReady();
+      const { user } = await renderReady();
 
       fillIn();
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -282,7 +292,7 @@ describe("RequestContactForm", () => {
       axios.post.mockRejectedValue({
         response: { status: 500, data: { message: "Mailer unavailable" } },
       });
-      const { store, user } = renderReady();
+      const { store, user } = await renderReady();
 
       fillIn();
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -297,7 +307,7 @@ describe("RequestContactForm", () => {
 
     it("stores the offline message when the server never answers", async () => {
       axios.post.mockRejectedValue({ request: {} });
-      const { store, user } = renderReady();
+      const { store, user } = await renderReady();
 
       fillIn();
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -310,7 +320,7 @@ describe("RequestContactForm", () => {
     });
 
     it("explains an email that is missing a proper domain", async () => {
-      const { user } = renderReady();
+      const { user } = await renderReady();
 
       fillIn({ Email: "ada@example" });
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -324,7 +334,7 @@ describe("RequestContactForm", () => {
     });
 
     it("explains a phone number that is not ten digits", async () => {
-      const { user } = renderReady();
+      const { user } = await renderReady();
 
       fillIn({ "Phone Number": "54155" });
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -336,7 +346,7 @@ describe("RequestContactForm", () => {
     });
 
     it("asks for the phone number when it is left blank", async () => {
-      const { user } = renderReady();
+      const { user } = await renderReady();
 
       fillIn({ "Phone Number": "" });
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -347,7 +357,7 @@ describe("RequestContactForm", () => {
     });
 
     it("does not submit while required fields are empty", async () => {
-      const { user } = renderReady();
+      const { user } = await renderReady();
 
       await user.click(screen.getByRole("button", { name: "Submit" }));
 
@@ -356,17 +366,17 @@ describe("RequestContactForm", () => {
   });
 
   describe("after a successful submission", () => {
-    beforeEach(() => {
-      vi.useFakeTimers();
-    });
-
     afterEach(() => {
       vi.useRealTimers();
     });
 
     // Driven with fireEvent rather than userEvent: the auto-close is a timer,
     // and typing under fake timers is far slower than it is worth here.
-    const submitForm = async (container) => {
+    // The county is picked first, under real timers, since the Autocomplete
+    // needs real pointer events; fake timers start only for the auto-close.
+    const submitForm = async (container, user) => {
+      await pickCounty(user, "Linn");
+      vi.useFakeTimers();
       fillIn();
       // act() so the state update from the resolved post settles here rather
       // than leaking into the next assertion.
@@ -376,14 +386,13 @@ describe("RequestContactForm", () => {
     };
 
     it("closes the modal five seconds later", async () => {
-      const { store, container } = renderWithProviders(<RequestContactForm />, {
+      const { store, container, user } = renderWithProviders(<RequestContactForm />, {
         preloadedState: {
           showContactForm: { value: true },
-          county: { value: "Linn" },
         },
       });
 
-      await submitForm(container);
+      await submitForm(container, user);
       await vi.waitFor(() =>
         expect(
           screen.getByText("Request submitted successfully"),
@@ -398,14 +407,13 @@ describe("RequestContactForm", () => {
     });
 
     it("leaves the modal open while the confirmation is still showing", async () => {
-      const { store, container } = renderWithProviders(<RequestContactForm />, {
+      const { store, container, user } = renderWithProviders(<RequestContactForm />, {
         preloadedState: {
           showContactForm: { value: true },
-          county: { value: "Linn" },
         },
       });
 
-      await submitForm(container);
+      await submitForm(container, user);
       await vi.waitFor(() =>
         expect(
           screen.getByText("Request submitted successfully"),
@@ -420,31 +428,29 @@ describe("RequestContactForm", () => {
     it("does not close the modal when the submission failed", async () => {
       axios.post.mockResolvedValue({ status: 200 });
       vi.spyOn(console, "warn").mockImplementation(() => {});
-      const { store, container } = renderWithProviders(<RequestContactForm />, {
+      const { store, container, user } = renderWithProviders(<RequestContactForm />, {
         preloadedState: {
           showContactForm: { value: true },
-          county: { value: "Linn" },
         },
       });
 
-      await submitForm(container);
+      await submitForm(container, user);
       await act(() => vi.advanceTimersByTimeAsync(5000));
 
       expect(store.getState().showContactForm.value).toBe(true);
     });
 
     it("cancels the timer if the form unmounts first", async () => {
-      const { store, container, unmount } = renderWithProviders(
+      const { store, container, unmount, user } = renderWithProviders(
         <RequestContactForm />,
         {
           preloadedState: {
             showContactForm: { value: true },
-            county: { value: "Linn" },
           },
         },
       );
 
-      await submitForm(container);
+      await submitForm(container, user);
       await vi.waitFor(() =>
         expect(
           screen.getByText("Request submitted successfully"),

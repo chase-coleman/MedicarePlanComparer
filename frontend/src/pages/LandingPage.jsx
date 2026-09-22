@@ -5,6 +5,7 @@ import { BROKERS } from "../data/brokers";
 import { openModal } from "../features/modal/ShowContactFormSlice";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { ABOUT_JMCOLE_DISCLAIMER } from "../data/constants/disclaimers";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -76,13 +77,7 @@ const LandingPage = () => {
         <div className="company-text-container w-full">
           <span className="about-heading">About JMCole Group</span>
           <span className="about-body">
-            If you are going to work with a company to partner with you in your
-            healthcare needs, you want to know a little about them. As we would
-            want to know about you, we want you to know about us as well. As a
-            company, JMCole Group is a part of the Medicare Plans Resource
-            Center located in Eugene, Oregon. We have partnered with hundreds of
-            individuals throughout the state or Oregon to get them the very best
-            Medicare coverage that fits their needs.
+            {ABOUT_JMCOLE_DISCLAIMER}
           </span>
         </div>
       </div>

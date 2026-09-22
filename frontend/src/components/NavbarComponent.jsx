@@ -12,17 +12,11 @@ import ButtonComponent from "./ButtonComponent";
 import { Link as RouterLink, NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { openModal } from "../features/modal/ShowContactFormSlice";
+import { menuItems } from "../data/constants/headerConstants";
 
 const NavbarComponent = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const dispatch = useDispatch();
-
-  const menuItems = [
-    { label: "Home", to: "/" },
-    { label: "Explore plan options", to: "/explore" },
-    { label: "Compare Plans", to: "/compare" },
-    { label: "Find A Meeting", to: "/find-meeting" },
-  ];
 
   // The wordmark doubles as the way home, which is what visitors expect of a
   // site's logo. Closing the menu matters on mobile, where the brand stays

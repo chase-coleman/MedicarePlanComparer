@@ -1,7 +1,7 @@
 import { Autocomplete, AutocompleteItem, Input, Textarea } from "@heroui/react";
 import { useState, useEffect } from "react";
 import ButtonComponent from "./ButtonComponent";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { closeModal } from "../features/modal/ShowContactFormSlice";
 import { setErrorMsg } from "../features/errors/errorSlice";
 import { parseAxiosError } from "../functions/axiosError";
@@ -11,6 +11,7 @@ import "ldrs/react/Ring.css";
 import { CircleCheckBig } from "lucide-react";
 import { API_URL } from "../data/constants/api";
 import { OREGON_COUNTIES, OUTSIDE_OREGON } from "../data/constants/counties";
+import { SOA_DISCLAIMER } from "../data/constants/disclaimers";
 
 // Autocomplete wants objects it can key; built once rather than per render.
 const COUNTY_OPTIONS = [...OREGON_COUNTIES, OUTSIDE_OREGON].map((name) => ({
@@ -22,12 +23,7 @@ const RequestContactForm = () => {
   const [lName, setLname] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
-  // Starts on the county the visitor already picked on the Explore page, if
-  // it is a real Oregon county, so they don't have to choose it twice.
-  const exploreCounty = useSelector((state) => state.county.value);
-  const [county, setCounty] = useState(
-    OREGON_COUNTIES.includes(exploreCounty) ? exploreCounty : "",
-  );
+  const [county, setCounty] = useState("");
   const [msg, setMsg] = useState("");
   const [submittedSuccessfully, setSubmittedSuccessfully] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -83,7 +79,7 @@ const RequestContactForm = () => {
           </div>
           <p className="submit-success-title">Request submitted successfully</p>
           <p className="submit-success-body">
-            Someone will be contacting you soon.
+            Thank you! Someone will be contacting you soon.
           </p>
         </div>
       ) : (
@@ -251,11 +247,7 @@ const RequestContactForm = () => {
               type="submit"
             />
           )}
-          <span className="form-consent">
-            By submitting this form, you agree that a licensed sales agent may
-            contact you by phone, text, or email to discuss Medicare Advantage,
-            Prescription Drug, and Medicare Supplement Insurance plans.
-          </span>
+          <span className="form-consent">{SOA_DISCLAIMER}</span>
         </form>
       )}
     </div>

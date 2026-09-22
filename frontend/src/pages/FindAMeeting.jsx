@@ -10,6 +10,13 @@ import {
 } from "../data/meetings";
 import { MEETINGS_SCHEDULED, MEETINGS_PENDING_MESSAGE } from "../data/constants/meetings";
 
+// label is the button text; value is what gets stored in `county` and matched below.
+const COUNTY_BUTTONS = [
+  { label: "Linn", value: "Linn" },
+  { label: "Tillamook", value: "Tillamook" },
+  { label: "Lincoln", value: "Lincoln" },
+];
+
 const FindAMeetingPage = () => {
   const [county, setCounty] = useState("");
   // Whether there are meetings to show at all. Seeded from MEETINGS_SCHEDULED
@@ -33,33 +40,14 @@ const FindAMeetingPage = () => {
             <span className="section-title">Select your county:</span>
           </div>
           <div className="county-buttons-container">
-            <ButtonComponent
-              text="Linn"
-              onPress={() => setCounty("Linn")}
-              className={
-                county == `Linn`
-                  ? `btn-pill-active`
-                  : "btn-pill"
-              }
-            />
-            <ButtonComponent
-              text="Tillamook"
-              onPress={() => setCounty("Tillamook")}
-              className={
-                county == `Tillamook`
-                  ? `btn-pill-active`
-                  : "btn-pill"
-              }
-            />
-            <ButtonComponent
-              text="Lincoln"
-              onPress={() => setCounty("Lincoln")}
-              className={
-                county == `Lincoln`
-                  ? `btn-pill-active`
-                  : "btn-pill"
-              }
-            />
+            {COUNTY_BUTTONS.map((button) => (
+              <ButtonComponent
+                key={button.value}
+                text={button.label}
+                onPress={() => setCounty(button.value)}
+                className={county == button.value ? "btn-pill-active" : "btn-pill"}
+              />
+            ))}
           </div>
         </div>
         <div
