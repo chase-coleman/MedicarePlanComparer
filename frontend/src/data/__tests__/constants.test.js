@@ -1,8 +1,8 @@
 import { describe, it, expect } from "vitest";
+import { API_URL } from "../constants/api";
+import { ALL_COUNTIES } from "../constants/counties";
 import {
   AFFILIATION_DISCLAIMER,
-  ALL_COUNTIES,
-  API_URL,
   COUNTY_DISCLAIMERS,
   countyDisclaimer,
   CURRENT_INFO_DISCLAIMER,
@@ -10,11 +10,11 @@ import {
   LINCOLN_CO_DISCLAIMER,
   LINN_CO_DISCLAIMER,
   PLAN_OFFERING_DISCLAIMER,
-  PLAN_YEARS,
   TILLAMOOK_CO_DISCLAIMER,
   TRADEMARK,
   TRADEMARK_NOTICE,
-} from "../constants";
+} from "../constants/disclaimers";
+import { PLAN_YEARS } from "../constants/planYears";
 
 describe("PLAN_YEARS", () => {
   it("lists the years the plan-year toggle offers", () => {

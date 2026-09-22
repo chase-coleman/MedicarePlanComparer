@@ -35,7 +35,7 @@ vi.mock("../../data/meetings", () => {
 // The page reads MEETINGS_SCHEDULED once, as its useState seed, so a getter
 // lets each test choose the value that will be read at its own render.
 const flags = { MEETINGS_SCHEDULED: true };
-vi.mock("../../data/constants", async (importOriginal) => {
+vi.mock("../../data/constants/meetings", async (importOriginal) => {
   const actual = await importOriginal();
   return {
     ...actual,

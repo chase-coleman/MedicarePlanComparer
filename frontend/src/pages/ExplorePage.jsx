@@ -16,14 +16,11 @@ import {
 import PlanComponent from "../components/PlanComponent";
 import { groupPlansByYear } from "../functions/groupPlans";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Alert } from "@heroui/react";
-import {
-  API_URL,
-  ALL_COUNTIES,
-  companyNotice,
-  arePlansHidden,
-  UNLISTED_COUNTY_NOTICE,
-} from "../data/constants";
+import { API_URL } from "../data/constants/api";
+import { companyNotice, arePlansHidden } from "../data/constants/companies";
+import { ALL_COUNTIES, UNLISTED_COUNTY_NOTICE } from "../data/constants/counties";
 import LoaderComponent from "../components/LoaderComponent";
 
 const ExplorePage = () => {
@@ -111,11 +108,14 @@ const ExplorePage = () => {
   return (
     <>
       {isOctoberYet ? (
-        <div className="explore-page-container w-[100vw] m-1">
-          <div className="site-notice">
-            <p>{UNLISTED_COUNTY_NOTICE}</p>
-          </div>
-          <div className="county-container w-[90vw]">
+        <>
+        {/* Full-width strip directly beneath the header, outside the page
+            container so the container's top padding doesn't push it down. */}
+        <div className="county-coverage-banner" role="note">
+          <p>{UNLISTED_COUNTY_NOTICE}</p>
+        </div>
+        <div className="explore-page-container w-full my-1">
+          <div className="county-container w-full">
             <div>
               <span className="section-title">Select your county:</span>
             </div>
@@ -134,7 +134,7 @@ const ExplorePage = () => {
               ))}
             </div>
           </div>
-          <div className="company-container block w-[90vw]">
+          <div className="company-container block w-full">
             {/* A county we serve shows its companies. A county with none yet
                 says so, rather than leaving the heading above an empty row. */}
             {companiesLoading ? (
@@ -189,8 +189,14 @@ const ExplorePage = () => {
             <>
               <div className="site-notice">
               <p>{companyNotice(selectedCompany)}</p>
-              <br />
-              <p>If you would like information on their plans, please reach out to us or visit the company's site.</p>
+              {/* Only a hidden carrier needs pointing elsewhere; a carrier
+                  whose plans are shown below just gets its notice. */}
+              {plansHidden && (
+                <>
+                  <br />
+                  <p>If you would like information on their plans, please reach out to us or visit the company's site.</p>
+                </>
+              )}
               </div>
             </>
           )}
@@ -200,7 +206,7 @@ const ExplorePage = () => {
             </p>
           )}
           {!plansLoading && !plansHidden && (
-            <div className="plans-container w-[90vw]">
+            <div className="plans-container w-full">
               {groupPlansByYear(companyPlans).map((planGroup) => (
                 <PlanComponent
                   key={planGroup.key}
@@ -211,9 +217,21 @@ const ExplorePage = () => {
               ))}
             </div>
           )}
+          {/* Floating shortcut to the compare page, so users don't have to
+              find the header link once they've started picking plans. */}
+          {comparedPlans.length > 0 && (
+            <Link to="/compare" className="compare-fab" aria-live="polite">
+              <span className="compare-fab-count">{comparedPlans.length}</span>
+              <span>
+                Compare {comparedPlans.length === 1 ? "plan" : "plans"}
+              </span>
+              <span aria-hidden="true">&rarr;</span>
+            </Link>
+          )}
         </div>
+        </>
       ) : (
-        <div className="explore-page-container w-[100vw] m-1 mt-5">
+        <div className="explore-page-container w-full mb-1 mt-5">
           <div className="w-4/5 h-12">
             <Alert
               color="warning"

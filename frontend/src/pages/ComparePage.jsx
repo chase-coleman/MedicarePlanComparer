@@ -22,7 +22,10 @@ const ComparePage = () => {
 
   return (
     <>
-      <div className="compare-page-container w-[100vw] m-1">
+      <div className="compare-page-container w-full my-1">
+        <h1 className="page-title !text-[2rem]">
+          {comparedPlans.length === 1 ? 'Selected Plan' : 'Selected Plans'}
+        </h1>
         {comparedPlans.length > 0 ? (
           <div className="plans-container">
             {groupPlansByYear(comparedPlans).map((planGroup) => (

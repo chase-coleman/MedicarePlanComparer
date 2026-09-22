@@ -58,6 +58,9 @@
   /* Layout */
   --nav-height: 64px;
   --content-max: 1140px;
+  /* Left/right breathing room between page content and the screen edge.
+     Every page container applies it, so all pages line up. */
+  --page-gutter: clamp(1rem, 5vw, 2.5rem);
 
   font-family: var(--font-sans);
   line-height: 1.55;

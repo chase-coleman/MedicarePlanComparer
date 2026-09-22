@@ -11,7 +11,7 @@ import {
   PLAN_OFFERING_DISCLAIMER,
   TILLAMOOK_CO_DISCLAIMER,
   TRADEMARK_NOTICE,
-} from "../data/constants";
+} from "../data/constants/disclaimers";
 
 // App renders an <Outlet/>, so it needs a route tree around it.
 const renderApp = (options) =>

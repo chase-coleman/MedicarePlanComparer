@@ -3,6 +3,7 @@ import axios from "axios";
 import { renderWithProviders, screen, waitFor } from "../../test/utils";
 import ExplorePage from "../ExplorePage";
 import { makeCompany, makePlan } from "../../test/fixtures";
+import { COMPANY_NOTICES } from "../../data/constants/companies";
 
 vi.mock("axios");
 
@@ -365,6 +366,44 @@ describe("ExplorePage", () => {
         screen.queryByText(/decided to not promote/i),
       ).not.toBeInTheDocument();
     });
+
+    describe("UnitedHealthcare network notice", () => {
+      const notice = COMPANY_NOTICES.UnitedHealthcare;
+
+      it("names Samaritan and Providence as out of network", () => {
+        expect(notice).toContain("Samaritan Health Services");
+        expect(notice).toContain("Providence Health Services");
+      });
+
+      it("shows alongside UnitedHealthcare's plans", async () => {
+        respondWith({ plans: [makePlan({ id: 1, planName: "UHC Complete" })] });
+        renderWithProviders(<ExplorePage />, {
+          preloadedState: {
+            county: { value: "Linn" },
+            selectedCompany: { value: "UnitedHealthcare" },
+          },
+        });
+
+        expect(await screen.findByText(notice)).toBeInTheDocument();
+        expect(await screen.findByText("UHC Complete")).toBeInTheDocument();
+        // Plans are on the page, so no "visit the company's site" follow-up
+        expect(
+          screen.queryByText(/visit the company's site/i),
+        ).not.toBeInTheDocument();
+      });
+
+      it("is not shown for other carriers", () => {
+        renderWithProviders(<ExplorePage />, {
+          preloadedState: {
+            county: { value: "Linn" },
+            selectedCompany: { value: "Devoted" },
+            companyPlans: { value: [makePlan({ id: 1 })] },
+          },
+        });
+
+        expect(screen.queryByText(/Samaritan/)).not.toBeInTheDocument();
+      });
+    });
   });
 
   describe("building a comparison", () => {
@@ -419,6 +458,38 @@ describe("ExplorePage", () => {
       expect(store.getState().comparedPlans.value).toHaveLength(3);
       expect(store.getState().comparedPlans.notice).toMatchObject({
         type: "limit",
+      });
+    });
+
+    describe("floating compare button", () => {
+      it("stays hidden until a plan is added", async () => {
+        renderWithPlans([makePlan({ id: 1 })]);
+
+        await screen.findByRole("button", { name: "Add to compare" });
+
+        expect(
+          screen.queryByRole("link", { name: /Compare plan/ }),
+        ).not.toBeInTheDocument();
+      });
+
+      it("appears with a count and links to the compare page", async () => {
+        const plans = [1, 2].map((id) =>
+          makePlan({ id, planGroupId: id, planName: `Plan ${id}` }),
+        );
+        const { user } = renderWithPlans(plans);
+
+        const [first, second] = await screen.findAllByRole("button", {
+          name: "Add to compare",
+        });
+        await user.click(first);
+        expect(
+          screen.getByRole("link", { name: /1 Compare plan/ }),
+        ).toHaveAttribute("href", "/compare");
+
+        await user.click(second);
+        expect(
+          screen.getByRole("link", { name: /2 Compare plans/ }),
+        ).toBeInTheDocument();
       });
     });
   });

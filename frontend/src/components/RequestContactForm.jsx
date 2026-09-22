@@ -1,7 +1,7 @@
-import { Input, Textarea } from "@heroui/react";
+import { Autocomplete, AutocompleteItem, Input, Textarea } from "@heroui/react";
 import { useState, useEffect } from "react";
 import ButtonComponent from "./ButtonComponent";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { closeModal } from "../features/modal/ShowContactFormSlice";
 import { setErrorMsg } from "../features/errors/errorSlice";
 import { parseAxiosError } from "../functions/axiosError";
@@ -9,13 +9,21 @@ import axios from "axios";
 import { Ring } from "ldrs/react";
 import "ldrs/react/Ring.css";
 import { CircleCheckBig } from "lucide-react";
-import { API_URL } from "../data/constants";
+import { API_URL } from "../data/constants/api";
+import { OREGON_COUNTIES, OUTSIDE_OREGON } from "../data/constants/counties";
+import { SOA_DISCLAIMER } from "../data/constants/disclaimers";
+
+// Autocomplete wants objects it can key; built once rather than per render.
+const COUNTY_OPTIONS = [...OREGON_COUNTIES, OUTSIDE_OREGON].map((name) => ({
+  name,
+}));
 
 const RequestContactForm = () => {
   const [fName, setFname] = useState("");
   const [lName, setLname] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
+  const [county, setCounty] = useState("");
   const [msg, setMsg] = useState("");
   const [submittedSuccessfully, setSubmittedSuccessfully] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -34,11 +42,15 @@ const RequestContactForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // The county field only accepts a listed option, but typed text that
+    // matches nothing leaves no selection -- don't send without one.
+    if (!county) return;
     const contactInfo = {
       fname: fName,
       lname: lName,
       email: email,
       phone: phoneNum,
+      county: county,
       message: msg,
     };
     try {
@@ -67,7 +79,7 @@ const RequestContactForm = () => {
           </div>
           <p className="submit-success-title">Request submitted successfully</p>
           <p className="submit-success-body">
-            Someone will be contacting you soon.
+            Thank you! Someone will be contacting you soon.
           </p>
         </div>
       ) : (
@@ -177,6 +189,34 @@ const RequestContactForm = () => {
               input: "field-input",
             }}
           />
+          <Autocomplete
+            name="county"
+            label="County"
+            placeholder="Start typing your county"
+            variant="bordered"
+            isRequired
+            // Only counties that begin with what the visitor has typed, so
+            // "li" offers Lincoln and Linn rather than also Gilliam.
+            defaultFilter={(textValue, typed) =>
+              textValue.toLowerCase().startsWith(typed.trim().toLowerCase())
+            }
+            defaultItems={COUNTY_OPTIONS}
+            selectedKey={county || null}
+            onSelectionChange={(key) => setCounty(key ?? "")}
+            errorMessage="Please choose your county"
+            inputProps={{
+              classNames: {
+                label: "field-label",
+                inputWrapper: "field-wrapper",
+                input: "field-input",
+                errorMessage: "field-error",
+              },
+            }}
+          >
+            {(option) => (
+              <AutocompleteItem key={option.name}>{option.name}</AutocompleteItem>
+            )}
+          </Autocomplete>
           <Textarea
             label="Message"
             classNames={{
@@ -207,11 +247,7 @@ const RequestContactForm = () => {
               type="submit"
             />
           )}
-          <span className="form-consent">
-            By submitting this form, you agree that a licensed sales agent may
-            contact you by phone, text, or email to discuss Medicare Advantage,
-            Prescription Drug, and Medicare Supplement Insurance plans.
-          </span>
+          <span className="form-consent">{SOA_DISCLAIMER}</span>
         </form>
       )}
     </div>

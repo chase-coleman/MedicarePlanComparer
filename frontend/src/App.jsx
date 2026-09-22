@@ -1,5 +1,12 @@
-import { AFFILIATION_DISCLAIMER, CURRENT_INFO_DISCLAIMER, countyDisclaimer, JMCOLE_DISCLAIMER, TRADEMARK_NOTICE } from "./data/constants";
+import {
+  AFFILIATION_DISCLAIMER,
+  CURRENT_INFO_DISCLAIMER,
+  countyDisclaimer,
+  JMCOLE_DISCLAIMER,
+  TRADEMARK_NOTICE,
+} from "./data/constants/disclaimers";
 import { Outlet } from "react-router-dom";
+import { useScrollToTopOnNavigate } from "./functions/scrollRestoration";
 import "./App.css";
 import NavbarComponent from "./components/NavbarComponent";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,6 +23,7 @@ function App() {
   const meeting = useSelector((state) => state.meetingRsvp.value);
   const comparisonNotice = useSelector((state) => state.comparedPlans.notice);
   const dispatch = useDispatch();
+  useScrollToTopOnNavigate();
 
   return (
     <>

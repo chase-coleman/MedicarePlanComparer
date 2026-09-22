@@ -8,7 +8,8 @@ import { parseAxiosError } from "../functions/axiosError";
 import { Ring } from "ldrs/react";
 import { CircleCheckBig } from "lucide-react";
 import axios from "axios";
-import { API_URL } from "../data/constants";
+import { API_URL } from "../data/constants/api";
+import { SOA_DISCLAIMER } from "../data/constants/disclaimers";
 
 const RsvpForm = () => {
   const [fName, setFname] = useState("");
@@ -209,10 +210,7 @@ const RsvpForm = () => {
               />
             )}
             <span className="form-consent">
-              By submitting this form, you agree that a licensed sales agent may
-              contact you by phone, text, or email to discuss Medicare
-              Advantage, Prescription Drug, and Medicare Supplement Insurance
-              plans.
+              {SOA_DISCLAIMER}
             </span>
           </form>
         )}

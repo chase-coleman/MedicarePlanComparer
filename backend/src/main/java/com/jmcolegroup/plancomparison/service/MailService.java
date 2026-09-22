@@ -31,8 +31,11 @@ public class MailService {
         Name: %s %s
         Phone: %s
         Email %s
+        County: %s
         Message: %s
-        """.formatted(req.getFname(), req.getLname(), req.getPhone(), req.getEmail(), req.getMessage()));
+        """.formatted(req.getFname(), req.getLname(), req.getPhone(), req.getEmail(),
+            req.getCounty(),
+            req.getMessage()));
         mailSender.send(msg);
   }
 }
