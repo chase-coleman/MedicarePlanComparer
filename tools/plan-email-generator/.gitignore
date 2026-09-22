@@ -1,0 +1,5 @@
+# Generated output -- emails, the API cache and the index are all rebuildable.
+out/
+__pycache__/
+*.pyc
+./out

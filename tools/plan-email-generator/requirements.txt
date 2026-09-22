@@ -1,0 +1,6 @@
+# The generator deliberately uses only the Python standard library
+# (urllib, json, html, argparse). Nothing to install -- Python 3.9+ is enough.
+#
+# Source data: the live Plan Comparer API, same endpoints the frontend uses.
+#   GET /{county}            companies serving a county
+#   GET /{county}/{company}  plan rows, every plan year
