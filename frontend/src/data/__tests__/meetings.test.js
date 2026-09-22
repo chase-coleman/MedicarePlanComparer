@@ -13,10 +13,13 @@ const LISTS = {
   tillamookMeetings: { meetings: tillamookMeetings, county: "Tillamook" },
 };
 
+// These validate the shape of whatever is scheduled. The lists are emptied
+// between enrollment seasons -- the Find a Meeting page covers that state via
+// MEETINGS_SCHEDULED -- so emptiness is valid and every check below is written
+// to hold vacuously rather than to demand entries.
 describe.each(Object.entries(LISTS))("%s", (_name, { meetings, county }) => {
-  it("is a non-empty list", () => {
+  it("is a list", () => {
     expect(Array.isArray(meetings)).toBe(true);
-    expect(meetings.length).toBeGreaterThan(0);
   });
 
   it("gives every meeting the fields MeetingComponent renders", () => {
@@ -37,9 +40,9 @@ describe.each(Object.entries(LISTS))("%s", (_name, { meetings, county }) => {
   });
 
   it("belongs to a single county", () => {
-    expect(new Set(meetings.map((meeting) => meeting.county))).toEqual(
-      new Set([county]),
-    );
+    for (const meeting of meetings) {
+      expect(meeting.county).toBe(county);
+    }
   });
 
   it("uses days unique within the list, which the page relies on for React keys", () => {

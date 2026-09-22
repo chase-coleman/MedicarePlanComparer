@@ -18,7 +18,10 @@ import { groupPlansByYear } from "../functions/groupPlans";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Alert } from "@heroui/react";
-import { API_URL, ALL_COUNTIES } from "../data/constants";
+import { API_URL } from "../data/constants/api";
+import { companyNotice, arePlansHidden } from "../data/constants/companies";
+import { ALL_COUNTIES, UNLISTED_COUNTY_NOTICE } from "../data/constants/counties";
+import LoaderComponent from "../components/LoaderComponent";
 
 const ExplorePage = () => {
   const dispatch = useDispatch(); // redux state updater
@@ -28,12 +31,21 @@ const ExplorePage = () => {
   const selectedCompany = useSelector((state) => state.selectedCompany.value); // the county the user selects to view their plans
   const companyPlans = useSelector((state) => state.companyPlans.value);
   const comparedPlans = useSelector((state) => state.comparedPlans.value);
+  // Carriers on the hidden list keep their button and notice but show no plan
+  // cards, and no "still adding plans" message either -- the notice is the
+  // explanation, so the empty state would contradict it.
+  const plansHidden = arePlansHidden(selectedCompany);
   const [isOctoberYet, setIsOctoberYet] = useState(true);
   // An empty `companies` list means one of two different things: the fetch has
   // not come back yet, or the county genuinely has no companies. These flags
   // keep the empty-state message off the screen during the first case.
   const [companiesLoaded, setCompaniesLoaded] = useState(false);
   const [plansLoaded, setPlansLoaded] = useState(false);
+  // companiesLoaded/plansLoaded mean "the fetch came back"; these mean "a
+  // fetch is in flight". They are separate so a failed request clears the
+  // spinner without being mistaken for a successful empty result.
+  const [companiesLoading, setCompaniesLoading] = useState(false);
+  const [plansLoading, setPlansLoading] = useState(false);
 
   useEffect(() => {
     if (!county) return;
@@ -41,6 +53,7 @@ const ExplorePage = () => {
   }, [county]);
 
   const getCompanies = async () => {
+    setCompaniesLoading(true);
     try {
       const response = await axios.get(`${API_URL}${county}`);
       dispatch(setCompanies(response.data));
@@ -49,6 +62,8 @@ const ExplorePage = () => {
       // set the errorMsg state to the axios error
       // using a custom axios error message handler
       dispatch(setErrorMsg(parseAxiosError(error)));
+    } finally {
+      setCompaniesLoading(false);
     }
   };
 
@@ -59,6 +74,7 @@ const ExplorePage = () => {
   }, [selectedCompany]);
 
   const getCompanyPlans = async () => {
+    setPlansLoading(true);
     try {
       const response = await axios.get(
         `${API_URL}${county}/${selectedCompany}`,
@@ -67,6 +83,8 @@ const ExplorePage = () => {
       setPlansLoaded(true);
     } catch (error) {
       dispatch(setErrorMsg(parseAxiosError(error)));
+    } finally {
+      setPlansLoading(false);
     }
   };
 
@@ -90,8 +108,14 @@ const ExplorePage = () => {
   return (
     <>
       {isOctoberYet ? (
-        <div className="explore-page-container w-[100vw] m-1">
-          <div className="county-container w-[90vw]">
+        <>
+        {/* Full-width strip directly beneath the header, outside the page
+            container so the container's top padding doesn't push it down. */}
+        <div className="county-coverage-banner" role="note">
+          <p>{UNLISTED_COUNTY_NOTICE}</p>
+        </div>
+        <div className="explore-page-container w-full my-1">
+          <div className="county-container w-full">
             <div>
               <span className="section-title">Select your county:</span>
             </div>
@@ -110,10 +134,12 @@ const ExplorePage = () => {
               ))}
             </div>
           </div>
-          <div className="company-container block w-[90vw]">
+          <div className="company-container block w-full">
             {/* A county we serve shows its companies. A county with none yet
                 says so, rather than leaving the heading above an empty row. */}
-            {county && companiesLoaded && companies.length === 0 ? (
+            {companiesLoading ? (
+              <LoaderComponent label={`Loading companies in ${county}`} />
+            ) : county && companiesLoaded && companies.length === 0 ? (
               <p className="county-empty-state">
                 We are still working at adding plans in {county}. Please
                 check back soon, or use the "Request a Call" button and we will
@@ -149,28 +175,48 @@ const ExplorePage = () => {
               </>
             )}
           </div>
-          {companyPlans.length > 0 && (
+          {plansLoading && (
+            <LoaderComponent label={`Loading ${selectedCompany} plans`} />
+          )}
+          {!plansLoading && !plansHidden && companyPlans.length > 0 && (
             <span className="hint-text">
               The plans displayed are <em>highlights</em>, not the full
               benefits. <br /> If you'd like to learn more about them, please
               click the "Request a Call" button!{" "}
             </span>
           )}
-          {selectedCompany && plansLoaded && companyPlans.length === 0 && (
+          {selectedCompany && companyNotice(selectedCompany) && (
+            <>
+              <div className="site-notice">
+              <p>{companyNotice(selectedCompany)}</p>
+              {/* Only a hidden carrier needs pointing elsewhere; a carrier
+                  whose plans are shown below just gets its notice. */}
+              {plansHidden && (
+                <>
+                  <br />
+                  <p>If you would like information on their plans, please reach out to us or visit the company's site.</p>
+                </>
+              )}
+              </div>
+            </>
+          )}
+          {!plansLoading && !plansHidden && selectedCompany && plansLoaded && companyPlans.length === 0 && (
             <p className="county-empty-state">
               We are still working at adding {selectedCompany} plans in {county}{" "} county. Please check back soon, or select "Request a Call".
             </p>
           )}
-          <div className="plans-container w-[90vw]">
-            {groupPlansByYear(companyPlans).map((planGroup) => (
-              <PlanComponent
-                key={planGroup.key}
-                planGroup={planGroup}
-                addToCompare={addToCompare}
-                removeFromCompare={removeFromCompare}
-              />
-            ))}
-          </div>
+          {!plansLoading && !plansHidden && (
+            <div className="plans-container w-full">
+              {groupPlansByYear(companyPlans).map((planGroup) => (
+                <PlanComponent
+                  key={planGroup.key}
+                  planGroup={planGroup}
+                  addToCompare={addToCompare}
+                  removeFromCompare={removeFromCompare}
+                />
+              ))}
+            </div>
+          )}
           {/* Floating shortcut to the compare page, so users don't have to
               find the header link once they've started picking plans. */}
           {comparedPlans.length > 0 && (
@@ -183,8 +229,9 @@ const ExplorePage = () => {
             </Link>
           )}
         </div>
+        </>
       ) : (
-        <div className="explore-page-container w-[100vw] m-1 mt-5">
+        <div className="explore-page-container w-full mb-1 mt-5">
           <div className="w-4/5 h-12">
             <Alert
               color="warning"

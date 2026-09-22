@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import PlanComponent from "../components/PlanComponent";
 import { groupPlansByYear } from "../functions/groupPlans";
@@ -12,13 +12,6 @@ const ComparePage = () => {
   const dispatch = useDispatch();
   const comparedPlans = useSelector((state) => state.comparedPlans.value);
 
-  // React Router keeps the previous page's scroll position, so a user who
-  // scrolled down the Explore page would land mid-way down this one. Start
-  // at the top every time the page is opened.
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  }, []);
-
   const addToCompare = (plan) => {
     dispatch(addToPlanComparison(plan));
   };
@@ -29,7 +22,7 @@ const ComparePage = () => {
 
   return (
     <>
-      <div className="compare-page-container w-[100vw] m-1">
+      <div className="compare-page-container w-full my-1">
         <h1 className="page-title !text-[2rem]">
           {comparedPlans.length === 1 ? 'Selected Plan' : 'Selected Plans'}
         </h1>

@@ -1,25 +1,5 @@
-export const PLAN_YEARS = ["2026", "2027"]
+// Legal and CMS-required text rendered in the site footer.
 
-// The year CMS has not finished publishing. A plan with no record for this
-// year keeps its toggle option, which renders the "not available until
-// October 1st" message. A missing earlier year means the site never carried
-// the plan that year, so PlanComponent drops that option instead.
-export const UPCOMING_PLAN_YEAR = PLAN_YEARS[PLAN_YEARS.length - 1]
-
-// The counties the explore page offers. `id` mirrors county.id in the
-// database so the two lists cannot drift; the API itself is keyed by name.
-export const ALL_COUNTIES = [
-  { id: 1, countyName: "Linn" },
-  { id: 2, countyName: "Tillamook" },
-  { id: 3, countyName: "Lincoln" },
-  { id: 4, countyName: "Clatsop" },
-  { id: 5, countyName: "Lane" },
-  { id: 6, countyName: "Yamhill" },
-]
-
-export const API_URL = import.meta.env.VITE_API_ENDPOINT
-
-// Disclaimers
 export const AFFILIATION_DISCLAIMER = "Not connected with or endorsed by the United States government or the federal Medicare program."
 export const CURRENT_INFO_DISCLAIMER = "Plan availability, benefits, premiums, and costs may change on January 1 of each year. Information provided here is current as of 09/2025, but is subject to change."
 export const LINN_CO_DISCLAIMER = "We do not offer every plan available in your area. In Linn County, we represent 5 organizations which offer 21 products in the county. Please contact Medicare.gov, 1-800-MEDICARE, or your local State Health Insurance Assistance Program (SHIP) to get information on all of your options."

@@ -4,7 +4,9 @@
 @custom-variant dark (&:is(.dark *));
 
 #root {
-  max-width: 100vw;
+  /* 100% rather than 100vw: vw includes the scrollbar, which pushed content
+     past the right edge on desktop. */
+  max-width: 100%;
   min-height: 100vh;
   margin: 0 auto;
   text-align: center;
@@ -53,7 +55,7 @@
   gap: 0.5rem;
   padding: 0.3rem 0.75rem 0.3rem 0.6rem;
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
+  font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -69,6 +71,30 @@
   height: 6px;
   border-radius: 9999px;
   background-color: var(--brand);
+}
+
+/* Smaller screens: shrink the chip so the uppercase mono label fits on one
+   line where it can, and if it does wrap, soften the pill into a rounded
+   box so two lines don't sit inside a stadium shape. */
+@media screen and (max-width: 600px) {
+  .eyebrow {
+    font-size: 0.8125rem;
+    letter-spacing: 0.06em;
+    padding: 0.3rem 0.7rem 0.3rem 0.55rem;
+    border-radius: var(--radius-lg);
+    text-wrap: balance;
+  }
+
+  .eyebrow::before {
+    flex-shrink: 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+  }
 }
 
 .lede {
@@ -135,6 +161,9 @@ nav.bg-brand {
 }
 
 .nav-brand {
+  /* An anchor now, so the browser's link underline and colour are cleared
+     before the gradient text-fill below takes over. */
+  text-decoration: none;
   font-family: var(--font-mono);
   font-weight: 700;
   font-size: 1rem;
@@ -301,7 +330,8 @@ button.btn-pill-active[data-hover="true"] {
   flex-direction: column;
   gap: 3rem;
   align-items: center;
-  padding: 4rem 0 4rem;
+  padding: 4rem var(--page-gutter) 4rem;
+  box-sizing: border-box;
 }
 
 .explore-page-container {
@@ -312,7 +342,8 @@ button.btn-pill-active[data-hover="true"] {
   gap: 1.75rem;
   /* extra bottom room so the floating compare button never covers the
      last row of plan cards */
-  padding: 2.5rem 0 7rem;
+  padding: 2.5rem var(--page-gutter) 7rem;
+  box-sizing: border-box;
 }
 
 .compare-page-container {
@@ -321,7 +352,8 @@ button.btn-pill-active[data-hover="true"] {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 2.5rem 0 4rem;
+  padding: 2.5rem var(--page-gutter) 4rem;
+  box-sizing: border-box;
 }
 
 .find-us-page-container {
@@ -330,7 +362,8 @@ button.btn-pill-active[data-hover="true"] {
   flex-direction: column;
   align-items: center;
   gap: 1.75rem;
-  padding: 2.5rem 0 4rem;
+  padding: 2.5rem var(--page-gutter) 4rem;
+  box-sizing: border-box;
 }
 
 /*******************/
@@ -389,26 +422,64 @@ button.btn-pill-active[data-hover="true"] {
   white-space: nowrap;
 }
 
-.meeting-cta {
-  font-size: 0.9375rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  transition: color 0.16s ease;
+/* Hero call-to-action row: "Request a call" beside the meeting finder,
+   stacked full-width on phones. */
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.meeting-cta span,
-.meeting-cta a {
+/* Secondary action styled as a button: brand-green outline on white, so it
+   pairs with the solid copper primary without competing with it. */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.75rem;
+  padding: 0 1.5rem;
+  border: 1.5px solid var(--brand);
+  border-radius: var(--radius-sm);
+  background-color: var(--surface);
   color: var(--brand);
+  font-size: 1rem;
   font-weight: 600;
-  border-bottom: 1px solid var(--brand-line);
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  box-shadow: var(--shadow-sm), var(--sheen);
+  transition: background-color 0.16s ease, color 0.16s ease,
+    transform 0.16s ease;
 }
 
-.meeting-cta:hover {
-  color: var(--text);
+.btn-outline:hover {
+  background-color: var(--brand-tint);
+  color: var(--brand-dark);
+  transform: translateY(-1px);
 }
 
-.meeting-cta:hover span {
-  border-bottom-color: var(--brand);
+.btn-outline:active {
+  transform: translateY(0);
+}
+
+.btn-outline:focus-visible {
+  outline: 3px solid var(--brand-line);
+  outline-offset: 2px;
+}
+
+@media screen and (max-width: 600px) {
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 22rem;
+  }
+
+  .hero-actions > * {
+    width: 100%;
+  }
 }
 
 /* Broker cards */
@@ -453,10 +524,10 @@ button.btn-pill-active[data-hover="true"] {
 }
 
 .broker-photo {
-  width: 88px;
-  height: 88px;
+  width: 128px;
+  height: 128px;
   object-fit: cover;
-  border-radius: 9999px !important;
+  border-radius: var(--radius) !important;
   border: 1px solid var(--border-strong);
 }
 
@@ -632,7 +703,7 @@ button.btn-pill-active[data-hover="true"] {
   color: var(--surface);
   background-color: var(--accent);
   border: 1px solid var(--accent-dark);
-  border-radius: 999px;
+  border-radius: 5px;
   box-shadow: var(--shadow-sm);
 }
 
@@ -1226,7 +1297,7 @@ button.btn-pill-active[data-hover="true"] {
 
 .disclaimer-footer {
   margin-top: auto;
-  padding: 2.5rem 1.25rem 3rem !important;
+  padding: 2.5rem var(--page-gutter) 3rem !important;
   background-color: transparent;
   border-top: 1px solid var(--border-strong);
 }
@@ -1392,6 +1463,86 @@ button.btn-pill-active[data-hover="true"] {
 /* Shown when a county has no companies yet, or a company has no plans in the
    selected county. Uses the same muted panel treatment as .plan-unavailable so
    an empty county reads as "nothing here yet" rather than as a broken page. */
+/* Pending-request spinner. The ring is drawn from the brand token with one
+   transparent quadrant, so it reads as rotating without needing an image. */
+.loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  padding: 2rem 1rem;
+}
+
+.loader-spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid var(--border);
+  border-top-color: var(--brand);
+  border-radius: 50%;
+  animation: loader-spin 0.7s linear infinite;
+}
+
+.loader-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+@keyframes loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Respects a visitor who has asked for less motion: the ring stops turning
+   and simply sits there while the label carries the message. */
+@media (prefers-reduced-motion: reduce) {
+  .loader-spinner {
+    animation: none;
+  }
+}
+
+/* Standing notice: a carrier's message under the company buttons, or the
+   Find a Meeting page's "not scheduled yet" line. The accent tint reads as
+   information the site is choosing to tell you, which is what separates it
+   from .county-empty-state below -- that one means "nothing here yet". */
+/* "Don't see your county?" strip that sits flush beneath the navbar on the
+   Explore page. */
+.county-coverage-banner {
+  width: 75%;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--brand-dark);
+  background-color: var(--brand-tint);
+  border: 1px solid var(--brand-line);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.county-coverage-banner p {
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+.site-notice {
+  max-width: 44rem;
+  margin: 0.5rem auto;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--accent-dark);
+  background-color: var(--accent-tint);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
 .county-empty-state {
   max-width: 44rem;
   margin: 0.5rem auto;

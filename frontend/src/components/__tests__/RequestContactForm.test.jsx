@@ -8,6 +8,10 @@ import {
   waitFor,
 } from "../../test/utils";
 import RequestContactForm from "../RequestContactForm";
+import {
+  OREGON_COUNTIES,
+  OUTSIDE_OREGON,
+} from "../../data/constants/counties";
 
 vi.mock("axios");
 
@@ -134,9 +138,86 @@ describe("RequestContactForm", () => {
     });
   });
 
-  describe("submitting", () => {
-    it("posts the collected details to the request-call endpoint", async () => {
+  describe("county field", () => {
+    const countyBox = () => screen.getByRole("combobox", { name: /County/ });
+    const shownOptions = () =>
+      screen.getAllByRole("option").map((option) => option.textContent);
+
+    it("is required", () => {
+      renderWithProviders(<RequestContactForm />);
+
+      expect(countyBox()).toBeRequired();
+    });
+
+    it("offers every Oregon county plus an out-of-state option", async () => {
       const { user } = renderWithProviders(<RequestContactForm />);
+
+      await user.click(countyBox());
+
+      expect(shownOptions()).toEqual([...OREGON_COUNTIES, OUTSIDE_OREGON]);
+      expect(OREGON_COUNTIES).toHaveLength(36);
+    });
+
+    it("suggests only counties that start with what was typed", async () => {
+      const { user } = renderWithProviders(<RequestContactForm />);
+
+      await user.type(countyBox(), "li");
+
+      // Gilliam contains "li" but does not start with it
+      expect(shownOptions()).toEqual(["Lincoln", "Linn"]);
+    });
+
+    it("ignores letter case", async () => {
+      const { user } = renderWithProviders(<RequestContactForm />);
+
+      await user.type(countyBox(), "MUL");
+
+      expect(shownOptions()).toEqual(["Multnomah"]);
+    });
+
+    it("sends the chosen county with the request", async () => {
+      const { user } = renderWithProviders(<RequestContactForm />);
+
+      fillIn();
+      await user.type(countyBox(), "Ben");
+      await user.click(screen.getByRole("option", { name: "Benton" }));
+      await user.click(screen.getByRole("button", { name: "Submit" }));
+
+      await waitFor(() =>
+        expect(axios.post).toHaveBeenCalledWith(
+          API,
+          expect.objectContaining({ county: "Benton" }),
+        ),
+      );
+    });
+
+    it("does not submit without a county", async () => {
+      const { user } = renderWithProviders(<RequestContactForm />);
+
+      fillIn();
+      await user.click(screen.getByRole("button", { name: "Submit" }));
+
+      expect(axios.post).not.toHaveBeenCalled();
+    });
+
+    it("starts on the county already picked on the Explore page", () => {
+      renderWithProviders(<RequestContactForm />, {
+        preloadedState: { county: { value: "Linn" } },
+      });
+
+      expect(countyBox()).toHaveValue("Linn");
+    });
+  });
+
+  describe("submitting", () => {
+    // Every submission needs a county; start as if Linn was picked on Explore.
+    const renderReady = () =>
+      renderWithProviders(<RequestContactForm />, {
+        preloadedState: { county: { value: "Linn" } },
+      });
+
+    it("posts the collected details to the request-call endpoint", async () => {
+      const { user } = renderReady();
 
       fillIn({ Message: "Please call mornings" });
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -147,13 +228,14 @@ describe("RequestContactForm", () => {
           lname: "Lovelace",
           email: "ada@example.com",
           phone: "5415551234",
+          county: "Linn",
           message: "Please call mornings",
         }),
       );
     });
 
     it("sends an empty message when the user leaves it blank", async () => {
-      const { user } = renderWithProviders(<RequestContactForm />);
+      const { user } = renderReady();
 
       fillIn();
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -167,7 +249,7 @@ describe("RequestContactForm", () => {
     });
 
     it("confirms success in place of the form when the API accepts", async () => {
-      const { user } = renderWithProviders(<RequestContactForm />);
+      const { user } = renderReady();
 
       fillIn();
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -184,7 +266,7 @@ describe("RequestContactForm", () => {
     it("keeps the form up and warns when the API answers with anything else", async () => {
       axios.post.mockResolvedValue({ status: 200 });
       const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-      const { user } = renderWithProviders(<RequestContactForm />);
+      const { user } = renderReady();
 
       fillIn();
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -200,7 +282,7 @@ describe("RequestContactForm", () => {
       axios.post.mockRejectedValue({
         response: { status: 500, data: { message: "Mailer unavailable" } },
       });
-      const { store, user } = renderWithProviders(<RequestContactForm />);
+      const { store, user } = renderReady();
 
       fillIn();
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -215,7 +297,7 @@ describe("RequestContactForm", () => {
 
     it("stores the offline message when the server never answers", async () => {
       axios.post.mockRejectedValue({ request: {} });
-      const { store, user } = renderWithProviders(<RequestContactForm />);
+      const { store, user } = renderReady();
 
       fillIn();
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -228,7 +310,7 @@ describe("RequestContactForm", () => {
     });
 
     it("explains an email that is missing a proper domain", async () => {
-      const { user } = renderWithProviders(<RequestContactForm />);
+      const { user } = renderReady();
 
       fillIn({ Email: "ada@example" });
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -242,7 +324,7 @@ describe("RequestContactForm", () => {
     });
 
     it("explains a phone number that is not ten digits", async () => {
-      const { user } = renderWithProviders(<RequestContactForm />);
+      const { user } = renderReady();
 
       fillIn({ "Phone Number": "54155" });
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -254,7 +336,7 @@ describe("RequestContactForm", () => {
     });
 
     it("asks for the phone number when it is left blank", async () => {
-      const { user } = renderWithProviders(<RequestContactForm />);
+      const { user } = renderReady();
 
       fillIn({ "Phone Number": "" });
       await user.click(screen.getByRole("button", { name: "Submit" }));
@@ -265,7 +347,7 @@ describe("RequestContactForm", () => {
     });
 
     it("does not submit while required fields are empty", async () => {
-      const { user } = renderWithProviders(<RequestContactForm />);
+      const { user } = renderReady();
 
       await user.click(screen.getByRole("button", { name: "Submit" }));
 
@@ -295,7 +377,10 @@ describe("RequestContactForm", () => {
 
     it("closes the modal five seconds later", async () => {
       const { store, container } = renderWithProviders(<RequestContactForm />, {
-        preloadedState: { showContactForm: { value: true } },
+        preloadedState: {
+          showContactForm: { value: true },
+          county: { value: "Linn" },
+        },
       });
 
       await submitForm(container);
@@ -314,7 +399,10 @@ describe("RequestContactForm", () => {
 
     it("leaves the modal open while the confirmation is still showing", async () => {
       const { store, container } = renderWithProviders(<RequestContactForm />, {
-        preloadedState: { showContactForm: { value: true } },
+        preloadedState: {
+          showContactForm: { value: true },
+          county: { value: "Linn" },
+        },
       });
 
       await submitForm(container);
@@ -333,7 +421,10 @@ describe("RequestContactForm", () => {
       axios.post.mockResolvedValue({ status: 200 });
       vi.spyOn(console, "warn").mockImplementation(() => {});
       const { store, container } = renderWithProviders(<RequestContactForm />, {
-        preloadedState: { showContactForm: { value: true } },
+        preloadedState: {
+          showContactForm: { value: true },
+          county: { value: "Linn" },
+        },
       });
 
       await submitForm(container);
@@ -345,7 +436,12 @@ describe("RequestContactForm", () => {
     it("cancels the timer if the form unmounts first", async () => {
       const { store, container, unmount } = renderWithProviders(
         <RequestContactForm />,
-        { preloadedState: { showContactForm: { value: true } } },
+        {
+          preloadedState: {
+            showContactForm: { value: true },
+            county: { value: "Linn" },
+          },
+        },
       );
 
       await submitForm(container);

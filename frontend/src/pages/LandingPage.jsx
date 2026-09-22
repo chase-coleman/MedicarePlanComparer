@@ -11,8 +11,8 @@ const LandingPage = () => {
 
   return (
     <>
-      <div className="landing-page-container w-[100vw]">
-        <div className="headline-container w-[90vw]">
+      <div className="landing-page-container w-full">
+        <div className="headline-container w-full">
           <span className="eyebrow">Medicare Annual Enrollment begins October 15</span>
           <h1 className="page-title">
             Explore Medicare plans in your area today
@@ -20,17 +20,24 @@ const LandingPage = () => {
           <p className="lede">
             Find the coverage that fits you — simplified.
           </p>
-          <ButtonComponent
-            styling="bg-accent px-6 h-11 text-base"
-            text="Request a call"
-            onPress={() => dispatch(openModal())}
-          />
-          <Link as={Link} to="/find-meeting" className="meeting-cta">
-            Find a Medicare meeting <span>near you</span>
-          </Link>
+          <div className="hero-actions">
+            <ButtonComponent
+              styling="bg-accent px-6 h-11 text-base"
+              text="Request a call"
+              onPress={() => dispatch(openModal())}
+            />
+            {/* A link, since it navigates, but styled as an outlined button
+                so it reads as something to press. */}
+            <Link to="/find-meeting" className="btn-outline">
+              Find a Medicare meeting near you
+              <span aria-hidden="true">&rarr;</span>
+            </Link>
+          </div>
           <div className="office-hours">
             <p className="office-hours-title">
-              Find us during the Annual Enrollment Period
+              Find us during the Annual Enrollment Period 
+              <br/>
+               Oct 15 - Dec 7
             </p>
             <div className="office-hours-row">
               <span>Astoria Walmart Kiosk</span>
@@ -54,7 +61,7 @@ const LandingPage = () => {
             </div>
           </div>
         </div>
-        <div className="company-images-container block w-[90vw]">
+        <div className="company-images-container block w-full">
           {BROKERS.map((broker) => (
             <EmployeeCard
               key={broker.broker}
@@ -66,7 +73,7 @@ const LandingPage = () => {
             />
           ))}
         </div>
-        <div className="company-text-container w-[90vw]">
+        <div className="company-text-container w-full">
           <span className="about-heading">About JMCole Group</span>
           <span className="about-body">
             If you are going to work with a company to partner with you in your

@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderWithProviders, screen, within } from "../../test/utils";
 import FindAMeetingPage from "../FindAMeeting";
 import {
@@ -8,9 +8,76 @@ import {
   tillamookMeetings,
 } from "../../data/meetings";
 
+// The real meeting lists empty out between enrollment seasons, so the tests
+// supply their own rather than asserting against whatever is scheduled today.
+// The factory is hoisted above every top-level binding, so the helper has to
+// live inside it.
+vi.mock("../../data/meetings", () => {
+  const meetingAt = (venueName, day) => ({
+    county: "Test County",
+    venueName,
+    address: `${day} Test St, Oregon`,
+    month: "October",
+    day: String(day),
+    startTime: "10:30 am",
+  });
+  return {
+    tillamookMeetings: [meetingAt("Tillamook Library", 2)],
+    newportMeetings: [
+      meetingAt("Newport Library", 3),
+      meetingAt("Newport Annex", 4),
+    ],
+    lebanonMeetings: [meetingAt("Lebanon Senior Center", 5)],
+    sweethomeMeetings: [meetingAt("Sweet Home Library", 6)],
+  };
+});
+
+// The page reads MEETINGS_SCHEDULED once, as its useState seed, so a getter
+// lets each test choose the value that will be read at its own render.
+const flags = { MEETINGS_SCHEDULED: true };
+vi.mock("../../data/constants/meetings", async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    get MEETINGS_SCHEDULED() {
+      return flags.MEETINGS_SCHEDULED;
+    },
+  };
+});
+
 const cards = (container) => container.querySelectorAll(".meeting-card");
 
 describe("FindAMeetingPage", () => {
+  beforeEach(() => {
+    flags.MEETINGS_SCHEDULED = true;
+  });
+
+  describe("before any meetings are scheduled", () => {
+    beforeEach(() => {
+      flags.MEETINGS_SCHEDULED = false;
+    });
+
+    it("says the meetings are still being arranged", () => {
+      renderWithProviders(<FindAMeetingPage />);
+
+      expect(
+        screen.getByText(/still working on setting up informational meetings/i),
+      ).toBeInTheDocument();
+    });
+
+    it("hides the county buttons entirely", () => {
+      const { container } = renderWithProviders(<FindAMeetingPage />);
+
+      expect(screen.queryByText("Select your county:")).not.toBeInTheDocument();
+      for (const county of ["Linn", "Tillamook", "Lincoln"]) {
+        expect(
+          screen.queryByRole("button", { name: county }),
+        ).not.toBeInTheDocument();
+      }
+      expect(cards(container)).toHaveLength(0);
+    });
+  });
+
   it("asks the user to pick a county", () => {
     renderWithProviders(<FindAMeetingPage />);
 

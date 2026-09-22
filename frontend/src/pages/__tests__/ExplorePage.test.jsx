@@ -3,6 +3,7 @@ import axios from "axios";
 import { renderWithProviders, screen, waitFor } from "../../test/utils";
 import ExplorePage from "../ExplorePage";
 import { makeCompany, makePlan } from "../../test/fixtures";
+import { COMPANY_NOTICES } from "../../data/constants/companies";
 
 vi.mock("axios");
 
@@ -58,7 +59,7 @@ describe("ExplorePage", () => {
 
       await waitFor(() =>
         expect(
-          screen.getByText(/do not have any plans to show in Clatsop county/i),
+          screen.getByText(/still working at adding plans in Clatsop/i),
         ).toBeInTheDocument(),
       );
       expect(screen.queryByText(/Select a company/)).not.toBeInTheDocument();
@@ -74,13 +75,13 @@ describe("ExplorePage", () => {
       await user.click(screen.getByRole("button", { name: "Lane" }));
 
       expect(
-        screen.queryByText(/do not have any plans to show/i),
+        screen.queryByText(/still working at adding plans/i),
       ).not.toBeInTheDocument();
 
       release();
       await waitFor(() =>
         expect(
-          screen.getByText(/do not have any plans to show in Lane county/i),
+          screen.getByText(/still working at adding plans in Lane/i),
         ).toBeInTheDocument(),
       );
     });
@@ -114,7 +115,7 @@ describe("ExplorePage", () => {
 
       await waitFor(() =>
         expect(
-          screen.getByText(/do not have any Devoted plans to show in Yamhill/i),
+          screen.getByText(/still working at adding Devoted plans in Yamhill/i),
         ).toBeInTheDocument(),
       );
     });
@@ -301,6 +302,107 @@ describe("ExplorePage", () => {
       await waitFor(() =>
         expect(container.querySelectorAll(".plan-card")).toHaveLength(1),
       );
+    });
+  });
+
+  describe("carrier notices", () => {
+    it("shows Wellcare's 2027 notice in a county", async () => {
+      renderWithProviders(<ExplorePage />, {
+        preloadedState: {
+          county: { value: "Linn" },
+          selectedCompany: { value: "Wellcare" },
+        },
+      });
+
+      expect(
+        await screen.findByText(
+          "Wellcare has decided to not promote their plans for 2027.",
+        ),
+      ).toBeInTheDocument();
+    });
+
+    it("withholds the plan cards for a hidden carrier", async () => {
+      // Served by the API, so this proves suppression rather than an empty list
+      respondWith({ plans: [makePlan({ id: 1, planName: "Wellcare Simple" })] });
+      renderWithProviders(<ExplorePage />, {
+        preloadedState: {
+          county: { value: "Linn" },
+          selectedCompany: { value: "Wellcare" },
+        },
+      });
+
+      await screen.findByText(
+        "Wellcare has decided to not promote their plans for 2027.",
+      );
+      expect(screen.queryByText("Wellcare Simple")).not.toBeInTheDocument();
+      // The notice is the explanation, so the empty state must not contradict it
+      expect(
+        screen.queryByText(/still working at adding/i),
+      ).not.toBeInTheDocument();
+    });
+
+    it("still shows plans for a carrier that is not hidden", async () => {
+      respondWith({ plans: [makePlan({ id: 1, planName: "Devoted Core" })] });
+      renderWithProviders(<ExplorePage />, {
+        preloadedState: {
+          county: { value: "Linn" },
+          selectedCompany: { value: "Devoted" },
+        },
+      });
+
+      expect(await screen.findByText("Devoted Core")).toBeInTheDocument();
+    });
+
+    it("stays off for a carrier with no notice", () => {
+      renderWithProviders(<ExplorePage />, {
+        preloadedState: {
+          county: { value: "Linn" },
+          selectedCompany: { value: "Devoted" },
+          companyPlans: { value: [makePlan({ id: 1 })] },
+        },
+      });
+
+      expect(
+        screen.queryByText(/decided to not promote/i),
+      ).not.toBeInTheDocument();
+    });
+
+    describe("UnitedHealthcare network notice", () => {
+      const notice = COMPANY_NOTICES.UnitedHealthcare;
+
+      it("names Samaritan and Providence as out of network", () => {
+        expect(notice).toContain("Samaritan Health Services");
+        expect(notice).toContain("Providence Health Services");
+      });
+
+      it("shows alongside UnitedHealthcare's plans", async () => {
+        respondWith({ plans: [makePlan({ id: 1, planName: "UHC Complete" })] });
+        renderWithProviders(<ExplorePage />, {
+          preloadedState: {
+            county: { value: "Linn" },
+            selectedCompany: { value: "UnitedHealthcare" },
+          },
+        });
+
+        expect(await screen.findByText(notice)).toBeInTheDocument();
+        expect(await screen.findByText("UHC Complete")).toBeInTheDocument();
+        // Plans are on the page, so no "visit the company's site" follow-up
+        expect(
+          screen.queryByText(/visit the company's site/i),
+        ).not.toBeInTheDocument();
+      });
+
+      it("is not shown for other carriers", () => {
+        renderWithProviders(<ExplorePage />, {
+          preloadedState: {
+            county: { value: "Linn" },
+            selectedCompany: { value: "Devoted" },
+            companyPlans: { value: [makePlan({ id: 1 })] },
+          },
+        });
+
+        expect(screen.queryByText(/Samaritan/)).not.toBeInTheDocument();
+      });
     });
   });
 

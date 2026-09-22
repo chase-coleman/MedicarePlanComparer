@@ -8,14 +8,27 @@ import {
   sweethomeMeetings,
   tillamookMeetings,
 } from "../data/meetings";
+import { MEETINGS_SCHEDULED, MEETINGS_PENDING_MESSAGE } from "../data/constants/meetings";
 
 const FindAMeetingPage = () => {
   const [county, setCounty] = useState("");
+  // Whether there are meetings to show at all. Seeded from MEETINGS_SCHEDULED
+  // in data/constants/meetings.js -- flip that to true and the county buttons and their
+  // meeting lists render exactly as before.
+  const [hasMeetings] = useState(MEETINGS_SCHEDULED);
+
+  if (!hasMeetings) {
+    return (
+      <div className="find-us-page-container w-full mt-2">
+        <p className="site-notice">{MEETINGS_PENDING_MESSAGE}</p>
+      </div>
+    );
+  }
 
   return (
     <>
-      <div className="find-us-page-container w-[100vw] mt-2">
-        <div className="county-container w-[92vw]">
+      <div className="find-us-page-container w-full mt-2">
+        <div className="county-container w-full">
           <div>
             <span className="section-title">Select your county:</span>
           </div>
@@ -52,8 +65,8 @@ const FindAMeetingPage = () => {
         <div
           className={
             county == "Linn"
-              ? "meeting-container w-[92vw]"
-              : "meeting-container w-[92vw]"
+              ? "meeting-container w-full"
+              : "meeting-container w-full"
           }
         >
           {county == "Lincoln" ? (
@@ -84,7 +97,7 @@ const FindAMeetingPage = () => {
             </>
           ) : county == "Linn" ? (
             <>
-              <div className="lebanon-sweethome-meeting-container w-[92vw]">
+              <div className="lebanon-sweethome-meeting-container w-full">
                 <div className="l-sh-cols">
                   <span className="section-title mb-1">Lebanon Meetings:</span>
                   {lebanonMeetings.map((meeting) => (

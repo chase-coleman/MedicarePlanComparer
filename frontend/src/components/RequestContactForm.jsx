@@ -1,4 +1,4 @@
-import { Input, Textarea } from "@heroui/react";
+import { Autocomplete, AutocompleteItem, Input, Textarea } from "@heroui/react";
 import { useState, useEffect } from "react";
 import ButtonComponent from "./ButtonComponent";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,13 +9,25 @@ import axios from "axios";
 import { Ring } from "ldrs/react";
 import "ldrs/react/Ring.css";
 import { CircleCheckBig } from "lucide-react";
-import { API_URL } from "../data/constants";
+import { API_URL } from "../data/constants/api";
+import { OREGON_COUNTIES, OUTSIDE_OREGON } from "../data/constants/counties";
+
+// Autocomplete wants objects it can key; built once rather than per render.
+const COUNTY_OPTIONS = [...OREGON_COUNTIES, OUTSIDE_OREGON].map((name) => ({
+  name,
+}));
 
 const RequestContactForm = () => {
   const [fName, setFname] = useState("");
   const [lName, setLname] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
+  // Starts on the county the visitor already picked on the Explore page, if
+  // it is a real Oregon county, so they don't have to choose it twice.
+  const exploreCounty = useSelector((state) => state.county.value);
+  const [county, setCounty] = useState(
+    OREGON_COUNTIES.includes(exploreCounty) ? exploreCounty : "",
+  );
   const [msg, setMsg] = useState("");
   const [submittedSuccessfully, setSubmittedSuccessfully] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -34,11 +46,15 @@ const RequestContactForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // The county field only accepts a listed option, but typed text that
+    // matches nothing leaves no selection -- don't send without one.
+    if (!county) return;
     const contactInfo = {
       fname: fName,
       lname: lName,
       email: email,
       phone: phoneNum,
+      county: county,
       message: msg,
     };
     try {
@@ -177,6 +193,34 @@ const RequestContactForm = () => {
               input: "field-input",
             }}
           />
+          <Autocomplete
+            name="county"
+            label="County"
+            placeholder="Start typing your county"
+            variant="bordered"
+            isRequired
+            // Only counties that begin with what the visitor has typed, so
+            // "li" offers Lincoln and Linn rather than also Gilliam.
+            defaultFilter={(textValue, typed) =>
+              textValue.toLowerCase().startsWith(typed.trim().toLowerCase())
+            }
+            defaultItems={COUNTY_OPTIONS}
+            selectedKey={county || null}
+            onSelectionChange={(key) => setCounty(key ?? "")}
+            errorMessage="Please choose your county"
+            inputProps={{
+              classNames: {
+                label: "field-label",
+                inputWrapper: "field-wrapper",
+                input: "field-input",
+                errorMessage: "field-error",
+              },
+            }}
+          >
+            {(option) => (
+              <AutocompleteItem key={option.name}>{option.name}</AutocompleteItem>
+            )}
+          </Autocomplete>
           <Textarea
             label="Message"
             classNames={{

@@ -9,7 +9,7 @@ import {
 import ButtonComponent from "./ButtonComponent";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { PLAN_YEARS, UPCOMING_PLAN_YEAR } from "../data/constants";
+import { PLAN_YEARS, UPCOMING_PLAN_YEAR } from "../data/constants/planYears";
 
 const PlanComponent = ({ planGroup, addToCompare, removeFromCompare }) => {
   const comparedPlans = useSelector((state) => state.comparedPlans.value);
