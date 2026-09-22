@@ -358,5 +358,37 @@ describe("ExplorePage", () => {
         type: "limit",
       });
     });
+
+    describe("floating compare button", () => {
+      it("stays hidden until a plan is added", async () => {
+        renderWithPlans([makePlan({ id: 1 })]);
+
+        await screen.findByRole("button", { name: "Add to compare" });
+
+        expect(
+          screen.queryByRole("link", { name: /Compare plan/ }),
+        ).not.toBeInTheDocument();
+      });
+
+      it("appears with a count and links to the compare page", async () => {
+        const plans = [1, 2].map((id) =>
+          makePlan({ id, planGroupId: id, planName: `Plan ${id}` }),
+        );
+        const { user } = renderWithPlans(plans);
+
+        const [first, second] = await screen.findAllByRole("button", {
+          name: "Add to compare",
+        });
+        await user.click(first);
+        expect(
+          screen.getByRole("link", { name: /1 Compare plan/ }),
+        ).toHaveAttribute("href", "/compare");
+
+        await user.click(second);
+        expect(
+          screen.getByRole("link", { name: /2 Compare plans/ }),
+        ).toBeInTheDocument();
+      });
+    });
   });
 });

@@ -16,6 +16,7 @@ import {
 import PlanComponent from "../components/PlanComponent";
 import { groupPlansByYear } from "../functions/groupPlans";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Alert } from "@heroui/react";
 import { API_URL, ALL_COUNTIES } from "../data/constants";
 
@@ -170,6 +171,17 @@ const ExplorePage = () => {
               />
             ))}
           </div>
+          {/* Floating shortcut to the compare page, so users don't have to
+              find the header link once they've started picking plans. */}
+          {comparedPlans.length > 0 && (
+            <Link to="/compare" className="compare-fab" aria-live="polite">
+              <span className="compare-fab-count">{comparedPlans.length}</span>
+              <span>
+                Compare {comparedPlans.length === 1 ? "plan" : "plans"}
+              </span>
+              <span aria-hidden="true">&rarr;</span>
+            </Link>
+          )}
         </div>
       ) : (
         <div className="explore-page-container w-[100vw] m-1 mt-5">
