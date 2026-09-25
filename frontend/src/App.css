@@ -1384,10 +1384,10 @@ button.btn-pill-active[data-hover="true"] {
 /*********************************/
 @media screen and (min-width: 476px) and (max-width: 600px) {
   .company-images-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    justify-items: center;
-    align-items: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     gap: 0.875rem;
     margin-top: 1rem;
   }
@@ -1417,13 +1417,18 @@ button.btn-pill-active[data-hover="true"] {
 /* screens > 600px and < 850px */
 /*******************************/
 @media screen and (min-width: 600px) and (max-width: 850px) {
+  /* 3 cards per row, remaining cards centered on the row below */
   .company-images-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    justify-items: center;
-    align-items: start;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
     gap: 1rem;
-    margin-top: 1rem;
+    margin: 1rem auto 0;
+    max-width: calc(220px * 3 + 1rem * 2);
+  }
+  .company-images-container .broker-card {
+    flex: 0 1 220px;
   }
   .county-buttons-container {
     gap: 1rem;
@@ -1441,12 +1446,19 @@ button.btn-pill-active[data-hover="true"] {
 /* screens > 850px width */
 /*************************/
 @media screen and (min-width: 850px) {
+  /* 3 cards per row, remaining cards centered on the row below */
   .company-images-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    justify-items: center;
-    align-items: start;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
     gap: 1.25rem;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: calc(220px * 3 + 1.25rem * 2);
+  }
+  .company-images-container .broker-card {
+    flex: 0 1 220px;
   }
   .county-buttons-container {
     gap: 1rem;
