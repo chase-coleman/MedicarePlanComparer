@@ -177,13 +177,26 @@ describe("PlanComponent", () => {
       expect(screen.getByRole("button", { name: "2027" })).toBeInTheDocument();
     });
 
-    it("opens on the plan's earliest year", () => {
+    it("opens on the default year when the plan has a record for it", () => {
       renderPlan(
         groupOf(
           makePlan({ id: 1, planGroupId: 7, planYear: 2027 }),
           makePlan({ id: 2, planGroupId: 7, planYear: 2026 }),
         ),
       );
+
+      expect(screen.getByRole("button", { name: "2027" })).toHaveAttribute(
+        "aria-pressed",
+        "true",
+      );
+      expect(screen.getByRole("button", { name: "2026" })).toHaveAttribute(
+        "aria-pressed",
+        "false",
+      );
+    });
+
+    it("opens on the plan's earliest year when it has no default-year record", () => {
+      renderPlan(groupOf(makePlan({ planYear: 2026 })));
 
       expect(screen.getByRole("button", { name: "2026" })).toHaveAttribute(
         "aria-pressed",
@@ -203,11 +216,11 @@ describe("PlanComponent", () => {
         ),
       );
 
-      expect(valueFor("Monthly Premium")).toHaveTextContent("$0");
-
-      await user.click(screen.getByRole("button", { name: "2027" }));
-
       expect(valueFor("Monthly Premium")).toHaveTextContent("$35");
+
+      await user.click(screen.getByRole("button", { name: "2026" }));
+
+      expect(valueFor("Monthly Premium")).toHaveTextContent("$0");
     });
 
     it("marks a year the plan is not offered in", () => {
@@ -282,11 +295,11 @@ describe("PlanComponent", () => {
         ),
       );
 
-      expect(screen.queryByText("New plan!")).not.toBeInTheDocument();
-
-      await user.click(screen.getByRole("button", { name: "2027" }));
-
       expect(screen.getByText("New plan!")).toBeInTheDocument();
+
+      await user.click(screen.getByRole("button", { name: "2026" }));
+
+      expect(screen.queryByText("New plan!")).not.toBeInTheDocument();
     });
   });
 
@@ -417,20 +430,20 @@ describe("PlanComponent", () => {
       const y26 = makePlan({ id: 1, planGroupId: 7, planYear: 2026 });
       const y27 = makePlan({ id: 2, planGroupId: 7, planYear: 2027 });
       const { user, addToCompare } = renderPlan(groupOf(y26, y27), {
-        preloadedState: { comparedPlans: { value: [y26], notice: null } },
+        preloadedState: { comparedPlans: { value: [y27], notice: null } },
       });
 
-      // The 2026 record is in the comparison...
+      // The 2027 record is in the comparison...
       expect(
         screen.getByRole("button", { name: "Remove from compare" }),
       ).toBeInTheDocument();
 
-      await user.click(screen.getByRole("button", { name: "2027" }));
+      await user.click(screen.getByRole("button", { name: "2026" }));
 
-      // ...but the 2027 one is not.
+      // ...but the 2026 one is not.
       await user.click(screen.getByRole("button", { name: "Add to compare" }));
 
-      expect(addToCompare).toHaveBeenCalledWith(y27);
+      expect(addToCompare).toHaveBeenCalledWith(y26);
     });
 
     it("offers no comparison button for a year with no record", async () => {
