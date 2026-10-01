@@ -14,7 +14,7 @@ import {
   TRADEMARK,
   TRADEMARK_NOTICE,
 } from "../constants/disclaimers";
-import { PLAN_YEARS } from "../constants/planYears";
+import { DEFAULT_PLAN_YEAR, PLAN_YEARS } from "../constants/planYears";
 
 describe("PLAN_YEARS", () => {
   it("lists the years the plan-year toggle offers", () => {
@@ -27,6 +27,11 @@ describe("PLAN_YEARS", () => {
 
   it("is in ascending order", () => {
     expect([...PLAN_YEARS].sort()).toEqual(PLAN_YEARS);
+  });
+
+  it("opens plan cards on a year the toggle offers", () => {
+    expect(DEFAULT_PLAN_YEAR).toBe("2027");
+    expect(PLAN_YEARS).toContain(DEFAULT_PLAN_YEAR);
   });
 });
 

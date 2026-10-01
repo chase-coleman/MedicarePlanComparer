@@ -9,14 +9,23 @@ import {
 import ButtonComponent from "./ButtonComponent";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-import { PLAN_YEARS, UPCOMING_PLAN_YEAR } from "../data/constants/planYears";
+import {
+  DEFAULT_PLAN_YEAR,
+  PLAN_YEARS,
+  UPCOMING_PLAN_YEAR,
+} from "../data/constants/planYears";
 import { PLAN_DISCLAIMERS } from "../data/constants/disclaimers";
 
 const PlanComponent = ({ planGroup, addToCompare, removeFromCompare }) => {
   const comparedPlans = useSelector((state) => state.comparedPlans.value);
   const selectedCompany = useSelector((state) => state.selectedCompany.value); // the county the user selects to view their plans
-  // Open on the plan's earliest available year.
-  const [planYear, setPlanYear] = useState(() => planGroup.years[0]);
+  // Open on the default year, or the plan's earliest year when it has no
+  // record for the default.
+  const [planYear, setPlanYear] = useState(() =>
+    planGroup.byYear.has(DEFAULT_PLAN_YEAR)
+      ? DEFAULT_PLAN_YEAR
+      : planGroup.years[0],
+  );
 
   // The record for the selected year. Undefined when the plan is not offered
   // that year, which is a state the card renders rather than an error.
