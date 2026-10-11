@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* Martian Mono, for the company name in the header brand block. */
+@font-face {
+  font-family: "martian";
+  src: url("./assets/fonts/MartianMono-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+
 /*******************/
 /*  DESIGN TOKENS  */
 /*******************/

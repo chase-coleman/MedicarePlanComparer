@@ -5,7 +5,9 @@ import { BROKERS } from "../data/brokers";
 import { openModal } from "../features/modal/ShowContactFormSlice";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { ExternalLink } from "lucide-react";
 import { ABOUT_JMCOLE_DISCLAIMER } from "../data/constants/disclaimers";
+import { JMCOLE_SITE_URL } from "../data/constants/links";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -33,6 +35,17 @@ const LandingPage = () => {
               Find a Medicare meeting near you
               <span aria-hidden="true">&rarr;</span>
             </Link>
+            {/* Leaves this site, so it opens in a new tab and says so. */}
+            <a
+              href={JMCOLE_SITE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-outline"
+            >
+              Visit our brokerage website
+              <ExternalLink size={16} strokeWidth={2.25} aria-hidden="true" />
+              <span className="sr-only">(opens in a new tab)</span>
+            </a>
           </div>
           <div className="office-hours">
             <p className="office-hours-title">

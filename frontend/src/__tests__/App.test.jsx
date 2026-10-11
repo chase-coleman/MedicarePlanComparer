@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Route, Routes } from "react-router-dom";
-import { renderWithProviders, screen } from "../test/utils";
+import { renderWithProviders, screen, within } from "../test/utils";
 import App from "../App";
 import {
   AFFILIATION_DISCLAIMER,
@@ -31,6 +31,17 @@ describe("App", () => {
     expect(screen.getByRole("button", { name: "Request a call" })).toBeInTheDocument();
     expect(screen.getByText("Landing content")).toBeInTheDocument();
     expect(screen.getByText("Disclaimers")).toBeInTheDocument();
+  });
+
+  it("links to the brokerage site from the footer in a new tab", () => {
+    renderApp();
+
+    const link = within(screen.getByRole("contentinfo")).getByRole("link", {
+      name: /Visit our brokerage website/i,
+    });
+    expect(link).toHaveAttribute("href", "https://www.jmcolegroup.com/");
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
   });
 
   describe("footer disclaimers", () => {

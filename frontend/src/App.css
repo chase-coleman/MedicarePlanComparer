@@ -160,19 +160,82 @@ nav.bg-brand {
   box-shadow: var(--sheen);
 }
 
+/* Brand block: logo mark, company name, tagline. Sized in px to match the
+   JMCole Group site, whose root font size differs from this one. */
 .nav-brand {
-  /* An anchor now, so the browser's link underline and colour are cleared
-     before the gradient text-fill below takes over. */
+  display: inline-flex;
+  align-items: center;
+  gap: 10.2px;
+  flex: none;
   text-decoration: none;
-  font-family: var(--font-mono);
+  color: var(--text);
+}
+
+.nav-brand:focus-visible {
+  border-radius: 6px;
+}
+
+.nav-brand-logo {
+  width: 51px;
+  height: auto;
+  /* Tailwind's img max-width: 100% would let the flex row squeeze it to 0. */
+  max-width: none;
+  flex: none;
+}
+
+.nav-brand-text {
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.15;
+}
+
+.nav-brand-name {
+  font-family: "martian", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13.94px;
+  letter-spacing: 0.01em;
   font-weight: 700;
-  font-size: 1rem;
-  letter-spacing: 0.14em;
-  background: linear-gradient(120deg, var(--brand-dark) 0%, var(--brand-soft) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: var(--brand);
+  white-space: nowrap;
+  /* Only the Regular weight is shipped; the bold is synthesized on purpose,
+     which the root's font-synthesis: none would otherwise block. */
+  font-synthesis: weight;
+}
+
+.nav-brand-tagline {
+  font-size: 10.54px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.nav-brand-tagline-full {
+  display: none;
+}
+
+/* The header has no room for the text beside the menu toggle and call button
+   on small phones, nor beside the full nav row on narrow desktops, so the
+   logo stands alone there. The link's aria-label still names it. */
+.nav-brand-text {
+  display: none;
+}
+
+@media screen and (min-width: 410px) and (max-width: 639px),
+  screen and (min-width: 900px) {
+  .nav-brand-text {
+    display: flex;
+  }
+}
+
+/* The full tagline only fits in the mobile layout's widest band; the desktop
+   row is capped too narrow for it next to the nav links. */
+@media screen and (min-width: 600px) and (max-width: 639px) {
+  .nav-brand-tagline-full {
+    display: inline;
+  }
+  .nav-brand-tagline-abbrev {
+    display: none;
+  }
 }
 
 .nav-link {
@@ -1306,6 +1369,26 @@ button.btn-pill-active[data-hover="true"] {
   max-width: 880px;
   margin: 0 auto;
   text-align: left;
+}
+
+/* Text link to the brokerage site. Underlined and in brand green so it reads
+   as a link among the muted disclaimer text, without the weight of a button. */
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--brand);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.16s ease;
+}
+
+.footer-link:hover {
+  color: var(--brand-dark);
+  text-decoration-thickness: 2px;
 }
 
 .disclaimer-label {

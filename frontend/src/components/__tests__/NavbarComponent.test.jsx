@@ -13,7 +13,11 @@ describe("NavbarComponent", () => {
   it("shows the brand", () => {
     renderWithProviders(<NavbarComponent />);
 
-    expect(screen.getAllByText("MPRC").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("JMCole Group").length).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText("Part of the Medicare Plans Resource Center").length,
+    ).toBeGreaterThan(0);
+    expect(screen.getAllByText("Part of the MPRC").length).toBeGreaterThan(0);
   });
 
   it.each(DESKTOP_LINKS)("links %s to %s", (label, href) => {
@@ -36,10 +40,10 @@ describe("NavbarComponent", () => {
     );
   });
 
-  it("points both wordmarks at the home route", () => {
+  it("points both brand blocks at the home route", () => {
     renderWithProviders(<NavbarComponent />);
 
-    const brands = screen.getAllByRole("link", { name: /^MPRC/ });
+    const brands = screen.getAllByRole("link", { name: "JMCole Group, home" });
     expect(brands.length).toBeGreaterThan(0);
     for (const brand of brands) {
       expect(brand).toHaveAttribute("href", "/");
@@ -96,11 +100,11 @@ describe("NavbarComponent", () => {
       }
     });
 
-    it("closes the menu when the wordmark is used to go home", async () => {
+    it("closes the menu when the brand block is used to go home", async () => {
       const { user } = renderWithProviders(<NavbarComponent />);
 
       await user.click(screen.getByRole("button", { name: "Open menu" }));
-      const [mobileBrand] = screen.getAllByRole("link", { name: /^MPRC/ });
+      const [mobileBrand] = screen.getAllByRole("link", { name: "JMCole Group, home" });
       await user.click(mobileBrand);
 
       expect(
