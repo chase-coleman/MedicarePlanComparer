@@ -33,6 +33,15 @@ describe("LandingPage", () => {
     ).toHaveAttribute("href", "/find-meeting");
   });
 
+  it("links out to the JMCole Group site in a new tab", () => {
+    renderWithProviders(<LandingPage />);
+
+    const link = screen.getByRole("link", { name: /Visit our brokerage website/i });
+    expect(link).toHaveAttribute("href", "https://www.jmcolegroup.com/");
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  });
+
   it("lists the walk-in kiosk hours", () => {
     renderWithProviders(<LandingPage />);
 

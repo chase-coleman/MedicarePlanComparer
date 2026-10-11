@@ -12,23 +12,33 @@ import ButtonComponent from "./ButtonComponent";
 import { Link as RouterLink, NavLink } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { openModal } from "../features/modal/ShowContactFormSlice";
-import { menuItems } from "../data/constants/headerConstants";
+import { menuItems, mprcDisplay } from "../data/constants/headerConstants";
 
 const NavbarComponent = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const dispatch = useDispatch();
 
-  // The wordmark doubles as the way home, which is what visitors expect of a
-  // site's logo. Closing the menu matters on mobile, where the brand stays
+  // The brand block doubles as the way home, which is what visitors expect of
+  // a site's logo. Closing the menu matters on mobile, where the brand stays
   // visible above the open sheet.
   const brand = (
     <RouterLink
       to="/"
       className="nav-brand"
-      aria-label="MPRC, go to the home page"
+      aria-label="JMCole Group, home"
       onClick={() => setIsMenuOpen(false)}
     >
-      MPRC
+      <img src="/jmcole-logo-only.webp" alt="" className="nav-brand-logo" />
+      <span className="nav-brand-text">
+        <span className="nav-brand-name">JMCole&nbsp;Group</span>
+        {/* Both lengths are rendered; CSS shows the one that fits. */}
+        <span className="nav-brand-tagline nav-brand-tagline-full">
+          {mprcDisplay.full}
+        </span>
+        <span className="nav-brand-tagline nav-brand-tagline-abbrev">
+          {mprcDisplay.abbrev}
+        </span>
+      </span>
     </RouterLink>
   );
 

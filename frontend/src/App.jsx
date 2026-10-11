@@ -5,7 +5,9 @@ import {
   JMCOLE_DISCLAIMER,
   TRADEMARK_NOTICE,
 } from "./data/constants/disclaimers";
+import { JMCOLE_SITE_URL } from "./data/constants/links";
 import { Outlet } from "react-router-dom";
+import { ExternalLink } from "lucide-react";
 import { useScrollToTopOnNavigate } from "./functions/scrollRestoration";
 import "./App.css";
 import NavbarComponent from "./components/NavbarComponent";
@@ -31,6 +33,17 @@ function App() {
       <Outlet />
       <footer className="disclaimer-footer">
         <div className="disclaimer-inner">
+          {/* Leaves this site, so it opens in a new tab and says so. */}
+          <a
+            href={JMCOLE_SITE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-link"
+          >
+            Visit our brokerage website
+            <ExternalLink size={14} strokeWidth={2.25} aria-hidden="true" />
+            <span className="sr-only">(opens in a new tab)</span>
+          </a>
           <span className="disclaimer-label">Disclaimers</span>
           <p>
             {AFFILIATION_DISCLAIMER}
